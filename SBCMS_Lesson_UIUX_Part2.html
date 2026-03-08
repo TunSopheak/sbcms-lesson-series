@@ -1,0 +1,3718 @@
+<!doctype html>
+<html lang="km">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Introduction to UI/UX — Part 2 | SBCMS</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ─── RESET ─────────────────────────── */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --espresso: #1c0f07;
+        --roast: #3b2007;
+        --latte: #7b4f2e;
+        --caramel: #c89b3c;
+        --caramel-lt: #f0cf80;
+        --cream: #fdf6ec;
+        --foam: #fff9f2;
+        --milk: #eee0cc;
+        --chalk: #f5f0e8;
+        --rust: #b84c1a;
+
+        --ui-blue: #2563eb;
+        --ux-green: #166534;
+        --purple: #6d28d9;
+        --teal: #0f766e;
+
+        --success: #15803d;
+        --warning: #b45309;
+        --danger: #b91c1c;
+        --info: #1d4ed8;
+
+        --font: "Kantumruy Pro", sans-serif;
+        --mono: "Consolas", "Courier New", monospace;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: var(--font);
+        background: var(--cream);
+        color: var(--espresso);
+        line-height: 1.8;
+        font-size: 15px;
+      }
+      /* ─── PROGRESS BAR ─────────────────── */
+      /* progress handled by sbcms-read-progress */
+      @keyframes shimmer {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
+
+      /* top-strip styles now in style.css */
+
+      /* ─── HERO ──────────────────────────── */
+      .hero {
+        background: var(--espresso);
+        padding: 70px 60px 55px;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-grid-bg {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(200, 155, 60, 0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(200, 155, 60, 0.06) 1px, transparent 1px);
+        background-size: 40px 40px;
+        mask-image: radial-gradient(
+          ellipse 80% 80% at 50% 50%,
+          black 30%,
+          transparent 100%
+        );
+      }
+      .hero-glow {
+        position: absolute;
+        top: -80px;
+        right: -80px;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(200, 155, 60, 0.15) 0%,
+          transparent 65%
+        );
+      }
+      .hero-inner {
+        max-width: 900px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+      .hero-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-family: var(--mono);
+        font-size: 10.5px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--caramel);
+        background: rgba(200, 155, 60, 0.1);
+        border: 1px solid rgba(200, 155, 60, 0.25);
+        padding: 6px 16px;
+        border-radius: 20px;
+        margin-bottom: 22px;
+      }
+      .hero h1 {
+        font-size: clamp(30px, 5vw, 50px);
+        font-weight: 700;
+        color: var(--cream);
+        line-height: 1.18;
+        margin-bottom: 14px;
+        letter-spacing: -0.5px;
+      }
+      .hero h1 span {
+        color: var(--caramel);
+      }
+      .hero-sub {
+        font-size: 14.5px;
+        color: rgba(253, 246, 236, 0.58);
+        max-width: 560px;
+        line-height: 1.95;
+        margin-bottom: 30px;
+      }
+      .hero-meta {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+      .hero-part-badge {
+        background: var(--caramel);
+        color: var(--espresso);
+        font-weight: 700;
+        font-size: 11.5px;
+        padding: 6px 16px;
+        border-radius: 6px;
+        font-family: var(--mono);
+        letter-spacing: 1px;
+      }
+      .hero-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 13px;
+        border-radius: 6px;
+        font-size: 11.5px;
+        background: rgba(255, 255, 255, 0.06);
+        color: rgba(253, 246, 236, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.09);
+      }
+      /* Topics preview strip */
+      .topics-strip {
+        background: rgba(255, 255, 255, 0.04);
+        border-top: 1px solid rgba(200, 155, 60, 0.15);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0;
+        margin-top: 40px;
+        margin-left: -60px;
+        margin-right: -60px;
+        padding: 0 60px;
+      }
+      .topic-pill {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 12px 18px;
+        font-size: 12px;
+        color: rgba(253, 246, 236, 0.5);
+        border-right: 1px solid rgba(200, 155, 60, 0.1);
+        transition: color 0.15s;
+      }
+      .topic-pill .t-num {
+        font-family: var(--mono);
+        font-size: 9px;
+        color: var(--caramel);
+        opacity: 0.7;
+      }
+
+      /* ─── LAYOUT ────────────────────────── */
+      .page-wrapper {
+        max-width: 1160px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 230px 1fr;
+        gap: 0;
+        align-items: start;
+        padding: 0 24px;
+      }
+
+      /* ─── STICKY TOC ────────────────────── */
+      .toc {
+        position: sticky;
+        top: 36px;
+        padding: 32px 0;
+        padding-right: 24px;
+      }
+      .toc-title {
+        font-family: var(--font);
+        font-size: 9.5px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--caramel);
+        margin-bottom: 12px;
+      }
+      .toc a {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 12px;
+        color: #a08060;
+        text-decoration: none;
+        padding: 6px 10px;
+        border-radius: 6px;
+        border-left: 2px solid transparent;
+        transition: all 0.18s;
+        line-height: 1.45;
+        margin-bottom: 1px;
+      }
+      .toc a:hover,
+      .toc a.active {
+        color: var(--caramel);
+        background: rgba(200, 155, 60, 0.08);
+        border-left-color: var(--caramel);
+      }
+      .toc a .n {
+        font-family: var(--mono);
+        font-size: 9px;
+        color: var(--caramel);
+        opacity: 0.55;
+        min-width: 20px;
+        margin-top: 2px;
+      }
+      .toc-sep {
+        height: 1px;
+        background: var(--milk);
+        margin: 10px 0;
+      }
+      /* Part nav in TOC */
+      .toc-part-link {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 11.5px;
+        color: var(--latte);
+        text-decoration: none;
+        padding: 7px 10px;
+        border-radius: 6px;
+        border: 1px solid var(--milk);
+        margin-bottom: 8px;
+        transition: all 0.15s;
+        background: white;
+      }
+      .toc-part-link:hover {
+        border-color: var(--caramel);
+        color: var(--roast);
+      }
+      .toc-part-link .pl {
+        font-family: var(--mono);
+        font-size: 9px;
+        color: var(--caramel);
+      }
+
+      /* ─── MAIN CONTENT ──────────────────── */
+      .content {
+        padding: 48px 0 80px 44px;
+        border-left: 1px solid var(--milk);
+      }
+
+      /* ─── SECTION ───────────────────────── */
+      .ls {
+        margin-bottom: 68px;
+      }
+      .sec-num {
+        display: inline-block;
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--caramel);
+        margin-bottom: 5px;
+      }
+      .ls h2 {
+        font-size: 25px;
+        font-weight: 700;
+        color: var(--roast);
+        margin-bottom: 18px;
+        padding-bottom: 14px;
+        border-bottom: 2px solid var(--milk);
+        line-height: 1.3;
+      }
+      .ls h3 {
+        font-size: 16.5px;
+        font-weight: 600;
+        color: var(--roast);
+        margin: 28px 0 11px;
+      }
+      .ls h4 {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--latte);
+        margin: 18px 0 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-family: var(--mono);
+      }
+      .ls p {
+        margin-bottom: 13px;
+        line-height: 1.9;
+      }
+
+      /* ─── CALLOUT ───────────────────────── */
+      .box {
+        border-left: 4px solid;
+        border-radius: 0 10px 10px 0;
+        padding: 15px 20px;
+        margin: 18px 0;
+        display: flex;
+        gap: 13px;
+        align-items: flex-start;
+      }
+      .box-ico {
+        font-size: 19px;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+      .box-body {
+        flex: 1;
+      }
+      .box-title {
+        font-weight: 700;
+        font-size: 13px;
+        margin-bottom: 4px;
+      }
+      .box-text {
+        font-size: 13.5px;
+        line-height: 1.85;
+      }
+      .box.info {
+        border-color: var(--info);
+        background: #eff6ff;
+        color: #1e3a8a;
+      }
+      .box.success {
+        border-color: var(--success);
+        background: #f0fdf4;
+        color: #14532d;
+      }
+      .box.warning {
+        border-color: var(--warning);
+        background: #fffbeb;
+        color: #78350f;
+      }
+      .box.coffee {
+        border-color: var(--caramel);
+        background: rgba(200, 155, 60, 0.08);
+        color: var(--roast);
+      }
+      .box.purple {
+        border-color: var(--purple);
+        background: #f5f3ff;
+        color: #4c1d95;
+      }
+      .box.teal {
+        border-color: var(--teal);
+        background: #f0fdfa;
+        color: #134e4a;
+      }
+
+      /* ─── KEYWORD ───────────────────────── */
+      .kw {
+        font-family: var(--mono);
+        font-size: 0.87em;
+        background: rgba(200, 155, 60, 0.14);
+        color: var(--roast);
+        border: 1px solid rgba(200, 155, 60, 0.28);
+        padding: 1px 6px;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
+      .kb {
+        font-family: var(--mono);
+        font-size: 0.87em;
+        background: #eff6ff;
+        color: var(--ui-blue);
+        border: 1px solid #bfdbfe;
+        padding: 1px 6px;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
+      .kg {
+        font-family: var(--mono);
+        font-size: 0.87em;
+        background: #f0fdf4;
+        color: var(--ux-green);
+        border: 1px solid #bbf7d0;
+        padding: 1px 6px;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
+      .kp {
+        font-family: var(--mono);
+        font-size: 0.87em;
+        background: #f5f3ff;
+        color: var(--purple);
+        border: 1px solid #ddd6fe;
+        padding: 1px 6px;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
+
+      mark {
+        background: linear-gradient(
+          120deg,
+          rgba(200, 155, 60, 0.28),
+          rgba(200, 155, 60, 0.08)
+        );
+        border-radius: 3px;
+        padding: 0 2px;
+        color: inherit;
+      }
+
+      /* ─── CODE BLOCK ────────────────────── */
+      .code {
+        background: #120d05;
+        border-radius: 10px;
+        padding: 20px 24px;
+        margin: 14px 0;
+        overflow-x: auto;
+        border: 1px solid rgba(200, 155, 60, 0.18);
+        position: relative;
+      }
+      .code-lbl {
+        font-family: var(--mono);
+        font-size: 9.5px;
+        color: rgba(200, 155, 60, 0.6);
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        display: block;
+      }
+      .code pre {
+        font-family: var(--mono);
+        font-size: 12.5px;
+        color: #dcc899;
+        line-height: 1.95;
+      }
+      .cc {
+        color: #4a6635;
+      } /* comment */
+      .ck {
+        color: var(--caramel);
+      } /* keyword/prop */
+      .cv {
+        color: #7dcfa0;
+      } /* value */
+      .cs {
+        color: #e8956a;
+      } /* string */
+      .ct {
+        color: #80b8d8;
+      } /* tag */
+      .ca {
+        color: #d8c8a0;
+      } /* attr */
+      .cm {
+        color: #a888d0;
+      } /* selector */
+
+      /* ─── STEP FLOW ─────────────────────── */
+      .steps {
+        margin: 18px 0;
+      }
+      .step {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        position: relative;
+      }
+      .step:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        left: 17px;
+        top: 38px;
+        width: 2px;
+        height: calc(100% - 8px);
+        background: linear-gradient(
+          to bottom,
+          var(--caramel) 0%,
+          var(--milk) 100%
+        );
+        border-radius: 2px;
+      }
+      .step-n {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--caramel);
+        color: var(--espresso);
+        font-weight: 700;
+        font-size: 13px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 2px 8px rgba(200, 155, 60, 0.35);
+      }
+      .step-body {
+        padding-bottom: 24px;
+        flex: 1;
+      }
+      .step-title {
+        font-weight: 700;
+        font-size: 14px;
+        color: var(--roast);
+        margin-bottom: 4px;
+        line-height: 1.4;
+      }
+      .step-desc {
+        font-size: 13px;
+        color: var(--latte);
+        line-height: 1.75;
+      }
+
+      /* ─── CARD GRID ─────────────────────── */
+      .card-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin: 16px 0;
+      }
+      .card-grid-3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 12px;
+        margin: 16px 0;
+      }
+      .card {
+        background: white;
+        border: 1px solid var(--milk);
+        border-radius: 12px;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+        transition:
+          box-shadow 0.2s,
+          transform 0.2s;
+      }
+      .card:hover {
+        box-shadow: 0 6px 24px rgba(59, 32, 7, 0.1);
+        transform: translateY(-2px);
+      }
+      .card-accent {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+      }
+      .card-ico {
+        font-size: 26px;
+        margin-bottom: 10px;
+      }
+      .card-name {
+        font-weight: 700;
+        font-size: 14px;
+        color: var(--roast);
+        margin-bottom: 6px;
+      }
+      .card-desc {
+        font-size: 12.5px;
+        color: var(--latte);
+        line-height: 1.75;
+      }
+
+      /* ─── WIREFRAME DEMO ────────────────── */
+      .wf-demo {
+        background: white;
+        border: 2px dashed var(--milk);
+        border-radius: 12px;
+        overflow: hidden;
+        margin: 16px 0;
+        box-shadow: 0 4px 20px rgba(59, 32, 7, 0.06);
+      }
+      .wf-label {
+        background: var(--chalk);
+        padding: 8px 16px;
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--latte);
+        border-bottom: 1px solid var(--milk);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .wf-label .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--milk);
+        display: inline-block;
+        margin-left: 5px;
+      }
+      .wf-body {
+        padding: 20px;
+      }
+
+      /* Wireframe skeleton shapes */
+      .wf-bar {
+        background: var(--milk);
+        border-radius: 4px;
+        margin-bottom: 8px;
+      }
+      .wf-box {
+        background: var(--chalk);
+        border: 1.5px dashed var(--milk);
+        border-radius: 8px;
+      }
+      .wf-img {
+        background: linear-gradient(135deg, var(--milk) 0%, var(--chalk) 100%);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        color: var(--milk);
+      }
+      .wf-btn {
+        background: var(--roast);
+        border-radius: 6px;
+        display: inline-block;
+        height: 32px;
+      }
+      .wf-btn-sm {
+        background: var(--milk);
+        border-radius: 4px;
+        display: inline-block;
+      }
+      .wf-text {
+        background: var(--milk);
+        border-radius: 3px;
+        display: block;
+        opacity: 0.7;
+      }
+
+      /* ─── GRID SYSTEM DEMO ──────────────── */
+      .grid-demo {
+        margin: 16px 0;
+        padding: 16px;
+        background: white;
+        border: 1px solid var(--milk);
+        border-radius: 12px;
+      }
+      .grid-row {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 6px;
+      }
+      .grid-col {
+        flex: 1;
+        height: 36px;
+        border-radius: 5px;
+        background: rgba(37, 99, 235, 0.08);
+        border: 1.5px dashed rgba(37, 99, 235, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--mono);
+        font-size: 9px;
+        color: var(--ui-blue);
+      }
+      .grid-col.filled {
+        background: rgba(37, 99, 235, 0.12);
+        border-color: rgba(37, 99, 235, 0.4);
+        font-weight: 700;
+      }
+
+      /* ─── RESPONSIVE DEMO ───────────────── */
+      .responsive-demo {
+        display: flex;
+        gap: 16px;
+        margin: 16px 0;
+        align-items: flex-start;
+      }
+      .device-frame {
+        border: 2.5px solid var(--roast);
+        border-radius: 12px;
+        overflow: hidden;
+        background: white;
+        flex-shrink: 0;
+      }
+      .device-top {
+        background: var(--roast);
+        height: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+      }
+      .device-top .dt {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+      }
+      .device-top .dt.red {
+        background: #ff5f57;
+      }
+      .device-body {
+        padding: 10px;
+      }
+
+      /* ─── STATE CARDS ───────────────────── */
+      .states-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin: 14px 0;
+      }
+      .state-card {
+        flex: 1;
+        min-width: 130px;
+        background: white;
+        border: 1.5px solid var(--milk);
+        border-radius: 10px;
+        padding: 14px 16px;
+        text-align: center;
+      }
+      .state-label {
+        font-family: var(--mono);
+        font-size: 9.5px;
+        color: var(--latte);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        display: block;
+      }
+      .state-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 8px 16px;
+        border-radius: 7px;
+        font-family: var(--font);
+        font-size: 12px;
+        font-weight: 600;
+        width: 100%;
+        cursor: default;
+      }
+
+      /* ─── FORM DEMO ─────────────────────── */
+      .form-demo {
+        background: white;
+        border: 1px solid var(--milk);
+        border-radius: 12px;
+        padding: 24px;
+        margin: 16px 0;
+      }
+      .fd-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-bottom: 14px;
+      }
+      .fd-group label {
+        display: block;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--latte);
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+      }
+      .fd-input {
+        width: 100%;
+        padding: 9px 13px;
+        border: 1.5px solid var(--milk);
+        border-radius: 7px;
+        font-family: var(--font);
+        font-size: 13px;
+        color: var(--espresso);
+        background: var(--cream);
+        outline: none;
+        transition: border-color 0.18s;
+      }
+      .fd-input:focus {
+        border-color: var(--caramel);
+        box-shadow: 0 0 0 3px rgba(200, 155, 60, 0.12);
+      }
+      .fd-input.error {
+        border-color: var(--danger);
+        background: #fff5f5;
+      }
+      .fd-input.success {
+        border-color: var(--success);
+        background: #f0fdf4;
+      }
+      .fd-hint {
+        font-size: 10.5px;
+        margin-top: 4px;
+      }
+      .fd-hint.err {
+        color: var(--danger);
+      }
+      .fd-hint.ok {
+        color: var(--success);
+      }
+      .fd-hint.tip {
+        color: var(--latte);
+      }
+
+      /* ─── NAV PATTERNS ──────────────────── */
+      .nav-demo {
+        background: var(--espresso);
+        border-radius: 12px;
+        overflow: hidden;
+        margin: 12px 0;
+      }
+      .nav-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 20px;
+        background: var(--roast);
+      }
+      .nav-logo-t {
+        color: var(--cream);
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .nav-logo-t span {
+        color: var(--caramel);
+      }
+      .nav-links {
+        display: flex;
+        gap: 4px;
+      }
+      .nav-link {
+        padding: 6px 12px;
+        border-radius: 5px;
+        font-size: 12px;
+        color: rgba(253, 246, 236, 0.6);
+        cursor: default;
+        transition: all 0.15s;
+      }
+      .nav-link.active {
+        background: rgba(200, 155, 60, 0.2);
+        color: var(--caramel);
+        font-weight: 600;
+      }
+      .nav-content {
+        padding: 20px;
+        min-height: 80px;
+      }
+      .nav-content-text {
+        font-size: 12px;
+        color: rgba(253, 246, 236, 0.4);
+        font-family: var(--font);
+      }
+
+      /* ─── USER FLOW ─────────────────────── */
+      .flow-diagram {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0;
+        margin: 18px 0;
+        padding: 20px;
+        background: white;
+        border: 1px solid var(--milk);
+        border-radius: 12px;
+      }
+      .flow-node {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+      }
+      .flow-box {
+        padding: 10px 14px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 600;
+        min-width: 90px;
+        border: 2px solid;
+      }
+      .flow-box.start {
+        background: var(--espresso);
+        color: var(--cream);
+        border-color: var(--espresso);
+        border-radius: 20px;
+      }
+      .flow-box.proc {
+        background: white;
+        color: var(--roast);
+        border-color: var(--milk);
+      }
+      .flow-box.proc.active {
+        border-color: var(--caramel);
+        background: rgba(200, 155, 60, 0.08);
+        color: var(--roast);
+      }
+      .flow-box.decide {
+        background: #fff8e8;
+        color: var(--warning);
+        border-color: #fde68a;
+        transform: rotate(0deg);
+      }
+      .flow-box.end {
+        background: var(--success);
+        color: white;
+        border-color: var(--success);
+        border-radius: 20px;
+      }
+      .flow-arrow {
+        color: var(--caramel);
+        font-size: 18px;
+        padding: 0 6px;
+        margin-bottom: 18px;
+      }
+      .flow-label {
+        font-size: 10px;
+        color: var(--latte);
+        margin-top: 5px;
+        font-family: var(--mono);
+        max-width: 90px;
+      }
+
+      /* ─── ACCESSIBILITY ─────────────────── */
+      .a11y-demo {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin: 14px 0;
+      }
+      .a11y-card {
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1.5px solid var(--milk);
+      }
+      .a11y-head {
+        padding: 10px 14px;
+        font-size: 11px;
+        font-family: var(--mono);
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+      .a11y-head.bad {
+        background: #fee2e2;
+        color: var(--danger);
+      }
+      .a11y-head.good {
+        background: #dcfce7;
+        color: var(--success);
+      }
+      .a11y-body {
+        padding: 14px;
+        background: white;
+        font-size: 12.5px;
+        color: var(--espresso);
+        line-height: 1.7;
+      }
+
+      /* ─── CONTRAST CHECKER ──────────────── */
+      .contrast-row {
+        display: flex;
+        gap: 10px;
+        margin: 14px 0;
+      }
+      .contrast-box {
+        flex: 1;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid var(--milk);
+      }
+      .contrast-preview {
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 15px;
+        padding: 10px;
+      }
+      .contrast-info {
+        background: white;
+        padding: 8px 12px;
+      }
+      .contrast-ratio {
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .contrast-pass {
+        font-size: 10px;
+        margin-top: 2px;
+      }
+      .contrast-pass.pass {
+        color: var(--success);
+      }
+      .contrast-pass.fail {
+        color: var(--danger);
+      }
+
+      /* ─── SBCMS APPLY BOX ───────────────── */
+      .sbcms-box {
+        background: linear-gradient(135deg, #271408 0%, var(--espresso) 100%);
+        border-radius: 14px;
+        padding: 24px 28px;
+        margin: 18px 0;
+        color: var(--cream);
+        border: 1px solid rgba(200, 155, 60, 0.2);
+        position: relative;
+        overflow: hidden;
+      }
+      .sbcms-box::after {
+        content: "☕";
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 70px;
+        opacity: 0.06;
+        pointer-events: none;
+      }
+      .sbcms-lbl {
+        font-family: var(--mono);
+        font-size: 9.5px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--caramel);
+        margin-bottom: 8px;
+        display: block;
+      }
+      .sbcms-box h4 {
+        font-size: 14.5px;
+        font-weight: 700;
+        margin-bottom: 9px;
+      }
+      .sbcms-box p {
+        font-size: 13px;
+        line-height: 1.85;
+        color: rgba(253, 246, 236, 0.75);
+        margin-bottom: 0;
+      }
+      .sbcms-box ul {
+        padding-left: 16px;
+      }
+      .sbcms-box li {
+        font-size: 13px;
+        line-height: 1.95;
+        color: rgba(253, 246, 236, 0.75);
+      }
+
+      /* ─── DIVIDER ───────────────────────── */
+      .div {
+        height: 1px;
+        background: var(--milk);
+        margin: 32px 0;
+      }
+
+      /* ─── COMPARISON ────────────────────── */
+      .do-dont {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin: 16px 0;
+      }
+      .do-card,
+      .dont-card {
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1.5px solid;
+      }
+      .do-card {
+        border-color: #86efac;
+      }
+      .dont-card {
+        border-color: #fca5a5;
+      }
+      .do-head {
+        background: #dcfce7;
+        color: var(--success);
+        padding: 10px 14px;
+        font-weight: 700;
+        font-size: 12px;
+        font-family: var(--mono);
+      }
+      .dont-head {
+        background: #fee2e2;
+        color: var(--danger);
+        padding: 10px 14px;
+        font-weight: 700;
+        font-size: 12px;
+        font-family: var(--mono);
+      }
+      .do-body,
+      .dont-body {
+        background: white;
+        padding: 14px;
+        font-size: 13px;
+        line-height: 1.75;
+        color: var(--espresso);
+      }
+      .do-body ul,
+      .dont-body ul {
+        padding-left: 16px;
+      }
+      .do-body li {
+        color: var(--success);
+        margin-bottom: 4px;
+      }
+      .dont-body li {
+        color: var(--danger);
+        margin-bottom: 4px;
+      }
+      .do-body li span,
+      .dont-body li span {
+        color: var(--espresso);
+      }
+
+      /* ─── QUIZ ──────────────────────────── */
+      .quiz {
+        background: var(--espresso);
+        border-radius: 14px;
+        padding: 26px 30px;
+        margin: 14px 0;
+        color: var(--cream);
+      }
+      .quiz-lbl {
+        font-family: var(--mono);
+        font-size: 9.5px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--caramel);
+        margin-bottom: 12px;
+        display: block;
+      }
+      .quiz-q {
+        font-size: 14.5px;
+        font-weight: 600;
+        margin-bottom: 14px;
+        line-height: 1.6;
+      }
+      .quiz-opts {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .qo {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.18s;
+        color: var(--cream);
+        font-family: var(--font);
+        text-align: left;
+        line-height: 1.45;
+      }
+      .qo:hover {
+        background: rgba(200, 155, 60, 0.18);
+        border-color: rgba(200, 155, 60, 0.5);
+      }
+      .qo.correct {
+        background: rgba(21, 128, 61, 0.3);
+        border-color: #4ade80;
+      }
+      .qo.wrong {
+        background: rgba(185, 28, 28, 0.3);
+        border-color: #f87171;
+      }
+      .quiz-fb {
+        margin-top: 12px;
+        padding: 11px 15px;
+        border-radius: 8px;
+        font-size: 13px;
+        line-height: 1.75;
+        display: none;
+      }
+      .quiz-fb.show {
+        display: block;
+      }
+      .quiz-fb.ok {
+        background: rgba(21, 128, 61, 0.2);
+        border: 1px solid #4ade80;
+        color: #86efac;
+      }
+      .quiz-fb.no {
+        background: rgba(185, 28, 28, 0.2);
+        border: 1px solid #f87171;
+        color: #fca5a5;
+      }
+
+      /* ─── FOOTER ────────────────────────── */
+      .footer {
+        background: var(--espresso);
+        color: rgba(253, 246, 236, 0.45);
+        text-align: center;
+        padding: 28px 20px;
+        font-size: 11.5px;
+        font-family: var(--mono);
+        letter-spacing: 0.5px;
+      }
+      .footer span {
+        color: var(--caramel);
+      }
+      .footer .part-links {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 10px;
+      }
+      .footer .part-links a {
+        color: rgba(253, 246, 236, 0.35);
+        text-decoration: none;
+        font-size: 11px;
+        transition: color 0.15s;
+      }
+      .footer .part-links a:hover {
+        color: var(--caramel);
+      }
+      .footer .part-links a.cur {
+        color: var(--caramel);
+      }
+
+      /* ─── TAG ROW ───────────────────────── */
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin: 12px 0;
+      }
+      .tag {
+        padding: 4px 11px;
+        border-radius: 20px;
+        font-size: 11.5px;
+        font-weight: 500;
+        font-family: var(--mono);
+      }
+      .tt {
+        background: #eef2ff;
+        color: #3730a3;
+        border: 1px solid #c7d2fe;
+      }
+      .tg {
+        background: #f0fdf4;
+        color: var(--ux-green);
+        border: 1px solid #bbf7d0;
+      }
+      .tc {
+        background: rgba(200, 155, 60, 0.11);
+        color: var(--roast);
+        border: 1px solid rgba(200, 155, 60, 0.28);
+      }
+      .tp {
+        background: #f5f3ff;
+        color: var(--purple);
+        border: 1px solid #ddd6fe;
+      }
+
+      /* ─── ANIMATION ─────────────────────── */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .ls {
+        animation: fadeUp 0.45s ease both;
+      }
+      .ls:nth-child(1) {
+        animation-delay: 0.04s;
+      }
+      .ls:nth-child(2) {
+        animation-delay: 0.08s;
+      }
+      .ls:nth-child(3) {
+        animation-delay: 0.12s;
+      }
+      .ls:nth-child(4) {
+        animation-delay: 0.16s;
+      }
+
+      /* ─── RESPONSIVE ────────────────────── */
+      @media (max-width: 820px) {
+        .page-wrapper {
+          grid-template-columns: 1fr;
+        }
+        .toc {
+          display: none;
+        }
+        .content {
+          padding: 30px 20px;
+          border-left: none;
+        }
+        .card-grid-2,
+        .card-grid-3,
+        .quiz-opts,
+        .a11y-demo,
+        .do-dont,
+        .fd-row {
+          grid-template-columns: 1fr;
+        }
+        .hero {
+          padding: 52px 28px 40px;
+        }
+        .topics-strip {
+          margin-left: -28px;
+          margin-right: -28px;
+          padding: 0 28px;
+        }
+        .responsive-demo,
+        .contrast-row {
+          flex-direction: column;
+        }
+      }
+      @media (max-width: 600px) {
+        .hero {
+          padding: 36px 18px 28px;
+        }
+        .hero h1 {
+          font-size: clamp(26px, 8vw, 38px);
+          line-height: 1.2;
+        }
+        .content {
+          padding: 18px 16px;
+        }
+        .lesson-section {
+          padding: 20px 16px;
+          border-radius: 12px;
+        }
+        .summary-grid {
+          grid-template-columns: 1fr 1fr !important;
+        }
+        [style*="grid-template-columns"] {
+          grid-template-columns: 1fr !important;
+        }
+        .wireframe-box {
+          min-width: 0 !important;
+        }
+        p,
+        li {
+          font-size: 14.5px !important;
+          line-height: 1.85 !important;
+        }
+        table {
+          display: block;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          font-size: 13px !important;
+        }
+      }
+      @media (max-width: 380px) {
+        .summary-grid {
+          grid-template-columns: 1fr !important;
+        }
+      }
+
+      /* ── 390 × 844 — iPhone exact ── */
+      @media (min-width: 375px) and (max-width: 430px) {
+        .hero {
+          padding: 40px 18px 30px !important;
+        }
+        .hero h1 {
+          font-size: 28px !important;
+          line-height: 1.18 !important;
+        }
+        .content {
+          padding: 18px 18px !important;
+        }
+        .lesson-section {
+          padding: 22px 18px !important;
+          border-radius: 14px !important;
+        }
+        .section-title {
+          font-size: 18.5px !important;
+        }
+        p,
+        li {
+          font-size: 14.5px !important;
+          line-height: 1.82 !important;
+        }
+        h3 {
+          font-size: 17px !important;
+        }
+        table {
+          display: block !important;
+          overflow-x: auto !important;
+          font-size: 13px !important;
+          white-space: nowrap;
+        }
+        table th,
+        table td {
+          padding: 11px 13px !important;
+        }
+        .summary-grid {
+          grid-template-columns: 1fr 1fr !important;
+          gap: 10px !important;
+        }
+        .sum-card {
+          padding: 16px !important;
+        }
+        .sum-card .num {
+          font-size: 26px !important;
+        }
+        [style*="grid-template-columns"] {
+          grid-template-columns: 1fr !important;
+        }
+        .card-grid-2,
+        .card-grid-3,
+        .quiz-opts,
+        .a11y-demo,
+        .do-dont,
+        .fd-row {
+          grid-template-columns: 1fr !important;
+        }
+        .responsive-demo,
+        .contrast-row {
+          flex-direction: column !important;
+        }
+        .topics-strip {
+          overflow-x: auto !important;
+          white-space: nowrap !important;
+          flex-wrap: nowrap !important;
+          scrollbar-width: none !important;
+          margin-left: -18px !important;
+          margin-right: -18px !important;
+          padding-left: 18px !important;
+          padding-right: 18px !important;
+        }
+        .topics-strip::-webkit-scrollbar {
+          display: none;
+        }
+        .wireframe-box {
+          min-width: 0 !important;
+          width: 100% !important;
+        }
+      }
+
+      /* ─── SUMMARY CARDS ─────────────────── */
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin: 20px 0;
+      }
+      .sum-card {
+        background: white;
+        border: 1px solid var(--milk);
+        border-radius: 12px;
+        padding: 18px;
+        text-align: center;
+      }
+      .sum-card .num {
+        font-family: var(--mono);
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--caramel);
+        display: block;
+      }
+      .sum-card .label {
+        font-size: 12px;
+        color: var(--latte);
+        margin-top: 4px;
+      }
+    
+  /* ═══════════════════════════════════════════════════════════
+     DARK MODE — CSS Variable Override + Targeted Fixes
+     Toggled by lang-system-ai.js via html.dark class
+  ═══════════════════════════════════════════════════════════ */
+
+  /* Flip CSS variables so all var()-based rules auto-switch */
+  html.dark {
+    --espresso: #fdf6ec;
+    --roast:    #eee0cc;
+    --latte:    #c8a882;
+    --cream:    #120a04;
+    --foam:     #1a0e06;
+    --milk:     #1f1208;
+    --chalk:    #221408;
+    --ui-bg:    #0d1929;
+    --ux-bg:    #0a1a0f;
+  }
+  html.dark body {
+    background: #120a04 !important;
+    color: rgba(253,246,236,0.88) !important;
+  }
+
+  html.dark .card              { background: #1a0e06 !important; border-color: rgba(255,255,255,0.08) !important; color: rgba(253,246,236,0.88) !important; }
+  html.dark .wf-demo           { background: #1a0e06 !important; border-color: rgba(255,255,255,0.08) !important; }
+  html.dark .wf-box            { background: rgba(255,255,255,0.05) !important; }
+  html.dark .wf-bar            { background: rgba(255,255,255,0.06) !important; }
+  html.dark .wf-btn-sm         { background: rgba(255,255,255,0.07) !important; color: rgba(253,246,236,0.7) !important; }
+  html.dark .wf-text           { color: rgba(253,246,236,0.5) !important; }
+  html.dark .wf-label          { background: rgba(255,255,255,0.05) !important; color: rgba(253,246,236,0.6) !important; }
+  html.dark .wf-label .dot     { background: rgba(200,155,60,0.5) !important; }
+  html.dark .device-frame      { background: #1f1208 !important; border-color: rgba(255,255,255,0.1) !important; }
+  html.dark .device-top        { background: rgba(255,255,255,0.06) !important; }
+  html.dark .grid-demo         { background: #1a0e06 !important; }
+  html.dark .form-demo         { background: #1a0e06 !important; }
+  html.dark .flow-diagram      { background: #1a0e06 !important; }
+  html.dark .flow-box.proc     { background: rgba(255,255,255,0.06) !important; color: rgba(253,246,236,0.82) !important; }
+  html.dark .flow-box.decide   { background: rgba(200,155,60,0.14) !important; color: rgba(253,246,236,0.82) !important; }
+  html.dark .do-body           { background: rgba(21,128,61,0.08) !important; color: rgba(253,246,236,0.82) !important; }
+  html.dark .dont-body         { background: rgba(185,28,28,0.08) !important; color: rgba(253,246,236,0.82) !important; }
+  html.dark .state-card        { background: #1a0e06 !important; border-color: rgba(255,255,255,0.08) !important; }
+  html.dark .sum-card          { background: #1a0e06 !important; border-color: rgba(255,255,255,0.08) !important; }
+  html.dark .a11y-body         { background: #1a0e06 !important; color: rgba(253,246,236,0.82) !important; }
+  html.dark .contrast-info     { background: #1a0e06 !important; color: rgba(253,246,236,0.82) !important; }
+  html.dark .fd-input          { background: rgba(255,255,255,0.06) !important; border-color: rgba(255,255,255,0.14) !important; color: #fdf6ec !important; }
+  html.dark .box.warning       { background: rgba(180,83,9,0.14) !important; }
+  html.dark .box.info          { background: rgba(29,78,216,0.14) !important; }
+  html.dark .box.success       { background: rgba(21,128,61,0.14) !important; }
+  html.dark .box.teal          { background: rgba(10,207,131,0.1) !important; }
+  html.dark .toc-part          { background: #1a0e06 !important; color: rgba(253,246,236,0.6) !important; }
+  html.dark .toc-part-link     { color: rgba(253,246,236,0.5) !important; }
+  html.dark .toc-sep           { background: rgba(255,255,255,0.07) !important; }
+
+  /* ── Hero: always stays dark regardless of mode ──────────────
+     The hero uses --espresso (bg) and --cream (text) which FLIP
+     in dark mode, turning the hero cream with invisible text.
+     These absolute-value overrides protect it in both modes.
+  ─────────────────────────────────────────────────────────────── */
+  html.dark .hero                { background: #0d0603 !important; }
+  html.dark .hero::before        { opacity: 0.7 !important; }
+  html.dark .hero::after         { color: rgba(255,255,255,0.018) !important; }
+  html.dark .hero h1             { color: #fdf6ec !important; }
+  html.dark .hero h1 span,
+  html.dark .hero h1 .acc,
+  html.dark .hero h1 .fig        { color: #c89b3c !important; }
+  html.dark .hero-sub            { color: rgba(253,246,236,0.58) !important; }
+  html.dark .hero-eyebrow        { color: #c89b3c !important; background: rgba(200,155,60,0.12) !important; border-color: rgba(200,155,60,0.28) !important; }
+  html.dark .hero-chip           { background: rgba(255,255,255,0.07) !important; color: rgba(253,246,236,0.72) !important; border-color: rgba(255,255,255,0.10) !important; }
+  html.dark .hero-part-badge,
+  html.dark .hero-badge          { background: #c89b3c !important; color: #1c0f07 !important; }
+  html.dark .hero-eye            { color: rgba(255,255,255,0.22) !important; }
+  html.dark .topics-strip        { background: rgba(0,0,0,0.25) !important; border-color: rgba(200,155,60,0.12) !important; }
+  html.dark .t-pill              { color: rgba(253,246,236,0.38) !important; border-color: rgba(200,155,60,0.08) !important; }
+  html.dark .hero-mesh           { opacity: 0.7 !important; }
+  html.dark .hero-glow           { opacity: 0.5 !important; }
+  html.dark .hero-grid-bg        { opacity: 0.5 !important; }
+</style>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- ░░ MOBILE TOC ░░ -->
+    <button class="sb-toc-toggle" id="sbTocToggle" aria-label="Open contents"><svg width="18" height="14" viewBox="0 0 18 14" fill="none" aria-hidden="true" style="display:block;pointer-events:none;flex-shrink:0"><line x1="0" y1="1" x2="18" y2="1" stroke="#C89B3C" stroke-width="2" stroke-linecap="round"/><line x1="0" y1="7" x2="18" y2="7" stroke="#C89B3C" stroke-width="2" stroke-linecap="round"/><line x1="0" y1="13" x2="18" y2="13" stroke="#C89B3C" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <div class="sb-toc-overlay" id="sbTocOverlay"></div>
+    <div class="sb-toc-drawer" id="sbTocDrawer">
+      <div class="sb-toc-header">
+        <span class="sb-toc-header-label">មាតិកា — PART 2</span>
+        <button class="sb-toc-close" id="sbTocClose" aria-label="Close">
+          ✕
+        </button>
+      </div>
+      <div class="sb-toc-body">
+        <a class="sb-toc-partlink" href="SBCMS_Lesson_UIUX_Part1.html"
+          >← Part 1: UI/UX Intro</a
+        >
+        <div class="sb-toc-sep"></div>
+        <a href="#s1"><span class="sb-toc-num">01</span>Wireframes</a>
+        <a href="#s2"><span class="sb-toc-num">02</span>Grid System</a>
+        <a href="#s3"><span class="sb-toc-num">03</span>Responsive Design</a>
+        <a href="#s4"><span class="sb-toc-num">04</span>Component States</a>
+        <a href="#s5"><span class="sb-toc-num">05</span>Navigation Patterns</a>
+        <a href="#s6"><span class="sb-toc-num">06</span>Form Design</a>
+        <a href="#s7"><span class="sb-toc-num">07</span>User Flow &amp; IA</a>
+        <a href="#s8"><span class="sb-toc-num">08</span>Accessibility</a>
+        <a href="#s9"><span class="sb-toc-num">09</span>SBCMS Applied</a>
+        <a href="#quiz"><span class="sb-toc-num">✏</span>Quiz</a>
+      </div>
+    </div>
+    <script>
+      (function () {
+        var T = document.getElementById("sbTocToggle"),
+          D = document.getElementById("sbTocDrawer"),
+          O = document.getElementById("sbTocOverlay"),
+          C = document.getElementById("sbTocClose");
+        function openDrawer() {
+          D.classList.add("open");
+          O.classList.add("open");
+          T.classList.add("hidden");
+          document.body.style.overflow = "hidden";
+        }
+        function closeDrawer() {
+          D.classList.remove("open");
+          O.classList.remove("open");
+          T.classList.remove("hidden");
+          document.body.style.overflow = "";
+        }
+        T.addEventListener("click", openDrawer);
+        C.addEventListener("click", closeDrawer);
+        O.addEventListener("click", closeDrawer);
+        D.querySelectorAll('a[href^="#"]').forEach(function (a) {
+          a.addEventListener("click", closeDrawer);
+        });
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") closeDrawer();
+        });
+        var dLinks = D.querySelectorAll('a[href^="#s"]');
+        function markActive() {
+          var top = window.scrollY + 120;
+          var cur = null;
+          dLinks.forEach(function (a) {
+            var el = document.getElementById(a.getAttribute("href").slice(1));
+            if (el && el.offsetTop <= top) cur = a;
+          });
+          dLinks.forEach(function (a) {
+            a.classList.remove("active");
+          });
+          if (cur) cur.classList.add("active");
+        }
+        window.addEventListener("scroll", markActive, { passive: true });
+        markActive();
+      })();
+    </script>
+
+    <!-- PROGRESS BAR -->
+    <!-- PART NAV STRIP -->
+    <div class="top-strip">
+      <a href="index.html">SBCMS Lessons</a>
+      <span class="sep">›</span>
+      <a href="index.html">UI/UX Series</a>
+      <span class="sep">›</span>
+      <span class="cur">Part 2 — Wireframes &amp; Accessibility</span>
+    </div>
+
+    <!-- ════════════════════ HERO ═════════════════════ -->
+    <div class="hero">
+      <div class="hero-grid-bg"></div>
+      <div class="hero-glow"></div>
+      <div class="hero-inner">
+        <div class="hero-eyebrow">
+          Sharp Bean Café Management System · Lesson Series
+        </div>
+        <h1>Introduction to <span>UI/UX</span><br />Design — Part 2</h1>
+        <p class="hero-sub">
+          Wireframes, Layout & Grid System, Responsive Design, Component States,
+          Navigation Patterns, Form Design, User Flow, Accessibility — ភ្ជាប់ទៅ
+          SBCMS Wireframes ជាក់ស្ដែង ។
+        </p>
+        <div class="hero-meta">
+          <span class="hero-part-badge">PART 2</span>
+          <span class="hero-chip">⏱ 50–65 នាទី</span>
+          <span class="hero-chip">🎯 Intermediate</span>
+          <span class="hero-chip">📐 Layout · Flow · A11y</span>
+        </div>
+      </div>
+      <div class="topics-strip">
+        <div class="topic-pill"><span class="t-num">01</span> Wireframes</div>
+        <div class="topic-pill"><span class="t-num">02</span> Grid System</div>
+        <div class="topic-pill"><span class="t-num">03</span> Responsive</div>
+        <div class="topic-pill">
+          <span class="t-num">04</span> Component States
+        </div>
+        <div class="topic-pill"><span class="t-num">05</span> Navigation</div>
+        <div class="topic-pill"><span class="t-num">06</span> Form Design</div>
+        <div class="topic-pill"><span class="t-num">07</span> User Flow</div>
+        <div class="topic-pill">
+          <span class="t-num">08</span> Accessibility
+        </div>
+        <div class="topic-pill">
+          <span class="t-num">09</span> SBCMS Applied
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════ BODY ════════════ -->
+    <div class="page-wrapper">
+      <!-- TOC -->
+      <nav class="toc">
+        <div class="toc-title">Part Navigation</div>
+        <a class="toc-part-link" href="SBCMS_Lesson_UIUX_Part1.html">
+          <span class="pl">← PART 1</span> Color, Typography, Design System
+        </a>
+        <div class="toc-sep"></div>
+        <div class="toc-title">មាតិកា — Part 2</div>
+        <a href="#s1" class="active"><span class="n">01</span> Wireframes</a>
+        <a href="#s2"><span class="n">02</span> Grid System</a>
+        <a href="#s3"><span class="n">03</span> Responsive Design</a>
+        <a href="#s4"><span class="n">04</span> Component States</a>
+        <a href="#s5"><span class="n">05</span> Navigation Patterns</a>
+        <a href="#s6"><span class="n">06</span> Form Design</a>
+        <a href="#s7"><span class="n">07</span> User Flow & IA</a>
+        <a href="#s8"><span class="n">08</span> Accessibility</a>
+        <a href="#s9"><span class="n">09</span> SBCMS Applied</a>
+        <div class="toc-sep"></div>
+        <a href="#quiz"><span class="n">✏</span> Quiz</a>
+      </nav>
+
+      <!-- CONTENT -->
+      <main class="content">
+        <!-- ══════════════════════════════════════
+         SECTION 1 — WIREFRAMES
+    ══════════════════════════════════════ -->
+        <div class="ls" id="s1">
+          <span class="sec-num">Section 01</span>
+          <h2>Wireframes — គ្រោង UI</h2>
+
+          <p>
+            <span class="kw">Wireframe</span> ជាការគ្រោង Layout នៃ App/Website
+            ដោយ<mark>មិនមានពណ៌, មិនមាន Image</mark> — ប្រើ Box, Line, Text
+            ប្រហែលៗ ។ គោលបំណង: ផ្តោតលើ
+            <strong>Structure & Function</strong> ជាមុន មុននឹង Design ពណ៌ ។
+          </p>
+
+          <div class="box coffee">
+            <div class="box-ico">📐</div>
+            <div class="box-body">
+              <div class="box-title">ហេតុអ្វីត្រូវ Wireframe មុន?</div>
+              <div class="box-text">
+                ធ្វើ Wireframe មុន → ចំណាយពេលតិច → ប្រសិនបើ Layout ខុស កែបានលឿន
+                ។ ប្រសិនបើ Code ហើយទើបដឹង Layout ខុស → ខ្ជះខ្ជាយពេល ។ Wireframe
+                ជួយ Team និង Stakeholder ឯកភាពលើ Structure ជាមុន ។
+              </div>
+            </div>
+          </div>
+
+          <h3>Wireframe Fidelity — កម្រិត Detail</h3>
+          <div class="card-grid-3">
+            <div class="card">
+              <div class="card-accent" style="background: #94a3b8"></div>
+              <div class="card-ico">✏️</div>
+              <div class="card-name">Low-Fidelity</div>
+              <div class="card-desc">
+                គ្រោង Rough ដោយ Pencil ឬ Paper ។ លឿន, ងាយ, ចំណាយពេលតិច ។
+                ប្រើដំបូង ។
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-accent" style="background: var(--ui-blue)"></div>
+              <div class="card-ico">🖥️</div>
+              <div class="card-name">Mid-Fidelity</div>
+              <div class="card-desc">
+                Wireframe Digital ក្នុង Figma/draw.io — Box, Text, Layout ច្បាស់
+                ប៉ុន្តែគ្មានពណ៌ ។
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-accent" style="background: var(--caramel)"></div>
+              <div class="card-ico">✨</div>
+              <div class="card-name">High-Fidelity</div>
+              <div class="card-desc">
+                Mockup ជាក់ស្ដែង — ពណ៌, Font, Image ត្រឹមត្រូវ — ស្ទើរដូច
+                Product Final ។
+              </div>
+            </div>
+          </div>
+
+          <h3>Live Wireframe Demo — SBCMS Login Form</h3>
+          <p>
+            ខាងក្រោម ជាឧទាហរណ៍ <span class="kw">Mid-Fidelity Wireframe</span> —
+            Structure ច្បាស់, គ្មានពណ៌ Brand ។
+          </p>
+
+          <div class="wf-demo">
+            <div class="wf-label">
+              <span>WIREFRAME · Login Form · Task #23</span>
+              <span
+                ><span class="dot"></span><span class="dot"></span
+                ><span class="dot red"></span
+              ></span>
+            </div>
+            <div class="wf-body" style="background: #fafafa">
+              <div style="max-width: 320px; margin: 0 auto">
+                <!-- Logo area -->
+                <div style="text-align: center; margin-bottom: 20px">
+                  <div
+                    class="wf-img"
+                    style="
+                      width: 60px;
+                      height: 60px;
+                      border-radius: 50%;
+                      margin: 0 auto 10px;
+                    "
+                  >
+                    ☕
+                  </div>
+                  <div
+                    class="wf-bar"
+                    style="height: 14px; width: 60%; margin: 0 auto 6px"
+                  ></div>
+                  <div
+                    class="wf-bar"
+                    style="
+                      height: 10px;
+                      width: 40%;
+                      margin: 0 auto;
+                      opacity: 0.5;
+                    "
+                  ></div>
+                </div>
+                <!-- Role selector -->
+                <div style="display: flex; gap: 8px; margin-bottom: 16px">
+                  <div
+                    class="wf-box"
+                    style="
+                      flex: 1;
+                      height: 44px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      border-color: #aaa;
+                      background: #e0e0e0;
+                    "
+                  >
+                    <span
+                      style="
+                        font-size: 11px;
+                        color: #666;
+                        font-family: var(--mono);
+                      "
+                      >Employee ✓</span
+                    >
+                  </div>
+                  <div
+                    class="wf-box"
+                    style="
+                      flex: 1;
+                      height: 44px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                  >
+                    <span
+                      style="
+                        font-size: 11px;
+                        color: #aaa;
+                        font-family: var(--mono);
+                      "
+                      >Manager</span
+                    >
+                  </div>
+                </div>
+                <!-- Inputs -->
+                <div style="margin-bottom: 10px">
+                  <div
+                    class="wf-bar"
+                    style="height: 9px; width: 30%; margin-bottom: 5px"
+                  ></div>
+                  <div class="wf-box" style="height: 36px; width: 100%"></div>
+                </div>
+                <div style="margin-bottom: 6px">
+                  <div
+                    class="wf-bar"
+                    style="height: 9px; width: 25%; margin-bottom: 5px"
+                  ></div>
+                  <div class="wf-box" style="height: 36px; width: 100%"></div>
+                </div>
+                <div style="text-align: right; margin-bottom: 16px">
+                  <div
+                    class="wf-bar"
+                    style="
+                      height: 9px;
+                      width: 28%;
+                      margin-left: auto;
+                      opacity: 0.5;
+                    "
+                  ></div>
+                </div>
+                <!-- Button -->
+                <div class="wf-btn" style="width: 100%"></div>
+                <!-- Footer text -->
+                <div
+                  class="wf-bar"
+                  style="
+                    height: 8px;
+                    width: 50%;
+                    margin: 12px auto 0;
+                    opacity: 0.4;
+                  "
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="code">
+            <span class="code-lbl">Wireframe Annotation — Task #23 Login</span>
+            <pre><span class="cc">/* SBCMS Wireframe Annotations */</span>
+
+<span class="cm">Header Zone</span>
+  → Logo Icon (60×60px) + App Name + Subtitle
+  → Center-aligned, above the form
+
+<span class="cm">Role Selector</span>
+  → 2 equal-width buttons: Employee | Manager
+  → Active state = filled, Inactive = outline
+  → Role determines redirect on login success
+
+<span class="cm">Form Fields</span>
+  → Label (12px, uppercase) above each input
+  → Input height: 36–40px, full-width
+  → "Forgot password?" right-aligned, small
+
+<span class="cm">Primary Button</span>
+  → Full-width, 44px tall
+  → Text: "Login to System →"
+  → On click → validate → redirect by role
+
+<span class="cm">Footer</span>
+  → "Sharp Bean Café © 2026 · v1.0.0" centered</pre>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════
+         SECTION 2 — GRID SYSTEM
+    ══════════════════════════════════════ -->
+        <div class="ls" id="s2">
+          <span class="sec-num">Section 02</span>
+          <h2>Grid System — ប្រព័ន្ធ Grid</h2>
+
+          <p>
+            <span class="kw">Grid System</span> ជា
+            <mark>Framework នៃ Layout</mark>
+            ដែលចែកទំព័រជា Columns ស្មើៗ ។ Grid ជួយ Designer ដាក់ Elements
+            ស្ថិតស្ថេរ, Aligned, Balanced ។
+          </p>
+
+          <h3>12-Column Grid — Standard</h3>
+          <p>
+            Web Design ភាគច្រើនប្រើ <span class="kw">12-Column Grid</span>
+            ព្រោះ 12 ចែកបាន 1, 2, 3, 4, 6, 12 ។ ធ្វើ Layout ស្មើ ឬ Asymmetric
+            ក៏បាន ។
+          </p>
+
+          <div class="grid-demo">
+            <div
+              style="
+                font-family: var(--mono);
+                font-size: 10px;
+                color: var(--caramel);
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                margin-bottom: 10px;
+              "
+            >
+              12 Columns — Full Width
+            </div>
+            <div class="grid-row">
+              <div class="grid-col filled">1</div>
+              <div class="grid-col filled">2</div>
+              <div class="grid-col filled">3</div>
+              <div class="grid-col filled">4</div>
+              <div class="grid-col filled">5</div>
+              <div class="grid-col filled">6</div>
+              <div class="grid-col filled">7</div>
+              <div class="grid-col filled">8</div>
+              <div class="grid-col filled">9</div>
+              <div class="grid-col filled">10</div>
+              <div class="grid-col filled">11</div>
+              <div class="grid-col filled">12</div>
+            </div>
+            <div
+              style="
+                font-family: var(--mono);
+                font-size: 10px;
+                color: var(--caramel);
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                margin: 14px 0 8px;
+              "
+            >
+              Common Layouts
+            </div>
+            <!-- 6+6 -->
+            <div
+              style="
+                font-size: 10px;
+                color: var(--latte);
+                margin-bottom: 4px;
+                font-family: var(--mono);
+              "
+            >
+              6 + 6 (50/50 Split)
+            </div>
+            <div class="grid-row" style="margin-bottom: 10px">
+              <div class="grid-col filled" style="flex: 6">col-6</div>
+              <div class="grid-col filled" style="flex: 6">col-6</div>
+            </div>
+            <!-- 8+4 -->
+            <div
+              style="
+                font-size: 10px;
+                color: var(--latte);
+                margin-bottom: 4px;
+                font-family: var(--mono);
+              "
+            >
+              8 + 4 (Content + Sidebar)
+            </div>
+            <div class="grid-row" style="margin-bottom: 10px">
+              <div
+                class="grid-col filled"
+                style="flex: 8; background: rgba(37, 99, 235, 0.15)"
+              >
+                col-8 · Main Content
+              </div>
+              <div class="grid-col filled" style="flex: 4">col-4 · Sidebar</div>
+            </div>
+            <!-- 4+4+4 -->
+            <div
+              style="
+                font-size: 10px;
+                color: var(--latte);
+                margin-bottom: 4px;
+                font-family: var(--mono);
+              "
+            >
+              4 + 4 + 4 (3 Equal Cards)
+            </div>
+            <div class="grid-row">
+              <div class="grid-col filled" style="flex: 4">col-4</div>
+              <div class="grid-col filled" style="flex: 4">col-4</div>
+              <div class="grid-col filled" style="flex: 4">col-4</div>
+            </div>
+          </div>
+
+          <h3>CSS Grid vs Flexbox</h3>
+          <div class="card-grid-2">
+            <div class="card">
+              <div class="card-accent" style="background: var(--ui-blue)"></div>
+              <div class="card-ico">⊞</div>
+              <div class="card-name">CSS Grid</div>
+              <div class="card-desc">
+                ល្អសម្រាប់ <strong>2D Layout</strong> — Rows & Columns ។
+                ប្រើធ្វើ Page Layout, Dashboard, Card Grid ។ <br /><span
+                  class="kb"
+                  >display: grid</span
+                >
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-accent" style="background: var(--purple)"></div>
+              <div class="card-ico">⇌</div>
+              <div class="card-name">Flexbox</div>
+              <div class="card-desc">
+                ល្អសម្រាប់ <strong>1D Layout</strong> — Row ឬ Column ។ ប្រើធ្វើ
+                Nav Bar, Button Row, Align Items ។ <br /><span class="kp"
+                  >display: flex</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="code">
+            <span class="code-lbl"
+              >CSS — Grid System Example (SBCMS Dashboard)</span
+            >
+            <pre><span class="cc">/* SBCMS — 3-column Stats Card Grid */</span>
+<span class="cm">.stats-row</span> {
+  <span class="ck">display</span>:               <span class="cv">grid</span>;
+  <span class="ck">grid-template-columns</span>: <span class="cv">repeat(3, 1fr)</span>;
+  <span class="ck">gap</span>:                   <span class="cv">14px</span>;
+  <span class="ck">margin-bottom</span>:        <span class="cv">20px</span>;
+}
+
+<span class="cc">/* SBCMS — Sidebar + Main Content (8+4) */</span>
+<span class="cm">.app-layout</span> {
+  <span class="ck">display</span>:  <span class="cv">grid</span>;
+  <span class="ck">grid-template-columns</span>: <span class="cv">200px 1fr</span>;  <span class="cc">/* Fixed sidebar */</span>
+  <span class="ck">height</span>:   <span class="cv">100vh</span>;
+}
+
+<span class="cc">/* POS Split Layout — Flexbox */</span>
+<span class="cm">.pos-layout</span> {
+  <span class="ck">display</span>:   <span class="cv">flex</span>;
+  <span class="ck">gap</span>:       <span class="cv">0</span>;
+  <span class="ck">height</span>:    <span class="cv">100%</span>;
+}
+<span class="cm">.menu-grid</span>  { <span class="ck">flex</span>: <span class="cv">1</span>; }         <span class="cc">/* Takes remaining space */</span>
+<span class="cm">.order-panel</span>{ <span class="ck">width</span>: <span class="cv">280px</span>; }    <span class="cc">/* Fixed order panel */</span></pre>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════
+         SECTION 3 — RESPONSIVE DESIGN
+    ══════════════════════════════════════ -->
+        <div class="ls" id="s3">
+          <span class="sec-num">Section 03</span>
+          <h2>Responsive Design — ការ Adapt ទៅ Device</h2>
+
+          <p>
+            <span class="kw">Responsive Design</span> ជា Technique ធ្វើឱ្យ UI
+            <mark>Adapt ទៅតាម Screen Size</mark> — Desktop, Tablet, Mobile ។
+            User ទំនើប ប្រើ Device ច្រើនប្រភេទ ។
+          </p>
+
+          <div class="box info">
+            <div class="box-ico">📱</div>
+            <div class="box-body">
+              <div class="box-title">SBCMS — Web vs Desktop</div>
+              <div class="box-text">
+                SBCMS Web App (ASP.NET MVC) ត្រូវ Responsive ព្រោះ Customer អាច
+                Order ពី Mobile, Tablet ។ ផ្ទុយ Desktop App (C# WinForms) ជា
+                Fixed-size Window — Responsive ចាំបាច់តែ Web Application ។
+              </div>
+            </div>
+          </div>
+
+          <h3>Breakpoints — ចំណុចប្ដូរ Layout</h3>
+          <div class="responsive-demo">
+            <!-- Desktop -->
+            <div>
+              <div
+                style="
+                  font-family: var(--mono);
+                  font-size: 10px;
+                  color: var(--latte);
+                  text-align: center;
+                  margin-bottom: 8px;
+                  letter-spacing: 1px;
+                "
+              >
+                DESKTOP · ≥ 1024px
+              </div>
+              <div class="device-frame" style="width: 320px">
+                <div class="device-top">
+                  <span class="dt red"></span><span class="dt"></span
+                  ><span class="dt"></span>
+                </div>
+                <div
+                  class="device-body"
+                  style="
+                    display: grid;
+                    grid-template-columns: 60px 1fr;
+                    gap: 8px;
+                    padding: 8px;
+                  "
+                >
+                  <div
+                    style="
+                      background: var(--espresso);
+                      border-radius: 6px;
+                      padding: 8px;
+                    "
+                  >
+                    <div
+                      class="wf-bar"
+                      style="
+                        height: 6px;
+                        width: 80%;
+                        margin-bottom: 6px;
+                        background: rgba(255, 255, 255, 0.2);
+                      "
+                    ></div>
+                    <div
+                      class="wf-bar"
+                      style="
+                        height: 6px;
+                        width: 70%;
+                        margin-bottom: 4px;
+                        background: rgba(255, 255, 255, 0.15);
+                      "
+                    ></div>
+                    <div
+                      class="wf-bar"
+                      style="
+                        height: 6px;
+                        width: 70%;
+                        margin-bottom: 4px;
+                        background: rgba(255, 255, 255, 0.15);
+                      "
+                    ></div>
+                    <div
+                      class="wf-bar"
+                      style="
+                        height: 6px;
+                        width: 70%;
+                        margin-bottom: 4px;
+                        background: rgba(255, 255, 255, 0.15);
+                      "
+                    ></div>
+                  </div>
+                  <div>
+                    <div
+                      class="wf-bar"
+                      style="height: 8px; width: 60%; margin-bottom: 6px"
+                    ></div>
+                    <div
+                      style="
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 4px;
+                        margin-bottom: 6px;
+                      "
+                    >
+                      <div
+                        style="
+                          background: var(--milk);
+                          border-radius: 4px;
+                          height: 24px;
+                        "
+                      ></div>
+                      <div
+                        style="
+                          background: var(--milk);
+                          border-radius: 4px;
+                          height: 24px;
+                        "
+                      ></div>
+                    </div>
+                    <div
+                      style="
+                        background: var(--milk);
+                        border-radius: 4px;
+                        height: 40px;
+                      "
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Tablet -->
+            <div>
+              <div
+                style="
+                  font-family: var(--mono);
+                  font-size: 10px;
+                  color: var(--latte);
+                  text-align: center;
+                  margin-bottom: 8px;
+                  letter-spacing: 1px;
+                "
+              >
+                TABLET · 768–1023px
+              </div>
+              <div class="device-frame" style="width: 200px">
+                <div class="device-top">
+                  <span class="dt red"></span><span class="dt"></span
+                  ><span class="dt"></span>
+                </div>
+                <div class="device-body" style="padding: 8px">
+                  <div style="display: flex; gap: 4px; margin-bottom: 6px">
+                    <div
+                      class="wf-box"
+                      style="
+                        flex: 1;
+                        height: 20px;
+                        font-size: 9px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: #aaa;
+                      "
+                    >
+                      ☰
+                    </div>
+                    <div class="wf-bar" style="flex: 3; height: 20px"></div>
+                  </div>
+                  <div
+                    style="
+                      display: grid;
+                      grid-template-columns: 1fr 1fr;
+                      gap: 4px;
+                      margin-bottom: 4px;
+                    "
+                  >
+                    <div
+                      style="
+                        background: var(--milk);
+                        border-radius: 4px;
+                        height: 28px;
+                      "
+                    ></div>
+                    <div
+                      style="
+                        background: var(--milk);
+                        border-radius: 4px;
+                        height: 28px;
+                      "
+                    ></div>
+                  </div>
+                  <div
+                    style="
+                      background: var(--milk);
+                      border-radius: 4px;
+                      height: 36px;
+                    "
+                  ></div>
+                </div>
+              </div>
+            </div>
+            <!-- Mobile -->
+            <div>
+              <div
+                style="
+                  font-family: var(--mono);
+                  font-size: 10px;
+                  color: var(--latte);
+                  text-align: center;
+                  margin-bottom: 8px;
+                  letter-spacing: 1px;
+                "
+              >
+                MOBILE · &lt; 768px
+              </div>
+              <div
+                class="device-frame"
+                style="width: 120px; border-radius: 16px"
+              >
+                <div class="device-top" style="border-radius: 14px 14px 0 0">
+                  <span class="dt"></span>
+                </div>
+                <div class="device-body" style="padding: 6px">
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                      margin-bottom: 6px;
+                    "
+                  >
+                    <div class="wf-bar" style="height: 8px; width: 40%"></div>
+                    <div
+                      class="wf-box"
+                      style="
+                        width: 20px;
+                        height: 20px;
+                        font-size: 9px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: #aaa;
+                      "
+                    >
+                      ☰
+                    </div>
+                  </div>
+                  <div
+                    style="
+                      background: var(--milk);
+                      border-radius: 4px;
+                      height: 24px;
+                      margin-bottom: 4px;
+                    "
+                  ></div>
+                  <div
+                    style="
+                      background: var(--milk);
+                      border-radius: 4px;
+                      height: 24px;
+                      margin-bottom: 4px;
+                    "
+                  ></div>
+                  <div
+                    style="
+                      background: var(--caramel);
+                      border-radius: 4px;
+                      height: 20px;
+                      opacity: 0.7;
+                    "
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="code">
+            <span class="code-lbl"
+              >CSS — Media Queries for Responsive Layout</span
+            >
+            <pre><span class="cc">/* Desktop First — Default Styles */</span>
+<span class="cm">.app-layout</span> {
+  <span class="ck">display</span>: <span class="cv">grid</span>;
+  <span class="ck">grid-template-columns</span>: <span class="cv">220px 1fr</span>;  <span class="cc">/* Sidebar + Content */</span>
+}
+
+<span class="cc">/* Tablet — 768px to 1023px */</span>
+<span class="ck">@media</span> (<span class="cv">max-width: 1023px</span>) {
+  <span class="cm">.app-layout</span> {
+    <span class="ck">grid-template-columns</span>: <span class="cv">1fr</span>;       <span class="cc">/* Sidebar hidden */</span>
+  }
+  <span class="cm">.sidebar</span> { <span class="ck">display</span>: <span class="cv">none</span>; }
+  <span class="cm">.hamburger-btn</span> { <span class="ck">display</span>: <span class="cv">flex</span>; }     <span class="cc">/* Show menu toggle */</span>
+}
+
+<span class="cc">/* Mobile — below 768px */</span>
+<span class="ck">@media</span> (<span class="cv">max-width: 767px</span>) {
+  <span class="cm">.card-grid-3</span> {
+    <span class="ck">grid-template-columns</span>: <span class="cv">1fr</span>;       <span class="cc">/* Stack cards */</span>
+  }
+  <span class="cm">.pos-layout</span> {
+    <span class="ck">flex-direction</span>: <span class="cv">column</span>;          <span class="cc">/* Stack POS panels */</span>
+  }
+}</pre>
+          </div>
+
+          <div class="box success">
+            <div class="box-ico">✅</div>
+            <div class="box-body">
+              <div class="box-title">Mobile-First vs Desktop-First</div>
+              <div class="box-text">
+                <strong>Mobile-First:</strong> Design Mobile ជាមុន → បន្ថែម
+                Layout ធំ ។ Google, Bootstrap ប្រើ Approach នេះ ។
+                <strong>Desktop-First:</strong> Design Desktop ជាមុន → Shrink ។
+                SBCMS Desktop App ប្រើ Desktop-First ។ Web App ត្រូវ
+                Mobile-First ព្រោះ Customer Order ពី Phone ។
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════
+         SECTION 4 — COMPONENT STATES
+    ══════════════════════════════════════ -->
+        <div class="ls" id="s4">
+          <span class="sec-num">Section 04</span>
+          <h2>Component States — ស្ថានភាព Component</h2>
+
+          <p>
+            Component មួយ (ឧ. Button, Input) មាន
+            <mark>States ច្រើន</mark> ស្របតាម Action របស់ User ។ Designer ត្រូវ
+            Design <strong>រាល់ State</strong> — មិនមែន Default ប៉ុណ្ណោះ ។
+          </p>
+
+          <h3>Button States</h3>
+          <div class="states-row">
+            <div class="state-card">
+              <span class="state-label">Default</span>
+              <div
+                class="state-btn"
+                style="background: var(--roast); color: var(--cream)"
+              >
+                Confirm Order
+              </div>
+            </div>
+            <div class="state-card">
+              <span class="state-label">Hover</span>
+              <div
+                class="state-btn"
+                style="
+                  background: var(--espresso);
+                  color: var(--cream);
+                  box-shadow: 0 4px 12px rgba(59, 32, 7, 0.3);
+                  transform: translateY(-1px);
+                "
+              >
+                Confirm Order
+              </div>
+            </div>
+            <div class="state-card">
+              <span class="state-label">Active (Pressed)</span>
+              <div
+                class="state-btn"
+                style="
+                  background: #150b03;
+                  color: var(--cream);
+                  transform: translateY(1px);
+                "
+              >
+                Confirm Order
+              </div>
+            </div>
+            <div class="state-card">
+              <span class="state-label">Loading</span>
+              <div
+                class="state-btn"
+                style="
+                  background: var(--roast);
+                  color: var(--cream);
+                  opacity: 0.8;
+                  gap: 8px;
+                "
+              >
+                <span
+                  style="
+                    display: inline-block;
+                    width: 12px;
+                    height: 12px;
+                    border: 2px solid rgba(255, 255, 255, 0.3);
+                    border-top-color: white;
+                    border-radius: 50%;
+                    animation: spin 0.8s linear infinite;
+                  "
+                ></span>
+                Processing...
+              </div>
+            </div>
+            <div class="state-card">
+              <span class="state-label">Disabled</span>
+              <div
+                class="state-btn"
+                style="
+                  background: var(--milk);
+                  color: #aaa;
+                  cursor: not-allowed;
+                "
+              >
+                Confirm Order
+              </div>
+            </div>
+            <div class="state-card">
+              <span class="state-label">Success</span>
+              <div
+                class="state-btn"
+                style="background: var(--success); color: white"
+              >
+                ✓ Confirmed!
+              </div>
+            </div>
+          </div>
+          <style>
+            @keyframes spin {
+              to {
+                transform: rotate(360deg);
+              }
+            }
+          </style>
+
+          <h3>Input States</h3>
+          <div class="form-demo" style="padding: 16px">
+            <div class="fd-row">
+              <div class="fd-group">
+                <label>Default State</label>
+                <input
+                  class="fd-input"
+                  type="text"
+                  placeholder="Enter username"
+                  readonly
+                />
+                <div class="fd-hint tip">ស្ថានភាព Default — Border ស្ដើង</div>
+              </div>
+              <div class="fd-group">
+                <label>Focus State</label>
+                <input
+                  class="fd-input"
+                  type="text"
+                  value="sopheak.tun"
+                  style="
+                    border-color: var(--caramel);
+                    box-shadow: 0 0 0 3px rgba(200, 155, 60, 0.12);
+                  "
+                  readonly
+                />
+                <div class="fd-hint tip">
+                  User ចុច Input — Border Caramel + Glow
+                </div>
+              </div>
+              <div class="fd-group">
+                <label>Error State</label>
+                <input
+                  class="fd-input error"
+                  type="text"
+                  value="wrong@"
+                  readonly
+                />
+                <div class="fd-hint err">⚠ Email format មិនត្រឹមត្រូវ</div>
+              </div>
+              <div class="fd-group">
+                <label>Success State</label>
+                <input
+                  class="fd-input success"
+                  type="text"
+                  value="sopheak.tun"
+                  readonly
+                />
+                <div class="fd-hint ok">✓ Username ត្រឹមត្រូវ</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="code">
+            <span class="code-lbl">CSS — Input States</span>
+            <pre><span class="cm">.input</span> {
+  <span class="ck">border</span>: <span class="cv">1.5px solid var(--milk)</span>;  <span class="cc">/* Default */</span>
+  <span class="ck">transition</span>: <span class="cv">border-color 0.18s, box-shadow 0.18s</span>;
+}
+<span class="cm">.input:focus</span> {
+  <span class="ck">border-color</span>: <span class="cv">var(--caramel)</span>;   <span class="cc">/* Focus */</span>
+  <span class="ck">box-shadow</span>: <span class="cv">0 0 0 3px rgba(200,155,60,0.12)</span>;
+  <span class="ck">outline</span>: <span class="cv">none</span>;
+}
+<span class="cm">.input.error</span> {
+  <span class="ck">border-color</span>: <span class="cv">var(--danger)</span>;    <span class="cc">/* Error */</span>
+  <span class="ck">background</span>: <span class="cv">#FFF5F5</span>;
+}
+<span class="cm">.input.success</span> {
+  <span class="ck">border-color</span>: <span class="cv">var(--success)</span>;   <span class="cc">/* Success */</span>
+  <span class="ck">background</span>: <span class="cv">#F0FDF4</span>;
+}
+<span class="cm">.input:disabled</span> {
+  <span class="ck">background</span>: <span class="cv">var(--milk)</span>;        <span class="cc">/* Disabled */</span>
+  <span class="ck">cursor</span>: <span class="cv">not-allowed</span>;
+  <span class="ck">opacity</span>: <span class="cv">0.6</span>;
+}</pre>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════
+         SECTION 5 — NAVIGATION PATTERNS
+    ══════════════════════════════════════ -->
+        <div class="ls" id="s5">
+          <span class="sec-num">Section 05</span>
+          <h2>Navigation Design Patterns</h2>
+
+          <p>
+            <span class="kw">Navigation</span> ជា "ផ្លូវ" ដែល User ធ្វើដំណើរ
+            ក្នុង App ។ Navigation ខ្សោយ → User ច្របូកច្របល់, ចោល App ។
+            Navigation ល្អ → User ស្វែងរកបាន <mark>ភ្លាម, ងាយ</mark> ។
+          </p>
+
+          <h3>Navigation Pattern ប្រភេទ</h3>
+          <div class="card-grid-2">
+            <div class="card">
+              <div
+                class="card-accent"
+                style="background: var(--espresso)"
+              ></div>
+              <div class="card-ico">🗂️</div>
+              <div class="card-name">Sidebar Navigation</div>
+              <div class="card-desc">
+                Nav ខាងឆ្វេង — ល្អសម្រាប់ <strong>Desktop App</strong> ដែលមាន
+                Modules ច្រើន ។ SBCMS WinForms ប្រើ Sidebar Nav ។ User ឃើញ Menu
+                ទាំងអស់ក្នុងពេលតែមួយ ។
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-accent" style="background: var(--ui-blue)"></div>
+              <div class="card-ico">🔝</div>
+              <div class="card-name">Top Navigation Bar</div>
+              <div class="card-desc">
+                Nav ខាងលើ — ល្អសម្រាប់ <strong>Website</strong> ។ SBCMS Web App
+                ប្រើ Top Nav ។ ងាយ Responsive ទៅ Mobile ។
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-accent" style="background: var(--teal)"></div>
+              <div class="card-ico">📑</div>
+              <div class="card-name">Tab Navigation</div>
+              <div class="card-desc">
+                Tabs ខាងលើ Content — ប្ដូរ View ក្នុង Page តែមួយ ។ SBCMS POS
+                Form ប្រើ Category Tabs: All, Coffee, Snacks ។
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-accent" style="background: var(--caramel)"></div>
+              <div class="card-ico">🍔</div>
+              <div class="card-name">Hamburger Menu</div>
+              <div class="card-desc">
+                ☰ Icon ដែល Click លើ → Sidebar លេចឡើង ។ ប្រើលើ Mobile ។ Desktop
+                Sidebar → Mobile Hamburger ។
+              </div>
+            </div>
+          </div>
+
+          <h3>SBCMS Sidebar — Live Demo</h3>
+          <div class="nav-demo">
+            <div class="nav-topbar">
+              <div class="nav-logo-t">☕ <span>Sharp Bean</span></div>
+              <div
+                style="
+                  font-family: var(--mono);
+                  font-size: 10px;
+                  color: rgba(253, 246, 236, 0.4);
+                "
+              >
+                MANAGER · TUN Sopheak
+              </div>
+            </div>
+            <div style="display: flex; min-height: 160px">
+              <!-- Sidebar -->
+              <div
+                style="
+                  width: 160px;
+                  background: #150b03;
+                  padding: 12px 0;
+                  flex-shrink: 0;
+                "
+              >
+                <div
+                  style="
+                    padding: 6px 14px;
+                    font-family: var(--mono);
+                    font-size: 8.5px;
+                    letter-spacing: 2px;
+                    text-transform: uppercase;
+                    color: #3d2812;
+                    margin-bottom: 4px;
+                  "
+                >
+                  Main
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 8px 14px;
+                    font-size: 12px;
+                    color: var(--caramel);
+                    background: rgba(200, 155, 60, 0.12);
+                    border-left: 3px solid var(--caramel);
+                    font-weight: 600;
+                  "
+                >
+                  <span>🖥</span> POS Order
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 8px 14px;
+                    font-size: 12px;
+                    color: rgba(253, 246, 236, 0.5);
+                  "
+                >
+                  <span>📦</span> Inventory
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 8px 14px;
+                    font-size: 12px;
+                    color: rgba(253, 246, 236, 0.5);
+                  "
+                >
+                  <span>📊</span> Reports
+                </div>
+                <div
+                  style="
+                    padding: 6px 14px;
+                    font-family: var(--mono);
+                    font-size: 8.5px;
+                    letter-spacing: 2px;
+                    text-transform: uppercase;
+                    color: #3d2812;
+                    margin-top: 6px;
+                    margin-bottom: 4px;
+                  "
+                >
+                  Admin
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 8px 14px;
+                    font-size: 12px;
+                    color: rgba(253, 246, 236, 0.5);
+                  "
+                >
+                  <span>👤</span> Employees
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 8px 14px;
+                    font-size: 12px;
+                    color: rgba(253, 246, 236, 0.5);
+                  "
+                >
+                  <span>🍽</span> Menu
+                </div>
+              </div>
+              <!-- Content area -->
+              <div
+                class="nav-content"
+                style="
+                  flex: 1;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                "
+              >
+                <div
+                  style="
+                    font-size: 16px;
+                    font-weight: 700;
+                    color: var(--cream);
+                    margin-bottom: 6px;
+                  "
+                >
+                  🖥 POS Order Processing
+                </div>
+                <div class="nav-content-text">
+                  Active Page · ទំព័រដែល Active បង្ហាញ Highlight ខាងឆ្វេង + ពណ៌
+                  Caramel
+                </div>
+                <div class="nav-content-text" style="margin-top: 4px">
+                  User ដឹង "ខ្ញុំនៅទំព័រ POS" ដោយ Visual Cue នេះ ។
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="box coffee">
+            <div class="box-ico">💡</div>
+            <div class="box-body">
+              <div class="box-title">Navigation UX Rules</div>
+              <div class="box-text">
+                1. <strong>Active State ច្បាស់</strong> — User ដឹងថានៅទំព័រណា ។
+                2. <strong>Max 7 Items</strong> ក្នុង Nav — Miller's Law: Human
+                ចងចាំបាន 7±2 ។ 3. <strong>Group Related Items</strong> — Main,
+                Admin, Account ។ 4. <strong>Consistent Position</strong> — Nav
+                មិនត្រូវផ្លាស់ទីពី Page ទៅ Page ។
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════
+         SECTION 6 — FORM DESIGN
+    ══════════════════════════════════════ -->
+        <div class="ls" id="s6">
+          <span class="sec-num">Section 06</span>
+          <h2>Form Design Best Practices</h2>
+
+          <p>
+            Form ជា Element ដែល User <mark>ប្រៀបធៀបច្រើនជាង</mark>
+            ក្នុង App ។ Login Form, Order Form, Employee Form — Form ល្អ = User
+            Fill-out លឿន, Error តិច ។
+          </p>
+
+          <div class="do-dont">
+            <div class="do-card">
+              <div class="do-head">✅ DO — Form ល្អ</div>
+              <div class="do-body">
+                <ul>
+                  <li>
+                    <span
+                      >Label នៅ <strong>លើ</strong> Input (Top-aligned)</span
+                    >
+                  </li>
+                  <li><span>ប្រើ Placeholder ជា Hint ប្រហែល</span></li>
+                  <li><span>Group Fields ដែលទាក់ទងគ្នា</span></li>
+                  <li><span>Validation ភ្លាមៗ (Inline Error)</span></li>
+                  <li><span>ប្រើ Auto-focus Field ដំបូង</span></li>
+                  <li><span>Button "Submit" ច្បាស់, CTA Strong</span></li>
+                  <li><span>Required Field មាន * ទំនោររៀបរាប់</span></li>
+                </ul>
+              </div>
+            </div>
+            <div class="dont-card">
+              <div class="dont-head">❌ DON'T — Form ខ្សោយ</div>
+              <div class="dont-body">
+                <ul>
+                  <li>
+                    <span>Label ខាងឆ្វេង, Input ខាងស្ដាំ (ងាយ Read)</span>
+                  </li>
+                  <li>
+                    <span>Placeholder ជា Label (disappears on type)</span>
+                  </li>
+                  <li><span>Fields ច្រើន Column ក្នុង Mobile</span></li>
+                  <li><span>Error បង្ហាញតែ Submit (late feedback)</span></li>
+                  <li>
+                    <span>ប្រើ Reset Button — User ចុចខុស Clear ទាំងអស់</span>
+                  </li>
+                  <li><span>Button "Submit" — Generic, ខ្វះ Context</span></li>
+                  <li><span>Fields ច្រើនពេក — Cognitive Overload</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <h3>SBCMS Employee Form — Best Practices Applied</h3>
+          <div class="form-demo">
+            <div
+              style="
+                font-family: var(--mono);
+                font-size: 10px;
+                color: var(--caramel);
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                margin-bottom: 16px;
+              "
+            >
+              Add / Edit Employee · Task #27
+            </div>
+            <div class="fd-row">
+              <div class="fd-group">
+                <label
+                  >Full Name <span style="color: var(--danger)">*</span></label
+                >
+                <input
+                  class="fd-input success"
+                  type="text"
+                  value="TUN Sopheak"
+                  readonly
+                />
+                <div class="fd-hint ok">✓ ត្រឹមត្រូវ</div>
+              </div>
+              <div class="fd-group">
+                <label
+                  >Username <span style="color: var(--danger)">*</span></label
+                >
+                <input
+                  class="fd-input success"
+                  type="text"
+                  value="sopheak.tun"
+                  readonly
+                />
+                <div class="fd-hint ok">✓ Username ទំនេរ</div>
+              </div>
+            </div>
+            <div class="fd-row">
+              <div class="fd-group">
+                <label>Role <span style="color: var(--danger)">*</span></label>
+                <select class="fd-input" style="background: var(--cream)">
+                  <option>Manager</option>
+                  <option>Employee</option>
+                </select>
+                <div class="fd-hint tip">ជ្រើស Role សម្រាប់ Access Control</div>
+              </div>
+              <div class="fd-group">
+                <label>Phone</label>
+                <input
+                  class="fd-input error"
+                  type="text"
+                  value="012-abc"
+                  readonly
+                />
+                <div class="fd-hint err">⚠ Phone Number ត្រូវជាលេខ</div>
+              </div>
+            </div>
+            <div
+              style="
+                display: flex;
+                justify-content: flex-end;
+                gap: 8px;
+                margin-top: 4px;
+              "
+            >
+              <button
+                style="
+                  padding: 9px 18px;
+                  background: var(--milk);
+                  color: var(--latte);
+                  border: none;
+                  border-radius: 7px;
+                  font-family: var(--font);
+                  font-size: 12.5px;
+                  cursor: default;
+                "
+              >
+                Cancel
+              </button>
+              <button
+                style="
+                  padding: 9px 18px;
+                  background: var(--roast);
+                  color: var(--cream);
+                  border: none;
+                  border-radius: 7px;
+                  font-family: var(--font);
+                  font-size: 12.5px;
+                  font-weight: 600;
+                  cursor: default;
+                "
+              >
+                💾 Save Employee
+              </button>
+            </div>
+          </div>
+
+          <div class="box purple">
+            <div class="box-ico">🔐</div>
+            <div class="box-body">
+              <div class="box-title">
+                Form Validation — Front-end vs Back-end
+              </div>
+              <div class="box-text">
+                <strong>Front-end Validation</strong> (JavaScript/CSS) = លឿន, UX
+                ល្អ — User ឃើញ Error ភ្លាម ។
+                <strong>Back-end Validation</strong> (C#, SQL Constraints) =
+                ចាំបាច់ — ការពារ Security ។ SBCMS ត្រូវ
+                <strong>ទាំងពីរ</strong> — Front-end UX + Back-end Security ។
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════
+         SECTION 7 — USER FLOW & IA
+    ══════════════════════════════════════ -->
+        <div class="ls" id="s7">
+          <span class="sec-num">Section 07</span>
+          <h2>User Flow & Information Architecture</h2>
+
+          <h3>User Flow ជាអ្វី?</h3>
+          <p>
+            <span class="kw">User Flow</span> ជា Diagram បង្ហាញ
+            <mark>ជំហានដែល User ធ្វើ</mark> ដើម្បីសម្រេចគោលបំណងមួយ ។ ឧ. User
+            Order កាហ្វេ → ចាប់ Logo → Login → Browse Menu → Add to Cart → Pay ។
+          </p>
+
+          <h3>SBCMS — Order Flow (Customer Web)</h3>
+          <div class="flow-diagram" style="overflow-x: auto">
+            <div class="flow-node">
+              <div class="flow-box start">
+                Start<br /><span style="font-size: 9px; font-weight: 400"
+                  >Open Web App</span
+                >
+              </div>
+              <div class="flow-label"></div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node">
+              <div class="flow-box proc active">Register/<br />Login</div>
+              <div class="flow-label">Account Check</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node">
+              <div class="flow-box decide">Has<br />Account?</div>
+              <div class="flow-label">Yes / No</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node">
+              <div class="flow-box proc">Browse<br />Menu</div>
+              <div class="flow-label">View Items</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node">
+              <div class="flow-box proc active">Add to<br />Cart</div>
+              <div class="flow-label">Select + Qty</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node">
+              <div class="flow-box proc">Make<br />Payment</div>
+              <div class="flow-label">Checkout</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node">
+              <div class="flow-box end">
+                Done ✓<br /><span style="font-size: 9px; font-weight: 400"
+                  >Confirmation</span
+                >
+              </div>
+              <div class="flow-label"></div>
+            </div>
+          </div>
+
+          <h3>Information Architecture (IA)</h3>
+          <p>
+            <span class="kw">Information Architecture</span> ជា
+            <mark>ការរៀបចំ Content</mark>
+            ក្នុង App ឱ្យ User ស្វែងរកបានងាយ ។ IA ល្អ → User ចុច ≤ 3 ដង → ដល់
+            Goal ។
+          </p>
+
+          <div class="card-grid-2">
+            <div class="card">
+              <div
+                class="card-accent"
+                style="background: var(--espresso)"
+              ></div>
+              <div class="card-ico">🗃️</div>
+              <div class="card-name">SBCMS Desktop IA</div>
+              <div class="card-desc" style="line-height: 1.9">
+                <strong>Main:</strong> POS Order · Inventory · Reports<br />
+                <strong>Admin:</strong> Employees · Menu Management<br />
+                <strong>Account:</strong> Profile · Logout<br />
+                <span style="font-size: 11px; color: var(--latte)"
+                  >→ 3 Group, 6 Items — Clear Hierarchy</span
+                >
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-accent" style="background: var(--ui-blue)"></div>
+              <div class="card-ico">🌐</div>
+              <div class="card-name">SBCMS Web App IA</div>
+              <div class="card-desc" style="line-height: 1.9">
+                <strong>Header Nav:</strong> Menu · My Orders · Login<br />
+                <strong>Menu Page:</strong> Categories → Items → Detail<br />
+                <strong>Order Flow:</strong> Cart → Checkout → Done<br />
+                <span style="font-size: 11px; color: var(--latte)"
+                  >→ Customer: Max 3 Clicks to Order</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <h3>Card Sorting — IA Research Method</h3>
+          <p>
+            <span class="kw">Card Sorting</span> ជា UX Research Technique ។ User
+            ត្រូវ Group Cards (Features) ទៅ Categories ដែលពួកគេយល់ ។ Designer
+            ប្រើ Result ដើម្បីបង្កើត IA ត្រឹមត្រូវ ។
+          </p>
+
+          <div class="box teal">
+            <div class="box-ico">🃏</div>
+            <div class="box-body">
+              <div class="box-title">3-Click Rule</div>
+              <div class="box-text">
+                User ត្រូវដល់ Information/Feature ណាក៏ដោយ ក្នុង
+                <strong>ចុច 3 ដង</strong> ។ ច្រើនជាង 3 Clicks → UX ខ្សោយ ។
+                SBCMS: Login (1 Click) → POS (2 Clicks) → Select Item (3 Clicks)
+                ។
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════
+         SECTION 8 — ACCESSIBILITY
+    ══════════════════════════════════════ -->
+        <div class="ls" id="s8">
+          <span class="sec-num">Section 08</span>
+          <h2>Accessibility (A11y) — ការ Design ដែលរួមបញ្ចូលអ្នកទាំងអស់</h2>
+
+          <p>
+            <span class="kw">Accessibility</span> ឬ
+            <span class="kw">A11y</span> ជា Practice ធ្វើ App ដែល
+            <mark>User ទាំងអស់ប្រើបាន</mark>
+            រួមមាន User ដែលមានបញ្ហាភ្នែក, សសៃ, ការសោត ។ អ្នកច្បាប់ UN-CRPD
+            តម្រូវ Digital Product ត្រូវ Accessible ។
+          </p>
+
+          <div class="a11y-demo">
+            <div class="a11y-card">
+              <div class="a11y-head bad">❌ Inaccessible</div>
+              <div class="a11y-body">
+                <ul style="padding-left: 14px">
+                  <li>Button ដែលមាន Icon ប៉ុណ្ណោះ — Screen Reader អានអ្វី?</li>
+                  <li>
+                    Color ប្រើដើម្បី Signal Error — Color Blind User មើលមិនឃើញ
+                  </li>
+                  <li>Font តូចជាង 12px — ម្នាក់ចង្ងាញ់អានពិបាក</li>
+                  <li>
+                    Click Target ≤ 24px — ម្នាក់ទៅ Motor Impairment ចុចខុស
+                  </li>
+                  <li>Image គ្មាន Alt Text</li>
+                </ul>
+              </div>
+            </div>
+            <div class="a11y-card">
+              <div class="a11y-head good">✅ Accessible</div>
+              <div class="a11y-body">
+                <ul style="padding-left: 14px">
+                  <li>
+                    Button មាន <span class="kw">aria-label</span> — Screen
+                    Reader អានបាន
+                  </li>
+                  <li>
+                    Error = Color <strong>+ Icon + Text</strong> — Color Blind
+                    ក៏ដឹង
+                  </li>
+                  <li>Font ≥ 14px, Body Text ≥ 16px</li>
+                  <li>Click/Touch Target ≥ 44×44px (Apple HIG)</li>
+                  <li>Image មាន <span class="kw">alt="..."</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <h3>Color Contrast — WCAG AA Standard</h3>
+          <p>
+            Contrast Ratio ≥ <strong>4.5:1</strong> — ត្រូវការ Normal Text ។
+            Ratio ≥ <strong>3:1</strong> — Large Text ។
+          </p>
+
+          <div class="contrast-row">
+            <div class="contrast-box">
+              <div
+                class="contrast-preview"
+                style="background: #2c1a0e; color: #fdf6ec"
+              >
+                Aa Sharp Bean
+              </div>
+              <div class="contrast-info">
+                <div class="contrast-ratio" style="color: var(--success)">
+                  Ratio: 16.2:1
+                </div>
+                <div class="contrast-pass pass">
+                  ✓ WCAG AAA Pass — Espresso on Cream
+                </div>
+              </div>
+            </div>
+            <div class="contrast-box">
+              <div
+                class="contrast-preview"
+                style="background: #c89b3c; color: #1c0f07"
+              >
+                Aa Sharp Bean
+              </div>
+              <div class="contrast-info">
+                <div class="contrast-ratio" style="color: var(--success)">
+                  Ratio: 6.8:1
+                </div>
+                <div class="contrast-pass pass">
+                  ✓ WCAG AA Pass — Caramel on Espresso
+                </div>
+              </div>
+            </div>
+            <div class="contrast-box">
+              <div
+                class="contrast-preview"
+                style="background: #c89b3c; color: #fdf6ec"
+              >
+                Aa Sharp Bean
+              </div>
+              <div class="contrast-info">
+                <div class="contrast-ratio" style="color: var(--danger)">
+                  Ratio: 2.4:1
+                </div>
+                <div class="contrast-pass fail">
+                  ✗ WCAG Fail — Caramel on Cream (Low)
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="code">
+            <span class="code-lbl">HTML — Accessible Button & Input</span>
+            <pre><span class="cc">&lt;!-- Accessible Button with aria-label --&gt;</span>
+<span class="ct">&lt;button</span>
+  <span class="ca">class</span>=<span class="cs">"btn btn-danger"</span>
+  <span class="ca">aria-label</span>=<span class="cs">"Delete employee TUN Sopheak"</span>
+  <span class="ca">type</span>=<span class="cs">"button"</span><span class="ct">&gt;</span>
+  🗑
+<span class="ct">&lt;/button&gt;</span>
+
+<span class="cc">&lt;!-- Accessible Input with label association --&gt;</span>
+<span class="ct">&lt;div</span> <span class="ca">class</span>=<span class="cs">"form-group"</span><span class="ct">&gt;</span>
+  <span class="ct">&lt;label</span> <span class="ca">for</span>=<span class="cs">"username"</span><span class="ct">&gt;</span>Username<span class="ct">&lt;/label&gt;</span>
+  <span class="ct">&lt;input</span>
+    <span class="ca">id</span>=<span class="cs">"username"</span>
+    <span class="ca">type</span>=<span class="cs">"text"</span>
+    <span class="ca">aria-required</span>=<span class="cs">"true"</span>
+    <span class="ca">aria-describedby</span>=<span class="cs">"username-hint"</span>
+    <span class="ca">placeholder</span>=<span class="cs">"sopheak.tun"</span><span class="ct">/&gt;</span>
+  <span class="ct">&lt;span</span> <span class="ca">id</span>=<span class="cs">"username-hint"</span> <span class="ca">class</span>=<span class="cs">"hint"</span><span class="ct">&gt;</span>
+    ប្រើ firstname.lastname format
+  <span class="ct">&lt;/span&gt;</span>
+<span class="ct">&lt;/div&gt;</span>
+
+<span class="cc">&lt;!-- Image with Alt Text --&gt;</span>
+<span class="ct">&lt;img</span>
+  <span class="ca">src</span>=<span class="cs">"logo.png"</span>
+  <span class="ca">alt</span>=<span class="cs">"Sharp Bean Café logo — coffee cup icon"</span>
+  <span class="ca">width</span>=<span class="cs">"60"</span> <span class="ca">height</span>=<span class="cs">"60"</span><span class="ct">/&gt;</span></pre>
+          </div>
+
+          <h3>Keyboard Navigation</h3>
+          <p>
+            User ខ្លះប្រើ Keyboard ប៉ុណ្ណោះ — មិនប្រើ Mouse ។ App ត្រូវ
+            Navigable ដោយ <span class="kw">Tab</span>,
+            <span class="kw">Enter</span>, <span class="kw">Arrow Keys</span> ។
+            <span class="kw">:focus</span> Style ច្បាស់ = User ដឹងថា Focus នៅទី
+            ។
+          </p>
+        </div>
+
+        <!-- ══════════════════════════════════════
+         SECTION 9 — SBCMS APPLIED
+    ══════════════════════════════════════ -->
+        <div class="ls" id="s9">
+          <span class="sec-num">Section 09</span>
+          <h2>SBCMS Applied — ការ Apply ជាក់ស្ដែង</h2>
+
+          <p>
+            តោះ Summarize ការ Apply UI/UX Principles ទៅ SBCMS Wireframes (Task
+            #23–27) ។
+          </p>
+
+          <div class="sbcms-box">
+            <span class="sbcms-lbl">Task #24 — POS Order Form</span>
+            <h4>UI/UX Analysis: POS Order</h4>
+            <ul>
+              <li>
+                <strong>Grid Layout:</strong> Flexbox Split — Menu Grid (flex:1)
+                + Order Panel (280px fixed) → 2-Zone Layout
+              </li>
+              <li>
+                <strong>Component States:</strong> Menu Item Card — Default /
+                Hover (Caramel border) / Selected (Active bg)
+              </li>
+              <li>
+                <strong>User Flow:</strong> Select Item → Add to Panel → Adjust
+                Qty → Confirm → DB Save → Stock Deduct
+              </li>
+              <li>
+                <strong>Feedback:</strong> Real-time Total update → Visibility
+                of System Status (Nielsen Rule #1)
+              </li>
+              <li>
+                <strong>Accessibility:</strong> +/− Qty Buttons ≥ 44px Touch
+                Target, Clear Labels
+              </li>
+            </ul>
+          </div>
+
+          <div class="sbcms-box" style="margin-top: 12px">
+            <span class="sbcms-lbl">Task #25 — Inventory Form</span>
+            <h4>UI/UX Analysis: Inventory</h4>
+            <ul>
+              <li>
+                <strong>Alert System:</strong> Warning Banner ជា Visual Cue —
+                User ដឹង Low Stock ភ្លាម
+              </li>
+              <li>
+                <strong>Color Coding:</strong> 🔴 Danger = Low Stock, 🟡 Warning
+                = Medium, 🟢 Success = Healthy
+              </li>
+              <li>
+                <strong>Progress Bar:</strong> Visual Stock Level — ល្អជា Number
+                ចំពោះ Quick Scan
+              </li>
+              <li>
+                <strong>IA:</strong> Filter (Status) + Search → User ស្វែងរក
+                Item ក្នុង 2 Steps
+              </li>
+              <li>
+                <strong>Data Table:</strong> Header Sort-able, Row Hover State,
+                Action Buttons aligned right
+              </li>
+            </ul>
+          </div>
+
+          <div class="sbcms-box" style="margin-top: 12px">
+            <span class="sbcms-lbl">Task #26 — Report Form</span>
+            <h4>UI/UX Analysis: Reports</h4>
+            <ul>
+              <li>
+                <strong>Period Selector:</strong> Tab Style
+                (Daily/Weekly/Monthly) → IA Clear, Quick Switch
+              </li>
+              <li>
+                <strong>4 KPI Cards:</strong> Information Hierarchy — Revenue
+                (Most Important) → Orders → Avg → Top Item
+              </li>
+              <li>
+                <strong>Bar Chart:</strong> Data Visualization ជា Visual → User
+                Grasp Trend ក្នុង Seconds
+              </li>
+              <li>
+                <strong>Export Button:</strong> Affordance — ប្រើ Icon ⬇ + Label
+                "Export PDF" → ច្បាស់
+              </li>
+              <li>
+                <strong>Responsive:</strong> Chart + Table side-by-side Desktop,
+                Stack on Mobile
+              </li>
+            </ul>
+          </div>
+
+          <h3>Summary — Part 1 + Part 2</h3>
+          <div class="summary-grid">
+            <div class="sum-card">
+              <span class="num">9</span>
+              <div class="label">UI/UX Principles Covered</div>
+            </div>
+            <div class="sum-card">
+              <span class="num">5</span>
+              <div class="label">SBCMS Wireframes Analyzed</div>
+            </div>
+            <div class="sum-card">
+              <span class="num">3</span>
+              <div class="label">Design System Components</div>
+            </div>
+          </div>
+
+          <div class="tags">
+            <span class="tag tc">Wireframes</span>
+            <span class="tag tc">Grid System</span>
+            <span class="tag tc">Responsive</span>
+            <span class="tag tt">Component States</span>
+            <span class="tag tt">Navigation</span>
+            <span class="tag tg">Form Design</span>
+            <span class="tag tg">User Flow</span>
+            <span class="tag tp">Accessibility</span>
+            <span class="tag tp">WCAG</span>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════
+         QUIZ
+    ══════════════════════════════════════ -->
+        <div class="ls" id="quiz">
+          <span class="sec-num">Quiz — Part 2</span>
+          <h2>ពិនិត្យចំណេះដឹង</h2>
+
+          <!-- Q1 -->
+          <div class="quiz" style="margin-bottom: 14px">
+            <span class="quiz-lbl">Question 01 / 05</span>
+            <div class="quiz-q">Wireframe ជួយ Designer ដោយរបៀបណា?</div>
+            <div class="quiz-opts">
+              <div class="qo" onclick="chk(this, 'correct', 'q1')">
+                គ្រោង Structure & Layout ជាមុន មុន Design ពណ៌
+              </div>
+              <div class="qo" onclick="chk(this, 'wrong', 'q1')">
+                ធ្វើ Final Product រួចរាល់
+              </div>
+              <div class="qo" onclick="chk(this, 'wrong', 'q1')">
+                Test Performance ប្រព័ន្ធ
+              </div>
+              <div class="qo" onclick="chk(this, 'wrong', 'q1')">
+                Code Database Schema
+              </div>
+            </div>
+            <div class="quiz-fb" id="q1-fb"></div>
+          </div>
+
+          <!-- Q2 -->
+          <div class="quiz" style="margin-bottom: 14px">
+            <span class="quiz-lbl">Question 02 / 05</span>
+            <div class="quiz-q">12-Column Grid ប្រើ CSS Property អ្វី?</div>
+            <div class="quiz-opts">
+              <div class="qo" onclick="chk(this, 'wrong', 'q2')">
+                display: flex
+              </div>
+              <div class="qo" onclick="chk(this, 'correct', 'q2')">
+                display: grid + grid-template-columns
+              </div>
+              <div class="qo" onclick="chk(this, 'wrong', 'q2')">
+                position: absolute
+              </div>
+              <div class="qo" onclick="chk(this, 'wrong', 'q2')">
+                float: left
+              </div>
+            </div>
+            <div class="quiz-fb" id="q2-fb"></div>
+          </div>
+
+          <!-- Q3 -->
+          <div class="quiz" style="margin-bottom: 14px">
+            <span class="quiz-lbl">Question 03 / 05</span>
+            <div class="quiz-q">WCAG AA Standard តម្រូវ Contrast Ratio ≥ ?</div>
+            <div class="quiz-opts">
+              <div class="qo" onclick="chk(this, 'wrong', 'q3')">2:1</div>
+              <div class="qo" onclick="chk(this, 'wrong', 'q3')">3:1</div>
+              <div class="qo" onclick="chk(this, 'correct', 'q3')">4.5:1</div>
+              <div class="qo" onclick="chk(this, 'wrong', 'q3')">7:1</div>
+            </div>
+            <div class="quiz-fb" id="q3-fb"></div>
+          </div>
+
+          <!-- Q4 -->
+          <div class="quiz" style="margin-bottom: 14px">
+            <span class="quiz-lbl">Question 04 / 05</span>
+            <div class="quiz-q">
+              Form Design Best Practice — Label ត្រូវដាក់នៅទីណា?
+            </div>
+            <div class="quiz-opts">
+              <div class="qo" onclick="chk(this, 'wrong', 'q4')">
+                ខាងស្ដាំ Input (Right-aligned)
+              </div>
+              <div class="qo" onclick="chk(this, 'correct', 'q4')">
+                លើ Input (Top-aligned Label)
+              </div>
+              <div class="qo" onclick="chk(this, 'wrong', 'q4')">
+                ក្នុង Input ជា Placeholder
+              </div>
+              <div class="qo" onclick="chk(this, 'wrong', 'q4')">
+                ក្រោម Input
+              </div>
+            </div>
+            <div class="quiz-fb" id="q4-fb"></div>
+          </div>
+
+          <!-- Q5 -->
+          <div class="quiz" style="margin-bottom: 14px">
+            <span class="quiz-lbl">Question 05 / 05</span>
+            <div class="quiz-q">
+              SBCMS POS Form ប្រើ Navigation Pattern ប្រភេទណា?
+            </div>
+            <div class="quiz-opts">
+              <div class="qo" onclick="chk(this, 'wrong', 'q5')">
+                Top Navigation Bar
+              </div>
+              <div class="qo" onclick="chk(this, 'wrong', 'q5')">
+                Hamburger Menu
+              </div>
+              <div class="qo" onclick="chk(this, 'correct', 'q5')">
+                Sidebar Navigation + Category Tabs
+              </div>
+              <div class="qo" onclick="chk(this, 'wrong', 'q5')">
+                Bottom Tab Bar
+              </div>
+            </div>
+            <div class="quiz-fb" id="q5-fb"></div>
+          </div>
+        </div>
+
+        <!-- WRAP-UP -->
+        <div class="box success" style="margin-bottom: 32px">
+          <div class="box-ico">🎓</div>
+          <div class="box-body">
+            <div class="box-title">Part 2 Summary — Congratulations!</div>
+            <div class="box-text">
+              Part 2 បានរៀន:
+              <strong
+                >Wireframes (Low/Mid/High Fidelity) · Grid System (12-col, CSS
+                Grid, Flexbox) · Responsive Design (Breakpoints, Mobile-First) ·
+                Component States (Default/Hover/Loading/Error/Disabled) ·
+                Navigation Patterns (Sidebar/TopNav/Tabs) · Form Design Best
+                Practices · User Flow & Information Architecture (3-Click Rule)
+                · Accessibility (WCAG, Contrast, ARIA, Alt Text)</strong
+              >
+              ។ ជំហានបន្ទាប់ → Implementation ក្នុង C# WinForms & ASP.NET MVC ។
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div>
+        SBCMS Lesson Series — Introduction to UI/UX · <span>Part 2</span>
+      </div>
+      <div class="part-links">
+        <a href="SBCMS_Lesson_UIUX_Part1.html"
+          >← Part 1: Color · Typography · Design System</a
+        >
+        <span style="color: rgba(253, 246, 236, 0.2)">|</span>
+        <span class="cur">Part 2: Wireframes · Grid · Responsive · A11y</span>
+      </div>
+      <div style="margin-top: 10px">
+        <span>TUN Sopheak</span> · <span>TIT Sokhom</span> ·
+        <span>TEP Makhon</span>
+        &nbsp;|&nbsp; Sharp Bean Café Management System © 2026
+      </div>
+    </div>
+
+    <script>
+      /* ─── TOC ACTIVE ──── */
+      const tocLinks = document.querySelectorAll('.toc a[href^="#"]');
+      const sections = [...document.querySelectorAll(".ls[id]")];
+      window.addEventListener(
+        "scroll",
+        () => {
+          let cur = "";
+          sections.forEach((s) => {
+            if (window.scrollY >= s.offsetTop - 120) cur = s.id;
+          });
+          tocLinks.forEach((a) =>
+            a.classList.toggle("active", a.getAttribute("href") === "#" + cur),
+          );
+        },
+        { passive: true },
+      );
+
+      /* ─── QUIZ ──── */
+      const qMsg = {
+        correct: {
+          q1: "✅ ត្រូវ! Wireframe = Structure មុន — ងាយ Revise ពេលក្រោយ ។",
+          q2: "✅ ត្រូវ! display: grid + grid-template-columns: repeat(12, 1fr) ។",
+          q3: "✅ ត្រូវ! WCAG AA = 4.5:1 Normal Text, AAA = 7:1 ។",
+          q4: "✅ ត្រូវ! Top-aligned Label = UX Best Practice — ងាយអាន, ងាយ Fill ។",
+          q5: "✅ ត្រូវ! SBCMS Desktop ប្រើ Sidebar Nav + Category Tabs ក្នុង POS ។",
+        },
+        wrong: {
+          q1: "❌ ខុស! Wireframe = Low/Mid-Fidelity Sketch — Structure ប៉ុណ្ណោះ, មិនមែន Final ។",
+          q2: "❌ ខុស! CSS Grid ប្រើ display: grid + grid-template-columns ។ Flexbox = 1D ។",
+          q3: "❌ ខុស! WCAG AA Contrast Ratio = 4.5:1 (Normal Text), 3:1 (Large Text ≥18px) ។",
+          q4: "❌ ខុស! Placeholder-as-Label ខ្សោយ — disappears ពេល Type ។ Top Label ល្អជាង ។",
+          q5: "❌ ខុស! SBCMS ប្រើ Sidebar Nav (Left) + Tab Nav (Category Filter ក្នុង POS) ។",
+        },
+      };
+
+      function chk(el, type, qId) {
+        const box = el.closest(".quiz");
+        if (box.dataset.done) return;
+        box.dataset.done = "1";
+        box
+          .querySelectorAll(".qo")
+          .forEach((o) => (o.style.pointerEvents = "none"));
+        el.classList.add(type);
+        const fb = document.getElementById(qId + "-fb");
+        fb.textContent = qMsg[type][qId];
+        fb.className = "quiz-fb show " + (type === "correct" ? "ok" : "no");
+      }
+    </script>
+
+    <div class="sbcms-read-progress" id="readProgress"></div>
+    <nav class="sbcms-nav-bar">
+      <div class="snb-left">
+        <a class="snb-btn snb-prev" href="SBCMS_Lesson_UIUX_Part1.html"
+          >&#8592; <span class="snb-label">Part 1: UI/UX</span></a
+        >
+      </div>
+      <div class="snb-center">
+        <a class="snb-btn snb-home" href="index.html" title="Home">&#127968;</a>
+        <div class="snb-dots">
+          <a
+            class="snb-dot"
+            href="SBCMS_Lesson_UIUX_Part1.html"
+            data-title="Part 1: UI/UX"
+          ></a>
+          <a
+            class="snb-dot snb-active"
+            href="SBCMS_Lesson_UIUX_Part2.html"
+            data-title="Part 2: Wireframes"
+          ></a>
+          <a
+            class="snb-dot"
+            href="SBCMS_Lesson_Figma_Part3.html"
+            data-title="Part 3: Figma"
+          ></a>
+          <a
+            class="snb-dot"
+            href="SBCMS_Lesson_Figma_Part4.html"
+            data-title="Part 4: Components"
+          ></a>
+          <a
+            class="snb-dot"
+            href="SBCMS_Lesson_Figma_Part5.html"
+            data-title="Part 5: Wireframes"
+          ></a>
+        </div>
+        <span
+          class="snb-part-tag"
+          style="
+            color: #1abcfe;
+            background: rgba(26, 188, 254, 0.15);
+            border-color: #1abcfe40;
+          "
+          >Part 2</span
+        >
+      </div>
+      <div class="snb-right">
+        <a class="snb-btn snb-next" href="SBCMS_Lesson_Figma_Part3.html"
+          ><span class="snb-label">Part 3: Figma</span> &#8594;</a
+        >
+      </div>
+    </nav>
+    <button
+      class="sbcms-top-btn"
+      id="topBtn"
+      onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+    >
+      &#8593;
+    </button>
+    <div class="sbcms-toast" id="kbToast"></div>
+    <script>
+      (function () {
+        var rp = document.getElementById("readProgress");
+        var topBtn = document.getElementById("topBtn");
+        window.addEventListener(
+          "scroll",
+          function () {
+            var h = document.documentElement;
+            var pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+            if (rp) rp.style.width = Math.min(pct, 100) + "%";
+            if (topBtn)
+              topBtn.classList.toggle("visible", window.scrollY > 380);
+          },
+          { passive: true },
+        );
+        var PREV = "SBCMS_Lesson_UIUX_Part1.html";
+        var NEXT = "SBCMS_Lesson_Figma_Part3.html";
+        var toast = document.getElementById("kbToast");
+        var toastT;
+        function showToast(msg) {
+          toast.innerHTML = msg;
+          toast.classList.add("show");
+          clearTimeout(toastT);
+          toastT = setTimeout(function () {
+            toast.classList.remove("show");
+          }, 2000);
+        }
+        document.addEventListener("keydown", function (e) {
+          if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")
+            return;
+          if (e.key === "ArrowRight" && NEXT) {
+            showToast("&#8594; Next part...");
+            setTimeout(function () {
+              location.href = NEXT;
+            }, 300);
+          } else if (e.key === "ArrowLeft" && PREV) {
+            showToast("&#8592; Previous part...");
+            setTimeout(function () {
+              location.href = PREV;
+            }, 300);
+          } else if (e.key.toLowerCase() === "h") {
+            showToast("&#127968; Home...");
+            setTimeout(function () {
+              location.href = "index.html";
+            }, 300);
+          } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            showToast("&#8593; Top...");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
+        });
+      })();
+    </script>
+    <script src="lang-system-ai.js"></script>
+  </body>
+</html>

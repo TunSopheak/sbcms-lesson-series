@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Components & Auto Layout — Part 4 | SBCMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --espresso:#1C0F07;--roast:#3B2007;--latte:#7B4F2E;
+  --caramel:#C89B3C;--cream:#FDF6EC;--foam:#FFF9F2;--milk:#EEE0CC;--chalk:#F5F0E8;
+  --fig-purple:#A259FF;--fig-red:#F24E1E;--fig-green:#1ABCFE;--fig-teal:#0ACF83;
+  --fig-dark:#1E1E1E;--fig-panel:#2C2C2C;--fig-border:#3C3C3C;
+  --success:#15803D;--warning:#B45309;--danger:#B91C1C;--info:#1D4ED8;
+  --font:'Kantumruy Pro',sans-serif;--mono:'Consolas','Courier New',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--cream);color:var(--espresso);line-height:1.8;font-size:15px}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--milk)}
+::-webkit-scrollbar-thumb{background:var(--fig-teal);border-radius:4px}
+
+/* PROGRESS */
+#pb{position:fixed;top:0;left:0;height:3px;z-index:9999;
+  background:linear-gradient(90deg,var(--fig-teal),var(--fig-purple),var(--fig-red));
+  width:0%;transition:width .12s linear}
+
+/* TOP STRIP */
+/* top-strip styles now in style.css */
+
+.ts a:hover{color:var(--caramel)}
+
+
+
+/* HERO */
+.hero{background:var(--fig-dark);padding:72px 60px 0;position:relative;overflow:hidden}
+.hero-mesh{position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 60% 70% at 80% 20%,rgba(10,207,131,.16) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 60% at 10% 80%,rgba(162,89,255,.1) 0%,transparent 55%),
+    radial-gradient(ellipse 40% 50% at 50% 50%,rgba(26,188,254,.08) 0%,transparent 50%)}
+.hero-inner{max-width:900px;margin:0 auto;position:relative;z-index:1;padding-bottom:48px}
+.hero-eye{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:3px;text-transform:uppercase;color:var(--fig-teal);background:rgba(10,207,131,.1);border:1px solid rgba(10,207,131,.3);padding:6px 16px;border-radius:20px;margin-bottom:20px}
+.hero h1{font-size:clamp(28px,5vw,50px);font-weight:700;color:#F5F5F5;line-height:1.16;margin-bottom:14px;letter-spacing:-.5px}
+.hero h1 .acc{color:var(--fig-teal)}
+.hero h1 .p{color:var(--fig-purple)}
+.hero-sub{font-size:14.5px;color:rgba(245,245,245,.5);max-width:560px;line-height:1.95;margin-bottom:28px}
+.hero-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.hero-badge{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:6px 16px;border-radius:6px;background:var(--fig-teal);color:var(--fig-dark)}
+.hero-chip{padding:5px 13px;border-radius:6px;font-size:11.5px;background:rgba(255,255,255,.06);color:rgba(245,245,245,.65);border:1px solid rgba(255,255,255,.1)}
+.tstrip{background:rgba(255,255,255,.03);border-top:1px solid rgba(10,207,131,.15);display:flex;flex-wrap:wrap;margin-left:-60px;margin-right:-60px;padding:0 60px;margin-top:32px}
+.tp{display:flex;align-items:center;gap:6px;padding:11px 16px;font-size:11.5px;color:rgba(245,245,245,.4);border-right:1px solid rgba(10,207,131,.1)}
+.tp .tn{font-family:var(--mono);font-size:9px;color:var(--fig-teal);opacity:.65}
+
+/* LAYOUT */
+.pw{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:230px 1fr;padding:0 24px;align-items:start}
+.toc{position:sticky;top:32px;padding:32px 0;padding-right:24px}
+.toc-title{font-family:var(--font);font-size:9.5px;letter-spacing:3px;text-transform:uppercase;color:var(--fig-teal);margin-bottom:11px}
+.toc a{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#a08060;text-decoration:none;padding:6px 10px;border-radius:6px;border-left:2px solid transparent;transition:all .17s;line-height:1.45;margin-bottom:1px}
+.toc a:hover,.toc a.active{color:var(--fig-teal);background:rgba(10,207,131,.08);border-left-color:var(--fig-teal)}
+.toc a .n{font-family:var(--mono);font-size:9px;color:var(--fig-teal);opacity:.5;min-width:20px;margin-top:2px}
+.toc-sep{height:1px;background:var(--milk);margin:9px 0}
+.toc-part{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--latte);text-decoration:none;padding:7px 10px;border-radius:6px;border:1px solid var(--milk);background:white;margin-bottom:7px;transition:all .15s}
+.toc-part:hover{border-color:var(--fig-teal);color:var(--roast)}
+.toc-part .pl{font-family:var(--mono);font-size:9px;color:var(--fig-teal)}
+
+/* CONTENT */
+.content{padding:48px 0 80px 44px;border-left:1px solid var(--milk)}
+
+/* SECTION */
+.ls{margin-bottom:68px}
+.sec-num{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--fig-teal);margin-bottom:5px}
+.ls h2{font-size:25px;font-weight:700;color:var(--roast);margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid var(--milk);line-height:1.3}
+.ls h3{font-size:16.5px;font-weight:600;color:var(--roast);margin:26px 0 11px}
+.ls h4{font-family:var(--mono);font-size:10.5px;font-weight:700;color:var(--fig-teal);text-transform:uppercase;letter-spacing:2px;margin:16px 0 8px}
+.ls p{margin-bottom:13px;line-height:1.9}
+
+/* CALLOUT */
+.box{border-left:4px solid;border-radius:0 10px 10px 0;padding:15px 20px;margin:16px 0;display:flex;gap:13px;align-items:flex-start}
+.box-i{font-size:19px;flex-shrink:0;margin-top:2px}
+.box-b{flex:1}
+.box-t{font-weight:700;font-size:13px;margin-bottom:4px}
+.box-x{font-size:13.5px;line-height:1.85}
+.box.info   {border-color:var(--info);   background:#EFF6FF;color:#1E3A8A}
+.box.success{border-color:var(--success);background:#F0FDF4;color:#14532D}
+.box.warning{border-color:var(--warning);background:#FFFBEB;color:#78350F}
+.box.coffee {border-color:var(--caramel);background:rgba(200,155,60,.08);color:var(--roast)}
+.box.purple {border-color:var(--fig-purple);background:rgba(162,89,255,.07);color:#4C1D95}
+.box.teal   {border-color:var(--fig-teal);  background:rgba(10,207,131,.07);color:#065F46}
+
+/* KW */
+.kw{font-family:var(--mono);font-size:.87em;background:rgba(200,155,60,.13);color:var(--roast);border:1px solid rgba(200,155,60,.28);padding:1px 6px;border-radius:4px;white-space:nowrap}
+.kp{font-family:var(--mono);font-size:.87em;background:rgba(162,89,255,.1);color:#5B21B6;border:1px solid rgba(162,89,255,.25);padding:1px 6px;border-radius:4px;white-space:nowrap}
+.kt{font-family:var(--mono);font-size:.87em;background:rgba(10,207,131,.1);color:#065F46;border:1px solid rgba(10,207,131,.25);padding:1px 6px;border-radius:4px;white-space:nowrap}
+.kr{font-family:var(--mono);font-size:.87em;background:rgba(242,78,30,.1);color:#9A3412;border:1px solid rgba(242,78,30,.25);padding:1px 6px;border-radius:4px;white-space:nowrap}
+mark{background:linear-gradient(120deg,rgba(10,207,131,.2),rgba(10,207,131,.04));border-radius:3px;padding:0 2px;color:inherit}
+
+/* CODE */
+.code{background:#111;border-radius:10px;padding:20px 24px;margin:14px 0;overflow-x:auto;border:1px solid rgba(10,207,131,.2)}
+.code-lbl{font-family:var(--mono);font-size:9.5px;color:rgba(10,207,131,.65);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px;display:block}
+.code pre{font-family:var(--mono);font-size:12.5px;color:#ccc;line-height:1.95}
+.cc{color:#4a6a4a}.ck{color:var(--fig-teal)}.cv{color:#e8956a}.cs{color:#A259FF}.ct{color:#80b8d8}
+
+/* STEPS */
+.steps{margin:16px 0}
+.step{display:flex;gap:15px;align-items:flex-start;position:relative}
+.step:not(:last-child)::after{content:'';position:absolute;left:17px;top:37px;width:2px;height:calc(100% - 8px);background:linear-gradient(to bottom,var(--fig-teal),rgba(10,207,131,.1))}
+.step-n{width:36px;height:36px;border-radius:50%;background:var(--fig-teal);color:var(--fig-dark);font-weight:700;font-size:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;box-shadow:0 2px 10px rgba(10,207,131,.35)}
+.step-b{padding-bottom:22px;flex:1}
+.step-title{font-weight:700;font-size:14px;color:var(--roast);margin-bottom:3px}
+.step-desc{font-size:13px;color:var(--latte);line-height:1.75}
+
+/* COMPONENT SHOWCASE */
+.comp-demo{background:var(--fig-dark);border-radius:14px;padding:24px;margin:16px 0;border:1px solid var(--fig-border)}
+.cd-label{font-family:var(--mono);font-size:9.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--fig-teal);margin-bottom:16px;display:block}
+
+/* BUTTON VARIANTS */
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:10px}
+.fb{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:8px;font-family:var(--font);font-size:13px;font-weight:600;cursor:default;border:none;transition:all .15s}
+.fb-primary{background:var(--roast);color:var(--cream)}
+.fb-accent {background:var(--caramel);color:var(--espresso)}
+.fb-outline{background:transparent;color:var(--roast);border:1.5px solid var(--roast)}
+.fb-ghost  {background:var(--milk);color:var(--latte)}
+.fb-danger {background:var(--danger);color:white}
+.fb-success{background:var(--success);color:white}
+.fb-sm{padding:6px 13px;font-size:11.5px;border-radius:6px}
+.fb-lg{padding:13px 28px;font-size:15px;border-radius:10px}
+.fb-dis{opacity:.4;cursor:not-allowed}
+
+/* VARIANT GRID */
+.vg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.vc{background:white;border:1.5px solid var(--milk);border-radius:10px;padding:14px;text-align:center;transition:all .2s;cursor:default}
+.vc:hover{border-color:var(--fig-teal);box-shadow:0 4px 14px rgba(10,207,131,.12)}
+.vc-name{font-size:11px;font-family:var(--mono);color:var(--latte);margin-top:8px;display:block}
+.vc-desc{font-size:11.5px;color:var(--espresso);margin-top:3px}
+
+/* AUTO LAYOUT DEMO */
+.al-demo{background:var(--fig-dark);border-radius:12px;padding:20px;margin:14px 0;border:1px solid var(--fig-border)}
+.al-label{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;display:block}
+.al-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.al-col{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.al-chip{background:rgba(10,207,131,.15);border:1px dashed rgba(10,207,131,.4);border-radius:6px;padding:8px 14px;font-size:12px;color:rgba(255,255,255,.8);font-family:var(--mono);white-space:nowrap}
+.al-chip.pp{background:rgba(162,89,255,.15);border-color:rgba(162,89,255,.4)}
+.al-arrow{font-size:11px;color:rgba(255,255,255,.3)}
+.al-box{border:1.5px dashed rgba(10,207,131,.3);border-radius:8px;padding:10px 14px;display:flex;gap:8px;align-items:center}
+.al-box.col{flex-direction:column;align-items:stretch}
+
+/* PROPS PANEL */
+.props-panel{background:#252525;border-radius:10px;padding:16px;margin:14px 0;border:1px solid var(--fig-border)}
+.pp-title{font-family:var(--mono);font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:var(--fig-teal);margin-bottom:12px}
+.pp-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.pp-label{font-size:11px;color:rgba(255,255,255,.4);font-family:var(--mono)}
+.pp-input{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:4px 8px;font-family:var(--mono);font-size:11px;color:rgba(255,255,255,.8);text-align:right;width:90px}
+.pp-toggle{display:flex;gap:4px}
+.pp-togbtn{padding:4px 8px;border-radius:4px;font-size:10px;font-family:var(--mono);color:rgba(255,255,255,.4);background:rgba(255,255,255,.05);cursor:default;transition:all .15s}
+.pp-togbtn.active{background:var(--fig-teal);color:var(--fig-dark);font-weight:700}
+
+/* SHORTCUT TABLE */
+.sk-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+.sk-group{background:white;border:1px solid var(--milk);border-radius:10px;overflow:hidden}
+.sk-head{background:var(--fig-dark);padding:9px 14px;font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--fig-teal)}
+.sk-row{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid var(--milk);font-size:12.5px}
+.sk-row:last-child{border-bottom:none}
+.sk-act{color:var(--latte)}
+.sk-keys{display:flex;gap:4px;align-items:center}
+.kb{font-family:var(--mono);font-size:10.5px;font-weight:700;background:var(--chalk);border:1px solid var(--milk);border-bottom:2.5px solid #C8C0B0;padding:2px 7px;border-radius:4px;color:var(--espresso)}
+.ks{font-size:10px;color:var(--latte)}
+
+/* COMPONENT ANATOMY */
+.comp-anatomy{background:var(--fig-dark);border-radius:12px;padding:20px;margin:14px 0;border:1px solid var(--fig-border);position:relative;overflow:hidden}
+.ca-deco{position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:80px;opacity:.04;pointer-events:none}
+
+/* PRACTICE BOX */
+.practice-box{background:linear-gradient(135deg,#0a1a0a 0%,#0a1a2a 100%);border-radius:14px;padding:26px 30px;margin:18px 0;border:1px solid rgba(10,207,131,.25);position:relative;overflow:hidden}
+.practice-box::before{content:'⬡';position:absolute;right:24px;top:50%;transform:translateY(-50%);font-size:100px;color:rgba(10,207,131,.05);pointer-events:none}
+.pb-label{font-family:var(--mono);font-size:9.5px;letter-spacing:3px;text-transform:uppercase;color:var(--fig-teal);margin-bottom:8px;display:block}
+.practice-box h4{font-size:15px;font-weight:700;color:#F5F5F5;margin-bottom:10px}
+.pb-step{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.pb-step:last-child{border-bottom:none}
+.pb-num{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--fig-teal);min-width:24px;padding-top:1px}
+.pb-text{font-size:13px;color:rgba(245,245,245,.7);line-height:1.75}
+
+/* QUIZ */
+.quiz{background:var(--fig-dark);border-radius:14px;padding:26px 30px;margin:14px 0;color:#F5F5F5;border:1px solid var(--fig-border)}
+.quiz-lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:3px;text-transform:uppercase;color:var(--fig-teal);margin-bottom:12px;display:block}
+.quiz-q{font-size:14.5px;font-weight:600;margin-bottom:14px;line-height:1.6}
+.quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.qo{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;font-size:13px;cursor:pointer;transition:all .17s;color:rgba(245,245,245,.8);font-family:var(--font);text-align:left;line-height:1.5}
+.qo:hover{background:rgba(10,207,131,.15);border-color:rgba(10,207,131,.5)}
+.qo.correct{background:rgba(10,207,131,.2);border-color:var(--fig-teal);color:#6EDBB8}
+.qo.wrong  {background:rgba(242,78,30,.2); border-color:var(--fig-red); color:#F9A58C}
+.quiz-fb{margin-top:12px;padding:11px 15px;border-radius:8px;font-size:13px;line-height:1.75;display:none}
+.quiz-fb.show{display:block}
+.quiz-fb.ok{background:rgba(10,207,131,.15);border:1px solid var(--fig-teal);color:#6EDBB8}
+.quiz-fb.no{background:rgba(242,78,30,.15); border:1px solid var(--fig-red); color:#F9A58C}
+
+/* TAGS */
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
+.tag{padding:4px 11px;border-radius:20px;font-size:11.5px;font-weight:500;font-family:var(--mono)}
+.tg-p{background:rgba(162,89,255,.1);color:#5B21B6;border:1px solid rgba(162,89,255,.25)}
+.tg-t{background:rgba(10,207,131,.1);color:#065F46;border:1px solid rgba(10,207,131,.25)}
+.tg-c{background:rgba(200,155,60,.12);color:var(--roast);border:1px solid rgba(200,155,60,.28)}
+.tg-r{background:rgba(242,78,30,.1);color:#9A3412;border:1px solid rgba(242,78,30,.25)}
+
+/* FOOTER */
+.footer{background:var(--fig-dark);color:rgba(245,245,245,.35);text-align:center;padding:28px 20px;font-size:11.5px;font-family:var(--mono);letter-spacing:.5px}
+.footer span{color:var(--fig-teal)}
+.footer .pl{display:flex;justify-content:center;gap:16px;margin-top:10px;flex-wrap:wrap}
+.footer .pl a{color:rgba(245,245,245,.3);text-decoration:none;font-size:11px;transition:color .15s}
+.footer .pl a:hover,.footer .pl a.cur{color:var(--fig-teal)}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.ls{animation:fadeUp .45s ease both}
+.ls:nth-child(1){animation-delay:.04s}.ls:nth-child(2){animation-delay:.08s}.ls:nth-child(3){animation-delay:.12s}
+
+/* RESPONSIVE */
+@media(max-width:820px){
+  .pw{grid-template-columns:1fr}
+  .toc{display:none}
+  .content{padding:30px 20px;border-left:none}
+  .vg{grid-template-columns:1fr 1fr}
+  .sk-grid,.quiz-opts{grid-template-columns:1fr}
+  .hero{padding:52px 28px 0}
+  .tstrip{margin-left:-28px;margin-right:-28px;padding:0 28px}
+}
+@media(max-width:600px){
+  .hero{padding:36px 18px 24px}
+  .hero h1{font-size:clamp(26px,8vw,38px)!important;line-height:1.2}
+  .vg,.sk-grid,.quiz-opts{grid-template-columns:1fr!important}
+  [style*="grid-template-columns"]{grid-template-columns:1fr!important}
+  .content{padding:18px 16px}
+  .lesson-section{padding:20px 16px!important;border-radius:12px!important}
+  p,li{font-size:14.5px!important;line-height:1.85!important}
+  table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;font-size:13px!important}
+  pre{font-size:12px!important;overflow-x:auto}
+}
+
+/* ── 390 × 844 — iPhone exact ── */
+@media(min-width:375px) and (max-width:430px){
+  .hero{padding:40px 18px 28px!important}
+  .hero h1{font-size:28px!important;line-height:1.18!important}
+  .content{padding:18px 18px!important}
+  .lesson-section{padding:22px 18px!important;border-radius:14px!important}
+  p,li{font-size:14.5px!important;line-height:1.82!important}
+  h3{font-size:17px!important}
+  pre{font-size:12.5px!important;overflow-x:auto!important;padding:16px 18px!important;line-height:1.65!important}
+  code{font-size:12.5px!important}
+  table{display:block!important;overflow-x:auto!important;font-size:13px!important;white-space:nowrap}
+  table th,table td{padding:11px 13px!important}
+  [style*="grid-template-columns"]{grid-template-columns:1fr!important}
+  .vg,.sk-grid,.quiz-opts{grid-template-columns:1fr!important}
+  .tstrip{overflow-x:auto!important;white-space:nowrap!important;flex-wrap:nowrap!important;scrollbar-width:none!important;margin-left:-18px!important;margin-right:-18px!important;padding-left:18px!important;padding-right:18px!important}
+}
+
+  /* ═══════════════════════════════════════════════════════════
+     DARK MODE — CSS Variable Override + Targeted Fixes
+     Toggled by lang-system-ai.js via html.dark class
+  ═══════════════════════════════════════════════════════════ */
+
+  /* Flip CSS variables so all var()-based rules auto-switch */
+  html.dark {
+    --espresso: #fdf6ec;
+    --roast:    #eee0cc;
+    --latte:    #c8a882;
+    --cream:    #120a04;
+    --foam:     #1a0e06;
+    --milk:     #1f1208;
+    --chalk:    #221408;
+    --ui-bg:    #0d1929;
+    --ux-bg:    #0a1a0f;
+  }
+  html.dark body {
+    background: #120a04 !important;
+    color: rgba(253,246,236,0.88) !important;
+  }
+
+  html.dark .toc-part          { background: #1a0e06 !important; color: rgba(253,246,236,0.6) !important; }
+  html.dark .toc-sep           { background: rgba(255,255,255,0.07) !important; }
+  html.dark .vc                { background: #1a0e06 !important; border-color: rgba(255,255,255,0.08) !important; }
+  html.dark .sk-group          { background: #1a0e06 !important; border-color: rgba(255,255,255,0.08) !important; }
+  html.dark .kb                { background: rgba(255,255,255,0.07) !important; color: rgba(253,246,236,0.7) !important; }
+  html.dark .fb-ghost          { background: rgba(255,255,255,0.05) !important; color: rgba(253,246,236,0.8) !important; border-color: rgba(255,255,255,0.14) !important; }
+  html.dark .fb-outline        { border-color: rgba(200,155,60,0.5) !important; color: #c89b3c !important; }
+  html.dark .box.warning       { background: rgba(180,83,9,0.14) !important; }
+  html.dark .box.info          { background: rgba(29,78,216,0.14) !important; }
+  html.dark .box.success       { background: rgba(21,128,61,0.14) !important; }
+  html.dark .box.teal          { background: rgba(10,207,131,0.1) !important; }
+</style>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- ░░ MOBILE TOC ░░ -->
+<button class="sb-toc-toggle" id="sbTocToggle" aria-label="Open contents"><svg width="18" height="14" viewBox="0 0 18 14" fill="none" aria-hidden="true" style="display:block;pointer-events:none;flex-shrink:0"><line x1="0" y1="1" x2="18" y2="1" stroke="#C89B3C" stroke-width="2" stroke-linecap="round"/><line x1="0" y1="7" x2="18" y2="7" stroke="#C89B3C" stroke-width="2" stroke-linecap="round"/><line x1="0" y1="13" x2="18" y2="13" stroke="#C89B3C" stroke-width="2" stroke-linecap="round"/></svg></button>
+<div class="sb-toc-overlay" id="sbTocOverlay"></div>
+<div class="sb-toc-drawer" id="sbTocDrawer">
+  <div class="sb-toc-header">
+    <span class="sb-toc-header-label">មាតិកា — PART 4</span>
+    <button class="sb-toc-close" id="sbTocClose" aria-label="Close">✕</button>
+  </div>
+  <div class="sb-toc-body">
+    <a class="sb-toc-partlink" href="SBCMS_Lesson_UIUX_Part1.html">← Part 1: UI/UX Intro</a>
+    <a class="sb-toc-partlink" href="SBCMS_Lesson_UIUX_Part2.html">← Part 2: Wireframes</a>
+    <a class="sb-toc-partlink" href="SBCMS_Lesson_Figma_Part3.html">← Part 3: Figma Basics</a>
+    <div class="sb-toc-sep"></div>
+    <a href="#s1"><span class="sb-toc-num">01</span>Component ជាអ្វី?</a>
+    <a href="#s2"><span class="sb-toc-num">02</span>Create Component</a>
+    <a href="#s3"><span class="sb-toc-num">03</span>Instances &amp; Overrides</a>
+    <a href="#s4"><span class="sb-toc-num">04</span>Variants</a>
+    <a href="#s5"><span class="sb-toc-num">05</span>Auto Layout</a>
+    <a href="#s6"><span class="sb-toc-num">06</span>Spacing &amp; Padding</a>
+    <a href="#s7"><span class="sb-toc-num">07</span>Nested Components</a>
+    <a href="#s8"><span class="sb-toc-num">08</span>SBCMS Component Kit</a>
+    <a href="#s9"><span class="sb-toc-num">09</span>Practice</a>
+    <a href="#quiz"><span class="sb-toc-num">✏</span>Quiz</a>
+  </div>
+</div>
+<script>
+(function(){
+  var T=document.getElementById('sbTocToggle'),D=document.getElementById('sbTocDrawer'),O=document.getElementById('sbTocOverlay'),C=document.getElementById('sbTocClose');
+  function openDrawer(){D.classList.add('open');O.classList.add('open');T.classList.add('hidden');document.body.style.overflow='hidden';}
+  function closeDrawer(){D.classList.remove('open');O.classList.remove('open');T.classList.remove('hidden');document.body.style.overflow='';}
+  T.addEventListener('click',openDrawer);C.addEventListener('click',closeDrawer);O.addEventListener('click',closeDrawer);
+  D.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',closeDrawer);});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeDrawer();});
+  var dLinks=D.querySelectorAll('a[href^="#s"]');
+  function markActive(){var top=window.scrollY+120;var cur=null;dLinks.forEach(function(a){var el=document.getElementById(a.getAttribute('href').slice(1));if(el&&el.offsetTop<=top)cur=a;});dLinks.forEach(function(a){a.classList.remove('active');});if(cur)cur.classList.add('active');}
+  window.addEventListener('scroll',markActive,{passive:true});markActive();
+})();
+</script>
+
+<div id="pb"></div>
+
+<!-- TOP STRIP -->
+<div class="top-strip">
+  <a href="index.html">SBCMS Lessons</a>
+  <span class="sep">›</span>
+  <a href="index.html">Figma Series</a>
+  <span class="sep">›</span>
+  <span class="cur">Part 4 — Components & Auto Layout</span>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-mesh"></div>
+  <div class="hero-inner">
+    <div class="hero-eye">Sharp Bean Café · Figma Series · Part 4</div>
+    <h1>Components &<br/><span class="acc">Auto Layout</span> <span class="p">⬡</span></h1>
+    <p class="hero-sub">
+      រៀន Components, Variants, Instances, Auto Layout —
+      ហើយ Build SBCMS Button System + Input Fields + Nav Sidebar
+      ជា Reusable Components ។
+    </p>
+    <div class="hero-meta">
+      <span class="hero-badge">PART 4</span>
+      <span class="hero-chip">⏱ 55–65 នាទី</span>
+      <span class="hero-chip">🎯 Intermediate</span>
+      <span class="hero-chip">🔗 ត្រូវការ Part 3</span>
+    </div>
+  </div>
+  <div class="tstrip">
+    <div class="tp"><span class="tn">01</span> Component ជាអ្វី?</div>
+    <div class="tp"><span class="tn">02</span> Create Component</div>
+    <div class="tp"><span class="tn">03</span> Instances & Overrides</div>
+    <div class="tp"><span class="tn">04</span> Variants</div>
+    <div class="tp"><span class="tn">05</span> Auto Layout</div>
+    <div class="tp"><span class="tn">06</span> Spacing & Padding</div>
+    <div class="tp"><span class="tn">07</span> Nested Components</div>
+    <div class="tp"><span class="tn">08</span> SBCMS Component Kit</div>
+    <div class="tp"><span class="tn">09</span> Practice</div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="pw">
+
+  <!-- TOC -->
+  <nav class="toc">
+    <div class="toc-title">Part Navigation</div>
+    <a class="toc-part" href="SBCMS_Lesson_Figma_Part3.html"><span class="pl">← PART 3</span> Figma Basics</a>
+    <div class="toc-sep"></div>
+    <div class="toc-title">មាតិកា — Part 4</div>
+    <a href="#s1" class="active"><span class="n">01</span> Component ជាអ្វី?</a>
+    <a href="#s2"><span class="n">02</span> Create Component</a>
+    <a href="#s3"><span class="n">03</span> Instances & Overrides</a>
+    <a href="#s4"><span class="n">04</span> Variants</a>
+    <a href="#s5"><span class="n">05</span> Auto Layout</a>
+    <a href="#s6"><span class="n">06</span> Spacing & Padding</a>
+    <a href="#s7"><span class="n">07</span> Nested Components</a>
+    <a href="#s8"><span class="n">08</span> SBCMS Component Kit</a>
+    <a href="#s9"><span class="n">09</span> Practice</a>
+    <div class="toc-sep"></div>
+    <a href="#quiz"><span class="n">✏</span> Quiz</a>
+  </nav>
+
+  <!-- CONTENT -->
+  <main class="content">
+
+    <!-- ══════════ S1 — WHAT IS COMPONENT ══════════ -->
+    <div class="ls" id="s1">
+      <span class="sec-num">Section 01</span>
+      <h2>Component ជាអ្វី?</h2>
+
+      <p>
+        <span class="kp">Component</span> ជា <mark>Reusable UI Element</mark>
+        ដែល Designer បង្កើត ១ ដង — ហើយ <strong>ប្រើម្ដងទៀត</strong>
+        ពេញ Design File ។ ប្ដូរ Master Component → Instances ទាំងអស់ប្ដូរ Auto ។
+      </p>
+
+      <div class="box teal">
+        <div class="box-i">⬡</div>
+        <div class="box-b">
+          <div class="box-t">ហេតុអ្វីប្រើ Components?</div>
+          <div class="box-x">
+            ដោយគ្មាន Component: Button ១ ប្ដូរ Color → ត្រូវ Update ១០០ Buttons ដោយដៃ ។<br/>
+            ដោយប្រើ Component: ប្ដូរ Master Component → Instances ទាំង ១០០ ប្ដូរ Auto ១ click ។<br/>
+            Component = <strong>Design System Foundation</strong> ។
+          </div>
+        </div>
+      </div>
+
+      <h3>Component vs Instance</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0;">
+        <div style="background:white;border:2px solid var(--fig-teal);border-radius:12px;padding:18px;position:relative;">
+          <div style="position:absolute;top:-10px;left:16px;background:var(--fig-teal);color:var(--fig-dark);font-family:var(--mono);font-size:9.5px;font-weight:700;padding:2px 10px;border-radius:10px;letter-spacing:1px;">MASTER COMPONENT</div>
+          <div style="margin-top:8px;">
+            <div style="font-size:13.5px;font-weight:700;color:var(--roast);margin-bottom:8px;">⬡ Btn/Primary</div>
+            <div style="background:var(--roast);color:var(--cream);padding:10px 20px;border-radius:8px;font-weight:600;font-size:13px;display:inline-block;margin-bottom:10px;">Confirm Order</div>
+            <div style="font-size:12px;color:var(--latte);line-height:1.7;">
+              ▸ Master = Figma Store ។<br/>
+              ▸ លេចក្នុង Assets Panel ។<br/>
+              ▸ ប្ដូរ → ប៉ះពាល់ Instances ។
+            </div>
+          </div>
+        </div>
+        <div style="background:white;border:1.5px solid var(--milk);border-radius:12px;padding:18px;position:relative;">
+          <div style="position:absolute;top:-10px;left:16px;background:var(--fig-purple);color:white;font-family:var(--mono);font-size:9.5px;font-weight:700;padding:2px 10px;border-radius:10px;letter-spacing:1px;">INSTANCE</div>
+          <div style="margin-top:8px;">
+            <div style="font-size:13.5px;font-weight:700;color:var(--roast);margin-bottom:8px;">⬡ Btn/Primary (copy)</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+              <div style="background:var(--roast);color:var(--cream);padding:10px 20px;border-radius:8px;font-weight:600;font-size:13px;">Login</div>
+              <div style="background:var(--roast);color:var(--cream);padding:10px 20px;border-radius:8px;font-weight:600;font-size:13px;">Save</div>
+            </div>
+            <div style="font-size:12px;color:var(--latte);line-height:1.7;">
+              ▸ Instance = Copy ពី Master ។<br/>
+              ▸ Override Text/Icon បាន ។<br/>
+              ▸ Style Inherit ពី Master ។
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="box coffee">
+        <div class="box-i">☕</div>
+        <div class="box-b">
+          <div class="box-t">Analogy — ដូច Mold</div>
+          <div class="box-x">
+            Master Component = <strong>Mold (ស្ទាំង)</strong> ។
+            Instance = <strong>Product ពី Mold</strong> ។
+            ប្ដូរ Mold → Products ទាំងអស់ប្ដូរ ។
+            ប៉ុន្តែ Product ម្នាក់ អាច Override Color/Text
+            ដោយមិនប៉ះពាល់ Mold ។
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ S2 — CREATE COMPONENT ══════════ -->
+    <div class="ls" id="s2">
+      <span class="sec-num">Section 02</span>
+      <h2>Create Component — របៀបបង្កើត</h2>
+
+      <p>
+        Figma Component បង្កើតយ៉ាងងាយ —
+        Select Element → ចុច <span class="kt">Ctrl + Alt + K</span>
+        ឬ Right-Click → "Create Component" ។
+      </p>
+
+      <h3>Step-by-Step — Create Button Component</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-n">1</div>
+          <div class="step-b">
+            <div class="step-title">Draw Button Shape</div>
+            <div class="step-desc">ចុច <span class="kt">R</span> → Draw Rectangle W=160, H=44 → Fill: <span class="kw">#3B2007</span> → Corner: 8 ។</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">2</div>
+          <div class="step-b">
+            <div class="step-title">Add Text Label</div>
+            <div class="step-desc">ចុច <span class="kt">T</span> → វាយ "Confirm Order" → Font: Kantumruy Pro 13px Bold → Color: <span class="kw">#FDF6EC</span> → Center ក្នុង Rectangle ។</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">3</div>
+          <div class="step-b">
+            <div class="step-title">Group ហើយ Select ទាំងពីរ</div>
+            <div class="step-desc">Shift+Click ជ្រើស Rectangle + Text → ឬ <span class="kt">Ctrl+A</span> Select All ។</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">4</div>
+          <div class="step-b">
+            <div class="step-title">Create Component</div>
+            <div class="step-desc"><span class="kt">Ctrl + Alt + K</span> ឬ Right-Click → "Create Component" → Component Icon (⬡) លេចក្នុង Layers Panel ។</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">5</div>
+          <div class="step-b">
+            <div class="step-title">Rename Component</div>
+            <div class="step-desc">Double-click Name ក្នុង Layers → វាយ <strong>"Btn/Primary"</strong> → Enter ។ Slash "/" = Folder Group ក្នុង Assets Panel ។</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">6</div>
+          <div class="step-b">
+            <div class="step-title">ប្រើ Assets Panel</div>
+            <div class="step-desc">Left Panel → Assets Tab → Local Components → "Btn" Folder → Drag "Btn/Primary" ទៅ Canvas = Instance ។</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="comp-demo">
+        <span class="cd-label">Component Preview — SBCMS Button System</span>
+        <div class="btn-row">
+          <div class="fb fb-primary">☕ Confirm Order</div>
+          <div class="fb fb-accent">✦ New Order</div>
+          <div class="fb fb-outline">View Details</div>
+          <div class="fb fb-ghost">Cancel</div>
+          <div class="fb fb-danger">🗑 Delete</div>
+          <div class="fb fb-success">✓ Done</div>
+        </div>
+        <div class="btn-row">
+          <div class="fb fb-primary fb-sm">Small</div>
+          <div class="fb fb-primary">Default</div>
+          <div class="fb fb-primary fb-lg">Large</div>
+          <div class="fb fb-primary fb-dis">Disabled</div>
+        </div>
+        <div style="margin-top:8px;font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.3);">⬡ Btn/Primary · ⬡ Btn/Accent · ⬡ Btn/Outline · ⬡ Btn/Ghost · ⬡ Btn/Danger · ⬡ Btn/Success</div>
+      </div>
+    </div>
+
+    <!-- ══════════ S3 — INSTANCES & OVERRIDES ══════════ -->
+    <div class="ls" id="s3">
+      <span class="sec-num">Section 03</span>
+      <h2>Instances & Overrides — ការប្រើម្ដងទៀត</h2>
+
+      <p>
+        <span class="kp">Instance</span> ជា Copy ពី Master Component ។
+        Instance អាច <span class="kt">Override</span> (ផ្លាស់ប្ដូរ) Text, Icon, Color
+        ដោយ <strong>មិន Break</strong> Link ជាមួយ Master ។
+      </p>
+
+      <h3>Override អ្វីបាន?</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0;">
+        <div style="background:#DCFCE7;border:1px solid #86EFAC;border-radius:10px;padding:16px;">
+          <div style="font-weight:700;color:var(--success);font-size:12.5px;margin-bottom:10px;font-family:var(--mono);">✅ Override បាន</div>
+          <ul style="list-style:none;padding:0;">
+            <li style="font-size:13px;color:var(--espresso);padding:5px 0;border-bottom:1px solid rgba(134,239,172,.4);display:flex;gap:8px;align-items:center;"><span style="color:var(--success);">✓</span> Text Content (Label)</li>
+            <li style="font-size:13px;color:var(--espresso);padding:5px 0;border-bottom:1px solid rgba(134,239,172,.4);display:flex;gap:8px;align-items:center;"><span style="color:var(--success);">✓</span> Icon (ប្ដូរ Emoji/SVG)</li>
+            <li style="font-size:13px;color:var(--espresso);padding:5px 0;border-bottom:1px solid rgba(134,239,172,.4);display:flex;gap:8px;align-items:center;"><span style="color:var(--success);">✓</span> Image Fill</li>
+            <li style="font-size:13px;color:var(--espresso);padding:5px 0;display:flex;gap:8px;align-items:center;"><span style="color:var(--success);">✓</span> Visibility (Show/Hide Layer)</li>
+          </ul>
+        </div>
+        <div style="background:#FEE2E2;border:1px solid #FCA5A5;border-radius:10px;padding:16px;">
+          <div style="font-weight:700;color:var(--danger);font-size:12.5px;margin-bottom:10px;font-family:var(--mono);">❌ Override មិនបាន (ដូច Master)</div>
+          <ul style="list-style:none;padding:0;">
+            <li style="font-size:13px;color:var(--espresso);padding:5px 0;border-bottom:1px solid rgba(252,165,165,.4);display:flex;gap:8px;align-items:center;"><span style="color:var(--danger);">✗</span> Layout Structure</li>
+            <li style="font-size:13px;color:var(--espresso);padding:5px 0;border-bottom:1px solid rgba(252,165,165,.4);display:flex;gap:8px;align-items:center;"><span style="color:var(--danger);">✗</span> Auto Layout Direction</li>
+            <li style="font-size:13px;color:var(--espresso);padding:5px 0;border-bottom:1px solid rgba(252,165,165,.4);display:flex;gap:8px;align-items:center;"><span style="color:var(--danger);">✗</span> Corner Radius (Global)</li>
+            <li style="font-size:13px;color:var(--espresso);padding:5px 0;display:flex;gap:8px;align-items:center;"><span style="color:var(--danger);">✗</span> Fill Color (Default)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="box purple">
+        <div class="box-i">🔄</div>
+        <div class="box-b">
+          <div class="box-t">Swap Component</div>
+          <div class="box-x">
+            Instance ១ អាច Swap ជា Component ផ្សេង ។
+            Right-Click Instance → "Swap Component" → ជ្រើស Component ថ្មី ។
+            Text Override រក្សា ។ Style ប្ដូរ ។
+            ប្រើ ច្រើនក្នុង Variant System ។
+          </div>
+        </div>
+      </div>
+
+      <h3>Detach Instance</h3>
+      <p>
+        ប្រសិនចង់ Edit Instance ដោយ Free —
+        Right-Click → <span class="kt">Detach Instance</span>
+        (<span class="kt">Ctrl + Alt + B</span>) ។
+        Instance ក្លាយជា Group ធម្មតា —
+        <strong>Link ជាមួយ Master ដាច់ស្ទើរ!</strong>
+        ប្រើ Detach ក្នុង Cases ពិសេសប៉ុណ្ណោះ ។
+      </p>
+    </div>
+
+    <!-- ══════════ S4 — VARIANTS ══════════ -->
+    <div class="ls" id="s4">
+      <span class="sec-num">Section 04</span>
+      <h2>Variants — States ផ្សេងគ្នា</h2>
+
+      <p>
+        <span class="kp">Variants</span> អនុញ្ញាតឱ្យ Component ១
+        មាន <mark>States ច្រើន (Default, Hover, Pressed, Disabled)</mark>
+        ក្នុង Component Group ១ ។
+        ឧ. Button Variant: Default, Hover, Disabled ។
+      </p>
+
+      <h3>Button Variants — SBCMS</h3>
+      <div class="comp-demo">
+        <span class="cd-label">⬡ Btn/Primary — Variants</span>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+          <div style="text-align:center;">
+            <div style="background:var(--roast);color:var(--cream);padding:10px 16px;border-radius:8px;font-weight:600;font-size:13px;margin-bottom:8px;box-shadow:0 2px 8px rgba(59,32,7,.3);">Confirm</div>
+            <div style="font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.4);">Default</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="background:#1C0F07;color:var(--cream);padding:10px 16px;border-radius:8px;font-weight:600;font-size:13px;margin-bottom:8px;box-shadow:0 4px 14px rgba(0,0,0,.4);transform:translateY(-1px);">Confirm</div>
+            <div style="font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.4);">Hover</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="background:#110800;color:var(--cream);padding:10px 16px;border-radius:8px;font-weight:600;font-size:13px;margin-bottom:8px;transform:translateY(1px);">Confirm</div>
+            <div style="font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.4);">Pressed</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="background:var(--roast);color:var(--cream);padding:10px 16px;border-radius:8px;font-weight:600;font-size:13px;margin-bottom:8px;opacity:.35;cursor:not-allowed;">Confirm</div>
+            <div style="font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.4);">Disabled</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Input Field Variants</h3>
+      <div class="comp-demo">
+        <span class="cd-label">⬡ Input/Default — Variants</span>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;">
+          <div>
+            <div style="background:white;border:1.5px solid var(--milk);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--latte);margin-bottom:6px;">Placeholder text...</div>
+            <div style="font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.4);">Empty</div>
+          </div>
+          <div>
+            <div style="background:white;border:1.5px solid var(--caramel);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--espresso);box-shadow:0 0 0 3px rgba(200,155,60,.12);margin-bottom:6px;">sopheak.tun</div>
+            <div style="font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.4);">Focused</div>
+          </div>
+          <div>
+            <div style="background:white;border:1.5px solid #86EFAC;border-radius:8px;padding:10px 14px;font-size:13px;color:var(--espresso);margin-bottom:6px;">sopheak.tun ✓</div>
+            <div style="font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.4);">Success</div>
+          </div>
+          <div>
+            <div style="background:white;border:1.5px solid #FCA5A5;border-radius:8px;padding:10px 14px;font-size:13px;color:var(--espresso);margin-bottom:6px;">wrong_input</div>
+            <div style="font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.4);">Error</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Properties — Component Setup</h3>
+      <p>
+        ក្នុង Figma បន្ថែម <span class="kp">Component Properties</span>
+        ដើម្បី Control Instance ពី Right Panel ។
+        Properties ៣ ប្រភេទ:
+      </p>
+      <div class="vg" style="grid-template-columns:1fr 1fr 1fr;">
+        <div class="vc">
+          <div style="font-size:28px;">📝</div>
+          <span class="vc-name">Text Property</span>
+          <div class="vc-desc">Override Label Text ពី Panel ។ Instance ជ្រើស Text Property → វាយ ។</div>
+        </div>
+        <div class="vc">
+          <div style="font-size:28px;">👁</div>
+          <span class="vc-name">Boolean Property</span>
+          <div class="vc-desc">Show/Hide Layer (Icon, Badge, Loading Spinner) ។ True/False Toggle ។</div>
+        </div>
+        <div class="vc">
+          <div style="font-size:28px;">🔀</div>
+          <span class="vc-name">Instance Swap</span>
+          <div class="vc-desc">ប្ដូរ Nested Component (Icon) ពី Dropdown ។ Icon Library Integration ។</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ S5 — AUTO LAYOUT ══════════ -->
+    <div class="ls" id="s5">
+      <span class="sec-num">Section 05</span>
+      <h2>Auto Layout — ដំឡើង Layout Auto</h2>
+
+      <p>
+        <span class="kp">Auto Layout</span> ជា Feature ដ៏សំខាន់បំផុតក្នុង Figma ។
+        វាធ្វើឱ្យ Frame <mark>Resize Automatically</mark>
+        នៅពេល Content ផ្លាស់ប្ដូរ —
+        ដូច <span class="kt">Flexbox</span> ក្នុង CSS ។
+      </p>
+
+      <div class="box teal">
+        <div class="box-i">⚡</div>
+        <div class="box-b">
+          <div class="box-t">Auto Layout = Flexbox in Design</div>
+          <div class="box-x">
+            CSS Flexbox: <span class="kt">display:flex; gap:8px; padding:10px 20px;</span><br/>
+            Figma Auto Layout: Direction + Gap + Padding → ដូចគ្នាបេះបិទ ។<br/>
+            អ្នក Dev អាចប្ដូរ Figma Design ទៅ CSS បានដោយ ងាយ ។
+          </div>
+        </div>
+      </div>
+
+      <h3>Auto Layout — Direction</h3>
+      <div class="al-demo">
+        <span class="al-label" style="color:rgba(10,207,131,.7);">Horizontal (Row) — ←→</span>
+        <div class="al-box" style="margin-bottom:16px;">
+          <div class="al-chip">Item A</div>
+          <div class="al-chip">Item B</div>
+          <div class="al-chip">Item C</div>
+          <div class="al-chip">Item D</div>
+        </div>
+        <span class="al-label" style="color:rgba(162,89,255,.7);">Vertical (Column) — ↕</span>
+        <div class="al-box col" style="width:160px;">
+          <div class="al-chip pp">Row 1</div>
+          <div class="al-chip pp">Row 2</div>
+          <div class="al-chip pp">Row 3</div>
+        </div>
+      </div>
+
+      <h3>Auto Layout Properties — Right Panel</h3>
+      <div class="props-panel">
+        <div class="pp-title">Auto Layout</div>
+        <div class="pp-row">
+          <span class="pp-label">Direction</span>
+          <div class="pp-toggle">
+            <div class="pp-togbtn active">→</div>
+            <div class="pp-togbtn">↓</div>
+            <div class="pp-togbtn">⊞</div>
+          </div>
+        </div>
+        <div class="pp-row">
+          <span class="pp-label">Spacing between</span>
+          <div class="pp-input">8</div>
+        </div>
+        <div class="pp-row">
+          <span class="pp-label">Padding H</span>
+          <div class="pp-input">20</div>
+        </div>
+        <div class="pp-row">
+          <span class="pp-label">Padding V</span>
+          <div class="pp-input">10</div>
+        </div>
+        <div class="pp-row">
+          <span class="pp-label">Align Items</span>
+          <div class="pp-toggle">
+            <div class="pp-togbtn">⬆</div>
+            <div class="pp-togbtn active">↔</div>
+            <div class="pp-togbtn">⬇</div>
+          </div>
+        </div>
+        <div class="pp-row" style="margin-bottom:0;">
+          <span class="pp-label">Hug / Fill</span>
+          <div class="pp-toggle">
+            <div class="pp-togbtn active">Hug</div>
+            <div class="pp-togbtn">Fill</div>
+            <div class="pp-togbtn">Fixed</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code">
+        <span class="code-lbl">Auto Layout → CSS Translation</span>
+        <pre><span class="cc">/* Figma Auto Layout Settings → CSS */</span>
+
+<span class="cc">/* Direction: Horizontal, Gap: 8, Padding: 10px 20px */</span>
+<span class="ck">display</span>: <span class="cv">flex</span>;
+<span class="ck">flex-direction</span>: <span class="cv">row</span>;          <span class="cc">/* → Horizontal */</span>
+<span class="ck">gap</span>: <span class="cv">8px</span>;                     <span class="cc">/* Spacing Between */</span>
+<span class="ck">padding</span>: <span class="cv">10px 20px</span>;           <span class="cc">/* Padding V H */</span>
+<span class="ck">align-items</span>: <span class="cv">center</span>;          <span class="cc">/* Align Items */</span>
+
+<span class="cc">/* Hug Contents = fit-content */</span>
+<span class="ck">width</span>: <span class="cv">fit-content</span>;           <span class="cc">/* Hug */</span>
+<span class="ck">width</span>: <span class="cv">100%</span>;                   <span class="cc">/* Fill Container */</span></pre>
+      </div>
+    </div>
+
+    <!-- ══════════ S6 — SPACING & PADDING ══════════ -->
+    <div class="ls" id="s6">
+      <span class="sec-num">Section 06</span>
+      <h2>Spacing & Padding — ចន្លោះ</h2>
+
+      <p>
+        Auto Layout ជួយ Control <span class="kp">Padding</span> (ចន្លោះ​ខាងក្នុង)
+        និង <span class="kp">Gap</span> (ចន្លោះ​រវាង Items) ។
+        SBCMS ប្រើ <mark>Spacing Scale ៨px</mark> ។
+      </p>
+
+      <h3>SBCMS Spacing Scale</h3>
+      <div style="background:white;border:1px solid var(--milk);border-radius:12px;padding:20px;margin:14px 0;">
+        <div style="display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;">
+          <div style="text-align:center;">
+            <div style="height:4px;width:40px;background:var(--fig-teal);border-radius:2px;margin:0 auto 6px;"></div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--latte);">4px</div>
+            <div style="font-size:11px;color:var(--latte);">XS</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="height:8px;width:40px;background:var(--fig-teal);border-radius:2px;margin:0 auto 6px;"></div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--latte);">8px</div>
+            <div style="font-size:11px;color:var(--latte);">S</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="height:12px;width:40px;background:var(--fig-teal);border-radius:2px;margin:0 auto 6px;"></div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--latte);">12px</div>
+            <div style="font-size:11px;color:var(--latte);">SM</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="height:16px;width:40px;background:var(--fig-teal);border-radius:2px;margin:0 auto 6px;"></div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--latte);">16px</div>
+            <div style="font-size:11px;color:var(--latte);">M</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="height:24px;width:40px;background:var(--fig-teal);border-radius:2px;margin:0 auto 6px;"></div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--latte);">24px</div>
+            <div style="font-size:11px;color:var(--latte);">L</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="height:32px;width:40px;background:var(--fig-teal);border-radius:2px;margin:0 auto 6px;"></div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--latte);">32px</div>
+            <div style="font-size:11px;color:var(--latte);">XL</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="height:48px;width:40px;background:var(--fig-teal);border-radius:2px;margin:0 auto 6px;"></div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--latte);">48px</div>
+            <div style="font-size:11px;color:var(--latte);">2XL</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="height:64px;width:40px;background:var(--fig-teal);border-radius:2px;margin:0 auto 6px;"></div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--latte);">64px</div>
+            <div style="font-size:11px;color:var(--latte);">3XL</div>
+          </div>
+        </div>
+        <div style="margin-top:14px;font-size:12px;color:var(--latte);font-family:var(--mono);border-top:1px solid var(--milk);padding-top:12px;">
+          Rule: ជ្រើស Spacing ពី Scale ប៉ុណ្ណោះ → UI ទៀង, Professional ។
+        </div>
+      </div>
+
+      <h3>Spacing ជាក់ស្ដែង ក្នុង SBCMS</h3>
+      <div style="background:white;border:1px solid var(--milk);border-radius:12px;overflow:hidden;margin:14px 0;">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+          <thead>
+            <tr style="background:var(--chalk);">
+              <th style="padding:10px 16px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--latte);font-weight:700;">Element</th>
+              <th style="padding:10px 16px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--latte);font-weight:700;">Padding</th>
+              <th style="padding:10px 16px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--latte);font-weight:700;">Gap</th>
+              <th style="padding:10px 16px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--latte);font-weight:700;">Auto Layout</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--milk);">
+              <td style="padding:10px 16px;font-weight:600;">Button Default</td>
+              <td style="padding:10px 16px;font-family:var(--mono);font-size:12px;color:var(--fig-teal);">10px 20px</td>
+              <td style="padding:10px 16px;font-family:var(--mono);font-size:12px;">8px</td>
+              <td style="padding:10px 16px;font-size:12px;color:var(--latte);">Horizontal · Hug</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--milk);background:var(--foam);">
+              <td style="padding:10px 16px;font-weight:600;">Input Field</td>
+              <td style="padding:10px 16px;font-family:var(--mono);font-size:12px;color:var(--fig-teal);">9px 14px</td>
+              <td style="padding:10px 16px;font-family:var(--mono);font-size:12px;">—</td>
+              <td style="padding:10px 16px;font-size:12px;color:var(--latte);">Fill Width</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--milk);">
+              <td style="padding:10px 16px;font-weight:600;">Nav Sidebar Item</td>
+              <td style="padding:10px 16px;font-family:var(--mono);font-size:12px;color:var(--fig-teal);">9px 16px</td>
+              <td style="padding:10px 16px;font-family:var(--mono);font-size:12px;">10px</td>
+              <td style="padding:10px 16px;font-size:12px;color:var(--latte);">Horizontal · Fill</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--milk);background:var(--foam);">
+              <td style="padding:10px 16px;font-weight:600;">Card</td>
+              <td style="padding:10px 16px;font-family:var(--mono);font-size:12px;color:var(--fig-teal);">18px</td>
+              <td style="padding:10px 16px;font-family:var(--mono);font-size:12px;">12px</td>
+              <td style="padding:10px 16px;font-size:12px;color:var(--latte);">Vertical · Hug</td>
+            </tr>
+            <tr>
+              <td style="padding:10px 16px;font-weight:600;">Table Row</td>
+              <td style="padding:10px 16px;font-family:var(--mono);font-size:12px;color:var(--fig-teal);">10px 14px</td>
+              <td style="padding:10px 16px;font-family:var(--mono);font-size:12px;">12px</td>
+              <td style="padding:10px 16px;font-size:12px;color:var(--latte);">Horizontal · Fill</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══════════ S7 — NESTED COMPONENTS ══════════ -->
+    <div class="ls" id="s7">
+      <span class="sec-num">Section 07</span>
+      <h2>Nested Components — ដំឡើង Structure</h2>
+
+      <p>
+        <span class="kp">Nested Component</span> គឺ Component ក្នុង Component ។
+        ឧ. Nav Item (Component) → Nav Sidebar (Component ដែល Contain Nav Items) ។
+      </p>
+
+      <h3>Nav Sidebar — Nested Structure</h3>
+      <div class="comp-anatomy">
+        <div class="ca-deco">⬡</div>
+        <div style="font-family:var(--mono);font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:var(--fig-teal);margin-bottom:16px;">⬡ Nav/Sidebar — Nested Component Tree</div>
+
+        <!-- Sidebar Visual -->
+        <div style="display:grid;grid-template-columns:220px 1fr;gap:20px;align-items:start;">
+          <div style="background:#252525;border-radius:10px;overflow:hidden;border:1px solid var(--fig-border);">
+            <!-- Sidebar Logo -->
+            <div style="padding:14px 16px;border-bottom:1px solid var(--fig-border);">
+              <span style="font-size:14px;color:var(--cream);">☕ <span style="color:var(--caramel);">Sharp Bean</span></span>
+            </div>
+            <!-- Section Label -->
+            <div style="padding:10px 16px 4px;font-family:var(--mono);font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.25);text-transform:uppercase;">MAIN</div>
+            <!-- Nav Items -->
+            <div style="background:rgba(10,207,131,.15);border-left:3px solid var(--fig-teal);display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:12.5px;color:var(--fig-teal);font-weight:600;">
+              <span>🖥</span> POS Order
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:12.5px;color:rgba(255,255,255,.5);">
+              <span>📦</span> Inventory
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:12.5px;color:rgba(255,255,255,.5);">
+              <span>📊</span> Reports
+            </div>
+            <div style="padding:10px 16px 4px;font-family:var(--mono);font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.25);text-transform:uppercase;">ADMIN</div>
+            <div style="display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:12.5px;color:rgba(255,255,255,.5);">
+              <span>👤</span> Employees
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:12.5px;color:rgba(255,255,255,.5);">
+              <span>🍽</span> Menu
+            </div>
+          </div>
+
+          <!-- Annotation -->
+          <div>
+            <div style="margin-bottom:10px;display:flex;align-items:flex-start;gap:10px;">
+              <div style="min-width:8px;height:8px;width:8px;border-radius:50%;background:var(--fig-teal);margin-top:5px;flex-shrink:0;"></div>
+              <div>
+                <div style="font-weight:700;font-size:12.5px;color:rgba(255,255,255,.8);">⬡ Nav/Sidebar</div>
+                <div style="font-size:11.5px;color:rgba(255,255,255,.4);">Master Component · Vertical AutoLayout</div>
+              </div>
+            </div>
+            <div style="margin-bottom:10px;display:flex;align-items:flex-start;gap:10px;padding-left:16px;">
+              <div style="min-width:8px;height:8px;width:8px;border-radius:50%;background:var(--fig-purple);margin-top:5px;flex-shrink:0;"></div>
+              <div>
+                <div style="font-weight:700;font-size:12.5px;color:rgba(255,255,255,.8);">⬡ Nav/Logo</div>
+                <div style="font-size:11.5px;color:rgba(255,255,255,.4);">Nested · Horizontal AutoLayout</div>
+              </div>
+            </div>
+            <div style="margin-bottom:10px;display:flex;align-items:flex-start;gap:10px;padding-left:16px;">
+              <div style="min-width:8px;height:8px;width:8px;border-radius:50%;background:rgba(255,255,255,.4);margin-top:5px;flex-shrink:0;"></div>
+              <div>
+                <div style="font-weight:700;font-size:12.5px;color:rgba(255,255,255,.8);">⬡ Nav/SectionLabel</div>
+                <div style="font-size:11.5px;color:rgba(255,255,255,.4);">Nested · Text Component</div>
+              </div>
+            </div>
+            <div style="margin-bottom:10px;display:flex;align-items:flex-start;gap:10px;padding-left:16px;">
+              <div style="min-width:8px;height:8px;width:8px;border-radius:50%;background:var(--fig-teal);margin-top:5px;flex-shrink:0;box-shadow:0 0 6px rgba(10,207,131,.5);"></div>
+              <div>
+                <div style="font-weight:700;font-size:12.5px;color:rgba(255,255,255,.8);">⬡ Nav/Item (Active)</div>
+                <div style="font-size:11.5px;color:rgba(255,255,255,.4);">Variant: Default / Active · Horizontal AutoLayout</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding-left:16px;">
+              <div style="min-width:8px;height:8px;width:8px;border-radius:50%;background:rgba(255,255,255,.25);margin-top:5px;flex-shrink:0;"></div>
+              <div>
+                <div style="font-weight:700;font-size:12.5px;color:rgba(255,255,255,.8);">⬡ Nav/Item (Default) ×4</div>
+                <div style="font-size:11.5px;color:rgba(255,255,255,.4);">Instance · Override: Icon + Label Text</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="box success">
+        <div class="box-i">💡</div>
+        <div class="box-b">
+          <div class="box-t">Best Practice — Nesting</div>
+          <div class="box-x">
+            <strong>Atomic Design Principle:</strong>
+            Atom (Button, Input, Icon) →
+            Molecule (Form Field = Label + Input + Error) →
+            Organism (Login Form = Logo + Inputs + Button) →
+            Template (Login Screen = Background + Login Form) ។
+            SBCMS ប្រើ Pattern នេះ ។
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ S8 — SBCMS COMPONENT KIT ══════════ -->
+    <div class="ls" id="s8">
+      <span class="sec-num">Section 08</span>
+      <h2>SBCMS Component Kit — Component List</h2>
+
+      <p>
+        Component Kit = List នៃ Components ទាំងអស់
+        ដែល SBCMS ត្រូវការ ។ <mark>ចេញពី Design System</mark>
+        (Part 1–2) ហើយ Build ក្នុង Figma ។
+      </p>
+
+      <h3>Foundation Components</h3>
+      <div style="background:white;border:1px solid var(--milk);border-radius:12px;overflow:hidden;margin:14px 0;">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+          <thead>
+            <tr style="background:var(--chalk);">
+              <th style="padding:10px 16px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--latte);font-weight:700;">Component Name</th>
+              <th style="padding:10px 16px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--latte);font-weight:700;">Variants</th>
+              <th style="padding:10px 16px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--latte);font-weight:700;">Used In</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--milk);">
+              <td style="padding:10px 16px;font-family:var(--mono);font-size:12px;color:var(--fig-teal);">⬡ Btn/Primary</td>
+              <td style="padding:10px 16px;font-size:12px;color:var(--latte);">Default · Hover · Disabled</td>
+              <td style="padding:10px 16px;font-size:12px;">POS Confirm, Form Submit</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--milk);background:var(--foam);">
+              <td style="padding:10px 16px;font-family:var(--mono);font-size:12px;color:var(--fig-teal);">⬡ Btn/Accent</td>
+              <td style="padding:10px 16px;font-size:12px;color:var(--latte);">Default · Hover · Disabled</td>
+              <td style="padding:10px 16px;font-size:12px;">New Order, + Add</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--milk);">
+              <td style="padding:10px 16px;font-family:var(--mono);font-size:12px;color:var(--fig-teal);">⬡ Btn/Outline</td>
+              <td style="padding:10px 16px;font-size:12px;color:var(--latte);">Default · Hover · Disabled</td>
+              <td style="padding:10px 16px;font-size:12px;">Export, View Details</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--milk);background:var(--foam);">
+              <td style="padding:10px 16px;font-family:var(--mono);font-size:12px;color:var(--fig-teal);">⬡ Input/Default</td>
+              <td style="padding:10px 16px;font-size:12px;color:var(--latte);">Empty · Focus · Error · Success</td>
+              <td style="padding:10px 16px;font-size:12px;">All Forms</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--milk);">
+              <td style="padding:10px 16px;font-family:var(--mono);font-size:12px;color:var(--fig-teal);">⬡ Badge/Status</td>
+              <td style="padding:10px 16px;font-size:12px;color:var(--latte);">Done · Pending · Cancel · Info</td>
+              <td style="padding:10px 16px;font-size:12px;">Order Table, Employee List</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--milk);background:var(--foam);">
+              <td style="padding:10px 16px;font-family:var(--mono);font-size:12px;color:var(--fig-teal);">⬡ Nav/Item</td>
+              <td style="padding:10px 16px;font-size:12px;color:var(--latte);">Default · Active · Hover</td>
+              <td style="padding:10px 16px;font-size:12px;">Sidebar Navigation</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--milk);">
+              <td style="padding:10px 16px;font-family:var(--mono);font-size:12px;color:var(--fig-teal);">⬡ Alert/Box</td>
+              <td style="padding:10px 16px;font-size:12px;color:var(--latte);">Success · Warning · Danger · Info</td>
+              <td style="padding:10px 16px;font-size:12px;">All Screens</td>
+            </tr>
+            <tr style="background:var(--foam);">
+              <td style="padding:10px 16px;font-family:var(--mono);font-size:12px;color:var(--fig-teal);">⬡ Table/Row</td>
+              <td style="padding:10px 16px;font-size:12px;color:var(--latte);">Default · Hover · Selected</td>
+              <td style="padding:10px 16px;font-size:12px;">Orders, Inventory, Employee</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Component Organization — Figma Page Structure</h3>
+      <div class="code">
+        <span class="code-lbl">Figma File Structure — SBCMS</span>
+        <pre><span class="cc">// Page 1 — Component Library (ទុក Master Components)</span>
+<span class="ck">🗂 _Components</span>
+   <span class="cv">├── Buttons/</span>         <span class="cc">Btn/Primary, Accent, Outline, Ghost, Danger</span>
+   <span class="cv">├── Inputs/</span>          <span class="cc">Input/Default, Select, Checkbox, Radio</span>
+   <span class="cv">├── Navigation/</span>      <span class="cc">Nav/Item, Nav/Sidebar, Nav/TopBar</span>
+   <span class="cv">├── Badges/</span>          <span class="cc">Badge/Status, Badge/Role</span>
+   <span class="cv">├── Alerts/</span>          <span class="cc">Alert/Success, Warning, Danger, Info</span>
+   <span class="cv">└── Tables/</span>          <span class="cc">Table/Header, Table/Row</span>
+
+<span class="cc">// Page 2–6 — Actual Screens (Instance ទាំងអស់)</span>
+<span class="ck">📱 Login Screen</span>      <span class="cc">Desktop 1440×1024</span>
+<span class="ck">📱 POS Order</span>         <span class="cc">Desktop 1440×1024</span>
+<span class="ck">📱 Inventory</span>         <span class="cc">Desktop 1440×1024</span>
+<span class="ck">📱 Reports</span>           <span class="cc">Desktop 1440×1024</span>
+<span class="ck">📱 Employee</span>          <span class="cc">Desktop 1440×1024</span></pre>
+      </div>
+    </div>
+
+    <!-- ══════════ S9 — PRACTICE ══════════ -->
+    <div class="ls" id="s9">
+      <span class="sec-num">Section 09</span>
+      <h2>Practice — Build SBCMS Button System</h2>
+
+      <p>
+        Exercise នេះ Build <mark>SBCMS Button Component</mark>
+        ជា Variant System ក្នុង Figma —
+        Default, Accent, Outline, Disabled ។
+      </p>
+
+      <div class="practice-box">
+        <span class="pb-label">Exercise 02 — Button Component + Auto Layout</span>
+        <h4>Task: Create Btn/Primary with 4 Variants + Auto Layout</h4>
+        <div style="margin-top:14px;">
+          <div class="pb-step">
+            <span class="pb-num">01</span>
+            <span class="pb-text">បើ Figma File ចេញពី Part 3 → បន្ថែម Page ថ្មី → Rename "_Components"</span>
+          </div>
+          <div class="pb-step">
+            <span class="pb-num">02</span>
+            <span class="pb-text">ចុច <strong>R</strong> → Draw Rectangle W=160, H=44 → Fill: <strong>#3B2007</strong> → Corner: 8</span>
+          </div>
+          <div class="pb-step">
+            <span class="pb-num">03</span>
+            <span class="pb-text">ចុច <strong>T</strong> → វាយ "Confirm" → Kantumruy Pro · 13px · 600 · Color: #FDF6EC → Center ។</span>
+          </div>
+          <div class="pb-step">
+            <span class="pb-num">04</span>
+            <span class="pb-text">Select Rectangle + Text → Add Auto Layout (<strong>Shift + A</strong>) → Direction: Horizontal · Gap: 8 · Padding: 10px 20px</span>
+          </div>
+          <div class="pb-step">
+            <span class="pb-num">05</span>
+            <span class="pb-text">Select Frame → <strong>Ctrl + Alt + K</strong> → Create Component → Rename "Btn/Primary"</span>
+          </div>
+          <div class="pb-step">
+            <span class="pb-num">06</span>
+            <span class="pb-text">Right-Click Component → "Add Variant" → Figma បង្កើត Variant Group ។ Rename Variant 1 = "Default"</span>
+          </div>
+          <div class="pb-step">
+            <span class="pb-num">07</span>
+            <span class="pb-text">ចុច "+" Add Variant ថ្មី → Rename = "Hover" → ប្ដូរ Fill: <strong>#1C0F07</strong></span>
+          </div>
+          <div class="pb-step">
+            <span class="pb-num">08</span>
+            <span class="pb-text">Add Variant "Disabled" → Fill: <strong>#3B2007</strong> · Opacity 35%</span>
+          </div>
+          <div class="pb-step">
+            <span class="pb-num">09</span>
+            <span class="pb-text">Duplicate Component ២ (Ctrl+D) → Rename "Btn/Accent" → Fill: <strong>#C89B3C</strong> · Text: <strong>#1C0F07</strong></span>
+          </div>
+          <div class="pb-step" style="border-bottom:none;">
+            <span class="pb-num">10</span>
+            <span class="pb-text">ចូល Page "Login Screen" → Assets Panel → Drag ⬡ Btn/Primary ទៅ Login Card → Override Text "Login to System →"</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="box success">
+        <div class="box-i">✅</div>
+        <div class="box-b">
+          <div class="box-t">Goal — Exercise 02</div>
+          <div class="box-x">
+            ក្រោយ Exercise ២: Components, Variants, Auto Layout, Instance Override ។
+            Part 5 → <strong>SBCMS Screens Wireframes</strong> — Apply Component ទាំងអស់
+            ក្នុង Login, POS, Inventory, Report, Employee Screens ។
+          </div>
+        </div>
+      </div>
+
+      <div class="tags">
+        <span class="tag tg-t">Components ⬡</span>
+        <span class="tag tg-t">Variants</span>
+        <span class="tag tg-t">Auto Layout</span>
+        <span class="tag tg-p">Instances</span>
+        <span class="tag tg-p">Overrides</span>
+        <span class="tag tg-p">Nested Components</span>
+        <span class="tag tg-c">Spacing Scale</span>
+        <span class="tag tg-c">Component Kit</span>
+        <span class="tag tg-r">Atomic Design</span>
+      </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="ls" id="quiz">
+      <span class="sec-num">Quiz — Part 4</span>
+      <h2>ពិនិត្យចំណេះដឹង</h2>
+
+      <div class="quiz" style="margin-bottom:14px;">
+        <span class="quiz-lbl">Question 01 / 05</span>
+        <div class="quiz-q">Shortcut ណា Convert Frame ទៅ Component ក្នុង Figma?</div>
+        <div class="quiz-opts">
+          <div class="qo" onclick="chk(this,'wrong','q1')">Ctrl + G</div>
+          <div class="qo" onclick="chk(this,'correct','q1')">Ctrl + Alt + K</div>
+          <div class="qo" onclick="chk(this,'wrong','q1')">Ctrl + Shift + K</div>
+          <div class="qo" onclick="chk(this,'wrong','q1')">Ctrl + D</div>
+        </div>
+        <div class="quiz-fb" id="q1-fb"></div>
+      </div>
+
+      <div class="quiz" style="margin-bottom:14px;">
+        <span class="quiz-lbl">Question 02 / 05</span>
+        <div class="quiz-q">Auto Layout ក្នុង Figma ដូចជា CSS Property ណា?</div>
+        <div class="quiz-opts">
+          <div class="qo" onclick="chk(this,'wrong','q2')">CSS Grid</div>
+          <div class="qo" onclick="chk(this,'wrong','q2')">CSS Position Absolute</div>
+          <div class="qo" onclick="chk(this,'correct','q2')">CSS Flexbox (display: flex)</div>
+          <div class="qo" onclick="chk(this,'wrong','q2')">CSS Float</div>
+        </div>
+        <div class="quiz-fb" id="q2-fb"></div>
+      </div>
+
+      <div class="quiz" style="margin-bottom:14px;">
+        <span class="quiz-lbl">Question 03 / 05</span>
+        <div class="quiz-q">Instance Override ផ្ដោតលើអ្វីខ្លះ?</div>
+        <div class="quiz-opts">
+          <div class="qo" onclick="chk(this,'wrong','q3')">Override ដូចគ្នាទាំងអស់ — Fill, Layout, Size</div>
+          <div class="qo" onclick="chk(this,'correct','q3')">Override Text, Icon, Image, Visibility — Style Inherit ពី Master</div>
+          <div class="qo" onclick="chk(this,'wrong','q3')">Instance Override បានតែ Color ប៉ុណ្ណោះ</div>
+          <div class="qo" onclick="chk(this,'wrong','q3')">Override = Detach Instance</div>
+        </div>
+        <div class="quiz-fb" id="q3-fb"></div>
+      </div>
+
+      <div class="quiz" style="margin-bottom:14px;">
+        <span class="quiz-lbl">Question 04 / 05</span>
+        <div class="quiz-q">Shortcut Add Auto Layout ក្នុង Figma?</div>
+        <div class="quiz-opts">
+          <div class="qo" onclick="chk(this,'wrong','q4')">Ctrl + L</div>
+          <div class="qo" onclick="chk(this,'wrong','q4')">Ctrl + Alt + A</div>
+          <div class="qo" onclick="chk(this,'correct','q4')">Shift + A</div>
+          <div class="qo" onclick="chk(this,'wrong','q4')">Ctrl + Shift + L</div>
+        </div>
+        <div class="quiz-fb" id="q4-fb"></div>
+      </div>
+
+      <div class="quiz" style="margin-bottom:14px;">
+        <span class="quiz-lbl">Question 05 / 05</span>
+        <div class="quiz-q">Atomic Design Principle ដំណាក់កាល Organism ឬ Molecule ជាអ្វី?</div>
+        <div class="quiz-opts">
+          <div class="qo" onclick="chk(this,'wrong','q5')">Organism = Button តែមួយ</div>
+          <div class="qo" onclick="chk(this,'correct','q5')">Molecule = Form Field (Label + Input + Error) ។ Organism = Full Form</div>
+          <div class="qo" onclick="chk(this,'wrong','q5')">Atom = ទំព័រពេញ (Full Page)</div>
+          <div class="qo" onclick="chk(this,'wrong','q5')">Template = Component Library ។</div>
+        </div>
+        <div class="quiz-fb" id="q5-fb"></div>
+      </div>
+    </div>
+
+    <!-- WRAP UP -->
+    <div class="box teal" style="margin-bottom:32px;">
+      <div class="box-i">🎓</div>
+      <div class="box-b">
+        <div class="box-t">Part 4 Complete — Next: Part 5</div>
+        <div class="box-x">
+          Part 4 បានរៀន: <strong>Components · Master vs Instance ·
+          Create Component (Ctrl+Alt+K) · Instances & Overrides ·
+          Variants (State System) · Auto Layout (Shift+A) ·
+          Spacing & Padding Scale · Nested Components ·
+          SBCMS Component Kit Structure</strong> ។<br/>
+          Part 5 → <strong>Practice — SBCMS Full Wireframes</strong>
+          — Apply Component Kit ទាំងអស់ Build Screens ពេញ ។
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div>SBCMS Lesson Series — <span>Part 4</span> · Components & Auto Layout</div>
+  <div class="pl">
+    <a href="SBCMS_Lesson_UIUX_Part1.html">← Part 1: UI/UX Intro</a>
+    <a href="SBCMS_Lesson_UIUX_Part2.html">← Part 2: Wireframes · A11y</a>
+    <a href="SBCMS_Lesson_Figma_Part3.html">← Part 3: Figma Basics</a>
+    <span class="cur">Part 4: Components ✦</span>
+    <a href="SBCMS_Lesson_Figma_Part5.html">Part 5: SBCMS Wireframes →</a>
+  </div>
+  <div style="margin-top:10px;">
+    <span>TUN Sopheak</span> · <span>TIT Sokhom</span> · <span>TEP Makhon</span>
+    &nbsp;|&nbsp; Sharp Bean Café Management System © 2026
+  </div>
+</div>
+
+<script>
+/* PROGRESS BAR */
+window.addEventListener('scroll',()=>{
+  const p=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight)*100;
+  document.getElementById('pb').style.width=p+'%';
+},{passive:true});
+
+/* TOC ACTIVE */
+const links=document.querySelectorAll('.toc a[href^="#"]');
+const secs=[...document.querySelectorAll('.ls[id]')];
+window.addEventListener('scroll',()=>{
+  let cur='';
+  secs.forEach(s=>{if(window.scrollY>=s.offsetTop-110)cur=s.id;});
+  links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));
+},{passive:true});
+
+/* QUIZ */
+const qm={
+  correct:{
+    q1:'✅ ត្រូវ! Ctrl+Alt+K = Create Component ។ Ctrl+G = Group ។',
+    q2:'✅ ត្រូវ! Auto Layout = Flexbox ។ Direction, Gap, Padding = flex-direction, gap, padding CSS ។',
+    q3:'✅ ត្រូវ! Override = Text, Icon, Image, Visibility ។ Layout + Fill Style Inherit ពី Master ។',
+    q4:'✅ ត្រូវ! Shift+A = Add Auto Layout ។ Quick Shortcut ដ៏ Common ក្នុង Figma ។',
+    q5:'✅ ត្រូវ! Molecule = Components ២–៣ Atoms ។ Organism = Section/Form ពេញ ។'
+  },
+  wrong:{
+    q1:'❌ ខុស! Create Component = Ctrl+Alt+K ។ Ctrl+G = Group ។ Ctrl+D = Duplicate ។',
+    q2:'❌ ខុស! Auto Layout = Flexbox ។ Direction (row/column), Gap, Padding = CSS Flex Properties ។',
+    q3:'❌ ខុស! Instance Override = Text, Icon, Image, Visibility ។ Style (Fill, Corner) Inherit ពី Master ។',
+    q4:'❌ ខុស! Add Auto Layout = Shift+A ។ Shortcut ងាយចាំ: "A" = Auto Layout ។',
+    q5:'❌ ខុស! Atom = Button/Input ។ Molecule = Form Field ។ Organism = Full Form ។ Template = Screen ។'
+  }
+};
+function chk(el,type,qId){
+  const box=el.closest('.quiz');
+  if(box.dataset.done)return;
+  box.dataset.done='1';
+  box.querySelectorAll('.qo').forEach(o=>o.style.pointerEvents='none');
+  el.classList.add(type);
+  const fb=document.getElementById(qId+'-fb');
+  fb.textContent=qm[type][qId];
+  fb.className='quiz-fb show '+(type==='correct'?'ok':'no');
+}
+</script>
+
+<div class="sbcms-read-progress" id="readProgress"></div>
+<nav class="sbcms-nav-bar">
+  <div class="snb-left">
+    <a class="snb-btn snb-prev" href="SBCMS_Lesson_Figma_Part3.html">&#8592; <span class="snb-label">Part 3: Figma</span></a>
+  </div>
+  <div class="snb-center">
+    <a class="snb-btn snb-home" href="index.html" title="Home">&#127968;</a>
+    <div class="snb-dots">
+      <a class="snb-dot" href="SBCMS_Lesson_UIUX_Part1.html" data-title="Part 1: UI/UX"></a>
+      <a class="snb-dot" href="SBCMS_Lesson_UIUX_Part2.html" data-title="Part 2: Wireframes"></a>
+      <a class="snb-dot" href="SBCMS_Lesson_Figma_Part3.html" data-title="Part 3: Figma"></a>
+      <a class="snb-dot snb-active" href="SBCMS_Lesson_Figma_Part4.html" data-title="Part 4: Components"></a>
+      <a class="snb-dot" href="SBCMS_Lesson_Figma_Part5.html" data-title="Part 5: Wireframes"></a>
+    </div>
+    <span class="snb-part-tag" style="color:#0ACF83;background:rgba(10,207,131,.15);border-color:#0ACF8340">Part 4</span>
+  </div>
+  <div class="snb-right">
+    <a class="snb-btn snb-next" href="SBCMS_Lesson_Figma_Part5.html"><span class="snb-label">Part 5: Wireframes</span> &#8594;</a>
+  </div>
+</nav>
+<button class="sbcms-top-btn" id="topBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
+<div class="sbcms-toast" id="kbToast"></div>
+<script>
+(function() {
+  var rp = document.getElementById('readProgress');
+  var topBtn = document.getElementById('topBtn');
+  window.addEventListener('scroll', function() {
+    var h = document.documentElement;
+    var pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    if (rp) rp.style.width = Math.min(pct, 100) + '%';
+    if (topBtn) topBtn.classList.toggle('visible', window.scrollY > 380);
+  }, { passive: true });
+  var PREV = "SBCMS_Lesson_Figma_Part3.html";
+  var NEXT = "SBCMS_Lesson_Figma_Part5.html";
+  var toast = document.getElementById('kbToast');
+  var toastT;
+  function showToast(msg) {
+    toast.innerHTML = msg;
+    toast.classList.add('show');
+    clearTimeout(toastT);
+    toastT = setTimeout(function() { toast.classList.remove('show'); }, 2000);
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'ArrowRight' && NEXT) {
+      showToast('&#8594; Next part...');
+      setTimeout(function() { location.href = NEXT; }, 300);
+    } else if (e.key === 'ArrowLeft' && PREV) {
+      showToast('&#8592; Previous part...');
+      setTimeout(function() { location.href = PREV; }, 300);
+    } else if (e.key.toLowerCase() === 'h') {
+      showToast('&#127968; Home...');
+      setTimeout(function() { location.href = 'index.html'; }, 300);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      showToast('&#8593; Top...');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+})();
+</script>
+<script src="lang-system-ai.js"></script>
+</body>
+</html>

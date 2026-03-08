@@ -1,0 +1,2910 @@
+<!doctype html>
+<html lang="km">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Introduction to UI/UX — Part 1 | SBCMS</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ─── RESET & BASE ─────────────────────────────── */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --espresso: #1c0f07;
+        --roast: #3b2007;
+        --latte: #7b4f2e;
+        --caramel: #c89b3c;
+        --caramel-lt: #f0cf80;
+        --cream: #fdf6ec;
+        --foam: #fff9f2;
+        --milk: #eee0cc;
+        --chalk: #f5f0e8;
+        --rust: #b84c1a;
+
+        --ui-blue: #2563eb;
+        --ux-green: #166534;
+        --ui-bg: #eff6ff;
+        --ux-bg: #f0fdf4;
+
+        --success: #15803d;
+        --warning: #b45309;
+        --danger: #b91c1c;
+        --info: #1d4ed8;
+
+        --font: "Kantumruy Pro", sans-serif;
+        --mono: "Consolas", "Courier New", monospace;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: var(--font);
+        background: var(--cream);
+        color: var(--espresso);
+        line-height: 1.8;
+        font-size: 15px;
+      }
+      /* progress handled by sbcms-read-progress */
+
+      /* ─── HERO ──────────────────────────────────────── */
+      .hero {
+        background: var(--espresso);
+        padding: 80px 60px 60px;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse at 70% 50%,
+            rgba(200, 155, 60, 0.12) 0%,
+            transparent 65%
+          ),
+          radial-gradient(
+            ellipse at 20% 80%,
+            rgba(184, 76, 26, 0.1) 0%,
+            transparent 60%
+          );
+      }
+      .hero::after {
+        content: "UI/UX";
+        position: absolute;
+        right: -20px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 220px;
+        font-weight: 700;
+        letter-spacing: -8px;
+        color: rgba(255, 255, 255, 0.025);
+        line-height: 1;
+        pointer-events: none;
+        font-family: var(--font);
+      }
+      .hero-inner {
+        max-width: 900px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+      .hero-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--caramel);
+        background: rgba(200, 155, 60, 0.12);
+        border: 1px solid rgba(200, 155, 60, 0.3);
+        padding: 6px 14px;
+        border-radius: 20px;
+        margin-bottom: 24px;
+      }
+      .hero-eyebrow::before {
+        content: "☕";
+      }
+      .hero h1 {
+        font-size: clamp(32px, 5vw, 52px);
+        font-weight: 700;
+        color: var(--cream);
+        line-height: 1.15;
+        margin-bottom: 16px;
+        letter-spacing: -0.5px;
+      }
+      .hero h1 span {
+        color: var(--caramel);
+      }
+      .hero-sub {
+        font-size: 15px;
+        color: rgba(253, 246, 236, 0.6);
+        max-width: 580px;
+        line-height: 1.9;
+        margin-bottom: 32px;
+      }
+      .hero-meta {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      .hero-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 500;
+        background: rgba(255, 255, 255, 0.07);
+        color: rgba(253, 246, 236, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .hero-part-badge {
+        background: var(--caramel);
+        color: var(--espresso);
+        font-weight: 700;
+        font-size: 12px;
+        padding: 6px 16px;
+        border-radius: 6px;
+        font-family: var(--mono);
+        letter-spacing: 1px;
+      }
+
+      /* ─── NAV SIDEBAR (sticky TOC) ──────────────────── */
+      .page-wrapper {
+        max-width: 1140px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: 0;
+        align-items: start;
+        padding: 0 20px;
+      }
+      .toc {
+        position: sticky;
+        top: 40px;
+        padding: 28px 0;
+        padding-right: 20px;
+      }
+      .toc-title {
+        font-family: var(--font);
+        font-size: 10px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--caramel);
+        margin-bottom: 14px;
+      }
+      .toc a {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12.5px;
+        color: var(--latte);
+        text-decoration: none;
+        padding: 6px 10px;
+        border-radius: 6px;
+        border-left: 2px solid transparent;
+        transition: all 0.18s;
+        line-height: 1.4;
+        margin-bottom: 2px;
+      }
+      .toc a:hover,
+      .toc a.active {
+        color: var(--caramel);
+        background: rgba(200, 155, 60, 0.08);
+        border-left-color: var(--caramel);
+      }
+      .toc a .toc-num {
+        font-family: var(--mono);
+        font-size: 10px;
+        color: var(--caramel);
+        opacity: 0.6;
+        min-width: 18px;
+      }
+      .toc-divider {
+        height: 1px;
+        background: var(--milk);
+        margin: 10px 0;
+      }
+
+      /* ─── MAIN CONTENT ──────────────────────────────── */
+      .content {
+        padding: 48px 0 80px 40px;
+        border-left: 1px solid var(--milk);
+      }
+
+      /* ─── SECTION ───────────────────────────────────── */
+      .lesson-section {
+        margin-bottom: 64px;
+      }
+      .section-number {
+        display: inline-block;
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--caramel);
+        margin-bottom: 6px;
+      }
+      .lesson-section h2 {
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--roast);
+        margin-bottom: 20px;
+        padding-bottom: 14px;
+        border-bottom: 2px solid var(--milk);
+        line-height: 1.3;
+      }
+      .lesson-section h3 {
+        font-size: 17px;
+        font-weight: 600;
+        color: var(--roast);
+        margin: 28px 0 12px;
+      }
+      .lesson-section p {
+        margin-bottom: 14px;
+        color: var(--espresso);
+        line-height: 1.9;
+      }
+
+      /* ─── CALLOUT BOX ───────────────────────────────── */
+      .callout {
+        border-left: 4px solid;
+        border-radius: 0 10px 10px 0;
+        padding: 16px 20px;
+        margin: 20px 0;
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+      }
+      .callout-icon {
+        font-size: 20px;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+      .callout-body {
+        flex: 1;
+      }
+      .callout-title {
+        font-weight: 700;
+        font-size: 13px;
+        margin-bottom: 5px;
+      }
+      .callout-text {
+        font-size: 13.5px;
+        line-height: 1.8;
+      }
+      .callout.info {
+        border-color: var(--info);
+        background: #eff6ff;
+        color: #1d4ed8;
+      }
+      .callout.success {
+        border-color: var(--success);
+        background: #f0fdf4;
+        color: #166534;
+      }
+      .callout.warning {
+        border-color: var(--warning);
+        background: #fffbeb;
+        color: #92400e;
+      }
+      .callout.coffee {
+        border-color: var(--caramel);
+        background: rgba(200, 155, 60, 0.08);
+        color: var(--roast);
+      }
+
+      /* ─── UI vs UX COMPARISON ───────────────────────── */
+      .comparison-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin: 24px 0;
+      }
+      .comp-card {
+        border-radius: 14px;
+        overflow: hidden;
+        border: 1.5px solid;
+      }
+      .comp-card.ui {
+        border-color: #bfdbfe;
+      }
+      .comp-card.ux {
+        border-color: #bbf7d0;
+      }
+      .comp-header {
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .comp-card.ui .comp-header {
+        background: var(--ui-blue);
+      }
+      .comp-card.ux .comp-header {
+        background: var(--ux-green);
+      }
+      .comp-badge {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+      }
+      .comp-label {
+        color: white;
+        font-weight: 700;
+        font-size: 15px;
+      }
+      .comp-sublabel {
+        color: rgba(255, 255, 255, 0.75);
+        font-size: 11px;
+      }
+      .comp-body {
+        padding: 16px 20px;
+        background: white;
+      }
+      .comp-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 13px;
+        line-height: 1.7;
+        padding: 6px 0;
+        border-bottom: 1px solid #f3f4f6;
+      }
+      .comp-item:last-child {
+        border-bottom: none;
+      }
+      .comp-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        margin-top: 7px;
+      }
+      .comp-card.ui .comp-dot {
+        background: var(--ui-blue);
+      }
+      .comp-card.ux .comp-dot {
+        background: var(--ux-green);
+      }
+
+      /* ─── KEYWORD HIGHLIGHT ─────────────────────────── */
+      .kw {
+        font-family: var(--mono);
+        font-size: 0.88em;
+        background: rgba(200, 155, 60, 0.15);
+        color: var(--roast);
+        border: 1px solid rgba(200, 155, 60, 0.3);
+        padding: 1px 6px;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
+      .kw-blue {
+        font-family: var(--mono);
+        font-size: 0.88em;
+        background: #eff6ff;
+        color: var(--ui-blue);
+        border: 1px solid #bfdbfe;
+        padding: 1px 6px;
+        border-radius: 4px;
+      }
+      .kw-green {
+        font-family: var(--mono);
+        font-size: 0.88em;
+        background: #f0fdf4;
+        color: var(--ux-green);
+        border: 1px solid #bbf7d0;
+        padding: 1px 6px;
+        border-radius: 4px;
+      }
+
+      /* ─── CODE BLOCK ────────────────────────────────── */
+      .code-block {
+        background: #1a1208;
+        border-radius: 10px;
+        padding: 20px 24px;
+        margin: 16px 0;
+        overflow-x: auto;
+        position: relative;
+        border: 1px solid rgba(200, 155, 60, 0.2);
+      }
+      .code-block-label {
+        font-family: var(--mono);
+        font-size: 10px;
+        color: rgba(200, 155, 60, 0.7);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        display: block;
+      }
+      .code-block pre {
+        font-family: var(--mono);
+        font-size: 13px;
+        color: #e8d5b0;
+        line-height: 1.9;
+      }
+      .code-block .c-comment {
+        color: #5a6e3a;
+      }
+      .code-block .c-key {
+        color: var(--caramel);
+      }
+      .code-block .c-val {
+        color: #7dd3a8;
+      }
+      .code-block .c-str {
+        color: #f0a070;
+      }
+      .code-block .c-tag {
+        color: #7bafd4;
+      }
+      .code-block .c-attr {
+        color: #e8d5b0;
+      }
+
+      /* ─── PRINCIPLE CARDS ───────────────────────────── */
+      .principles-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin: 20px 0;
+      }
+      .principle-card {
+        background: white;
+        border-radius: 12px;
+        border: 1px solid var(--milk);
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+        transition: box-shadow 0.2s;
+      }
+      .principle-card:hover {
+        box-shadow: 0 4px 20px rgba(59, 32, 7, 0.1);
+      }
+      .principle-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+      }
+      .principle-card:nth-child(1)::before {
+        background: var(--ui-blue);
+      }
+      .principle-card:nth-child(2)::before {
+        background: var(--ux-green);
+      }
+      .principle-card:nth-child(3)::before {
+        background: var(--caramel);
+      }
+      .principle-card:nth-child(4)::before {
+        background: var(--rust);
+      }
+      .principle-card:nth-child(5)::before {
+        background: #7c3aed;
+      }
+      .principle-card:nth-child(6)::before {
+        background: var(--danger);
+      }
+      .principle-icon {
+        font-size: 28px;
+        margin-bottom: 10px;
+      }
+      .principle-name {
+        font-weight: 700;
+        font-size: 14px;
+        color: var(--roast);
+        margin-bottom: 6px;
+      }
+      .principle-km {
+        font-size: 13px;
+        color: var(--latte);
+        line-height: 1.7;
+      }
+
+      /* ─── COLOR PALETTE DEMO ────────────────────────── */
+      .palette-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin: 16px 0;
+      }
+      .swatch-item {
+        flex: 1;
+        min-width: 100px;
+      }
+      .swatch-color {
+        height: 70px;
+        border-radius: 10px 10px 0 0;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+      }
+      .swatch-info {
+        background: white;
+        border: 1px solid var(--milk);
+        border-top: none;
+        border-radius: 0 0 10px 10px;
+        padding: 8px 10px;
+      }
+      .swatch-name {
+        font-weight: 600;
+        font-size: 11.5px;
+        color: var(--espresso);
+      }
+      .swatch-hex {
+        font-family: var(--mono);
+        font-size: 10px;
+        color: var(--latte);
+      }
+      .swatch-role {
+        font-size: 10px;
+        color: #9a8070;
+        margin-top: 2px;
+      }
+
+      /* ─── TYPOGRAPHY SAMPLE ─────────────────────────── */
+      .type-showcase {
+        background: white;
+        border: 1px solid var(--milk);
+        border-radius: 14px;
+        padding: 28px;
+        margin: 16px 0;
+      }
+      .type-row {
+        display: flex;
+        align-items: baseline;
+        gap: 20px;
+        padding: 12px 0;
+        border-bottom: 1px dashed var(--milk);
+      }
+      .type-row:last-child {
+        border-bottom: none;
+      }
+      .type-meta {
+        font-family: var(--mono);
+        font-size: 10px;
+        color: var(--caramel);
+        min-width: 140px;
+      }
+      .type-sample-h1 {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--espresso);
+      }
+      .type-sample-h2 {
+        font-size: 24px;
+        font-weight: 600;
+        color: var(--roast);
+      }
+      .type-sample-h3 {
+        font-size: 18px;
+        font-weight: 500;
+        color: var(--roast);
+      }
+      .type-sample-body {
+        font-size: 14px;
+        color: var(--espresso);
+        line-height: 1.7;
+      }
+      .type-sample-sm {
+        font-size: 12px;
+        color: var(--latte);
+      }
+
+      /* ─── QUIZ BOX ──────────────────────────────────── */
+      .quiz-box {
+        background: var(--espresso);
+        border-radius: 14px;
+        padding: 28px 32px;
+        margin: 28px 0;
+        color: var(--cream);
+      }
+      .quiz-label {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--caramel);
+        margin-bottom: 14px;
+        display: block;
+      }
+      .quiz-q {
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 16px;
+        line-height: 1.6;
+      }
+      .quiz-options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .quiz-opt {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.18s;
+        color: var(--cream);
+        font-family: var(--font);
+      }
+      .quiz-opt:hover {
+        background: rgba(200, 155, 60, 0.2);
+        border-color: var(--caramel);
+      }
+      .quiz-opt.correct {
+        background: rgba(21, 128, 61, 0.3);
+        border-color: #4ade80;
+      }
+      .quiz-opt.wrong {
+        background: rgba(185, 28, 28, 0.3);
+        border-color: #f87171;
+      }
+      .quiz-feedback {
+        margin-top: 14px;
+        padding: 12px 16px;
+        border-radius: 8px;
+        font-size: 13px;
+        line-height: 1.7;
+        display: none;
+      }
+      .quiz-feedback.show {
+        display: block;
+      }
+      .quiz-feedback.correct-fb {
+        background: rgba(21, 128, 61, 0.2);
+        border: 1px solid #4ade80;
+        color: #86efac;
+      }
+      .quiz-feedback.wrong-fb {
+        background: rgba(185, 28, 28, 0.2);
+        border: 1px solid #f87171;
+        color: #fca5a5;
+      }
+
+      /* ─── STEP FLOW ─────────────────────────────────── */
+      .step-flow {
+        margin: 20px 0;
+      }
+      .step {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        margin-bottom: 0;
+        position: relative;
+      }
+      .step:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        left: 17px;
+        top: 40px;
+        width: 2px;
+        height: calc(100% - 10px);
+        background: linear-gradient(to bottom, var(--caramel), var(--milk));
+        border-radius: 2px;
+      }
+      .step-num {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--caramel);
+        color: var(--espresso);
+        font-weight: 700;
+        font-size: 14px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 1;
+      }
+      .step-body {
+        padding-bottom: 24px;
+        flex: 1;
+      }
+      .step-title {
+        font-weight: 700;
+        font-size: 14px;
+        color: var(--roast);
+        margin-bottom: 4px;
+      }
+      .step-desc {
+        font-size: 13px;
+        color: var(--latte);
+        line-height: 1.7;
+      }
+
+      /* ─── TAG PILLS ─────────────────────────────────── */
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 12px 0;
+      }
+      .tag {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+        font-family: var(--mono);
+      }
+      .tag-tool {
+        background: #eef2ff;
+        color: #3730a3;
+        border: 1px solid #c7d2fe;
+      }
+      .tag-skill {
+        background: #f0fdf4;
+        color: var(--ux-green);
+        border: 1px solid #bbf7d0;
+      }
+      .tag-role {
+        background: rgba(200, 155, 60, 0.12);
+        color: var(--roast);
+        border: 1px solid rgba(200, 155, 60, 0.3);
+      }
+
+      /* ─── SBCMS EXAMPLE BOX ─────────────────────────── */
+      .sbcms-example {
+        background: linear-gradient(
+          135deg,
+          var(--roast) 0%,
+          var(--espresso) 100%
+        );
+        border-radius: 14px;
+        padding: 24px 28px;
+        margin: 20px 0;
+        color: var(--cream);
+        position: relative;
+        overflow: hidden;
+      }
+      .sbcms-example::after {
+        content: "☕";
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 80px;
+        opacity: 0.06;
+        pointer-events: none;
+      }
+      .sbcms-example-label {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--caramel);
+        margin-bottom: 10px;
+        display: block;
+      }
+      .sbcms-example h4 {
+        font-size: 15px;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+      .sbcms-example p {
+        font-size: 13.5px;
+        line-height: 1.8;
+        color: rgba(253, 246, 236, 0.8);
+      }
+      .sbcms-example ul {
+        padding-left: 18px;
+      }
+      .sbcms-example li {
+        font-size: 13.5px;
+        line-height: 1.9;
+        color: rgba(253, 246, 236, 0.8);
+      }
+
+      /* ─── DIVIDER ───────────────────────────────────── */
+      .divider {
+        height: 1px;
+        background: var(--milk);
+        margin: 36px 0;
+      }
+
+      /* ─── FOOTER ────────────────────────────────────── */
+      .footer {
+        background: var(--espresso);
+        color: rgba(253, 246, 236, 0.5);
+        text-align: center;
+        padding: 28px;
+        font-size: 12px;
+        font-family: var(--mono);
+        letter-spacing: 0.5px;
+      }
+      .footer .part-links {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 14px;
+        margin-top: 10px;
+        flex-wrap: wrap;
+        font-size: 11px;
+      }
+      .footer .part-links a {
+        color: rgba(253, 246, 236, 0.3);
+        text-decoration: none;
+        font-family: var(--mono);
+        transition: color 0.15s;
+      }
+      .footer .part-links a:hover {
+        color: var(--caramel);
+      }
+      .footer .part-links .cur {
+        color: var(--caramel);
+        font-weight: 700;
+        font-family: var(--mono);
+      }
+      .footer span {
+        color: var(--caramel);
+      }
+
+      /* ─── RESPONSIVE ────────────────────────────────── */
+      @media (max-width: 800px) {
+        .page-wrapper {
+          grid-template-columns: 1fr;
+        }
+        .toc {
+          display: none;
+        }
+        .content {
+          padding: 32px 20px;
+          border-left: none;
+        }
+        .comparison-grid,
+        .principles-grid,
+        .quiz-options {
+          grid-template-columns: 1fr;
+        }
+        .hero {
+          padding: 52px 28px 42px;
+        }
+        .hero::after {
+          display: none;
+        }
+      }
+      @media (max-width: 600px) {
+        .hero {
+          padding: 40px 18px 32px;
+        }
+        .hero h1 {
+          font-size: clamp(26px, 8vw, 38px);
+          line-height: 1.2;
+        }
+        .hero-inner {
+          padding: 0;
+        }
+        .content {
+          padding: 18px 16px;
+        }
+        .lesson-section {
+          padding: 20px 16px;
+          border-radius: 12px;
+        }
+        .section-title {
+          font-size: 18px !important;
+          line-height: 1.3;
+        }
+        /* Inline grids — single column */
+        [style*="grid-template-columns"] {
+          grid-template-columns: 1fr !important;
+        }
+        /* Color palette swatches */
+        .color-row {
+          flex-direction: column !important;
+        }
+        .swatch-block {
+          width: 100% !important;
+        }
+        /* Better table scroll */
+        table {
+          display: block;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          font-size: 13px !important;
+        }
+        /* Better body text */
+        p,
+        li {
+          font-size: 14.5px !important;
+          line-height: 1.85 !important;
+        }
+        /* Better chips */
+        .hero-chip {
+          font-size: 11.5px !important;
+          padding: 6px 14px !important;
+        }
+      }
+
+      /* ── 390 × 844 — iPhone exact ── */
+      @media (min-width: 375px) and (max-width: 430px) {
+        .hero {
+          padding: 40px 18px 30px !important;
+        }
+        .hero h1 {
+          font-size: 28px !important;
+          line-height: 1.18 !important;
+        }
+        .hero-inner {
+          padding: 0 !important;
+        }
+        .content {
+          padding: 18px 18px !important;
+        }
+        .lesson-section {
+          padding: 22px 18px !important;
+          border-radius: 14px !important;
+        }
+        .section-title {
+          font-size: 18.5px !important;
+          line-height: 1.28 !important;
+        }
+        p,
+        li {
+          font-size: 14.5px !important;
+          line-height: 1.82 !important;
+        }
+        h3 {
+          font-size: 17px !important;
+        }
+        table {
+          display: block !important;
+          overflow-x: auto !important;
+          font-size: 13px !important;
+          white-space: nowrap;
+        }
+        table th,
+        table td {
+          padding: 11px 13px !important;
+        }
+        .hero-chip {
+          font-size: 11.5px !important;
+          padding: 6px 13px !important;
+        }
+        [style*="grid-template-columns"] {
+          grid-template-columns: 1fr !important;
+        }
+        .comparison-grid,
+        .principles-grid,
+        .quiz-options {
+          grid-template-columns: 1fr !important;
+        }
+        .color-row {
+          flex-direction: column !important;
+        }
+        .swatch-block {
+          width: 100% !important;
+        }
+      }
+
+      /* ─── ANIMATIONS ────────────────────────────────── */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .lesson-section {
+        animation: fadeUp 0.5s ease both;
+      }
+      .lesson-section:nth-child(2) {
+        animation-delay: 0.05s;
+      }
+      .lesson-section:nth-child(3) {
+        animation-delay: 0.1s;
+      }
+      .lesson-section:nth-child(4) {
+        animation-delay: 0.15s;
+      }
+
+      /* ─── HIGHLIGHT TEXT ─────────────────────────────── */
+      mark {
+        background: linear-gradient(
+          120deg,
+          rgba(200, 155, 60, 0.3),
+          rgba(200, 155, 60, 0.1)
+        );
+        border-radius: 3px;
+        padding: 0 2px;
+        color: inherit;
+      }
+
+      /* ═══════════════════════════════════════════════════════════
+     DARK MODE — CSS Variable Override + Targeted Fixes
+     Toggled by lang-system-ai.js via html.dark class
+  ═══════════════════════════════════════════════════════════ */
+
+      /* Flip CSS variables so all var()-based rules auto-switch */
+      html.dark {
+        --espresso: #fdf6ec;
+        --roast: #eee0cc;
+        --latte: #c8a882;
+        --cream: #120a04;
+        --foam: #1a0e06;
+        --milk: #1f1208;
+        --chalk: #221408;
+        --ui-bg: #0d1929;
+        --ux-bg: #0a1a0f;
+      }
+      html.dark body {
+        background: #120a04 !important;
+        color: rgba(253, 246, 236, 0.88) !important;
+      }
+
+      html.dark .principle-card {
+        background: #1f1208 !important;
+        color: rgba(253, 246, 236, 0.88) !important;
+      }
+      html.dark .comp-card.ui {
+        background: rgba(37, 99, 235, 0.12) !important;
+      }
+      html.dark .comp-card.ux {
+        background: rgba(22, 101, 52, 0.12) !important;
+      }
+      html.dark .comp-body {
+        background: #1a0e06 !important;
+        color: rgba(253, 246, 236, 0.82) !important;
+      }
+      html.dark .swatch-info {
+        background: #1a0e06 !important;
+      }
+      html.dark .type-showcase {
+        background: #1a0e06 !important;
+      }
+      html.dark .callout.warning {
+        background: rgba(180, 83, 9, 0.14) !important;
+      }
+      html.dark .callout.info {
+        background: rgba(29, 78, 216, 0.14) !important;
+      }
+      html.dark .callout.success {
+        background: rgba(21, 128, 61, 0.14) !important;
+      }
+      html.dark .quiz-box {
+        background: rgba(255, 255, 255, 0.04) !important;
+        border-color: rgba(255, 255, 255, 0.1) !important;
+      }
+
+      /* ── Hero: always stays dark regardless of mode ──────────────
+     The hero uses --espresso (bg) and --cream (text) which FLIP
+     in dark mode, turning the hero cream with invisible text.
+     These absolute-value overrides protect it in both modes.
+  ─────────────────────────────────────────────────────────────── */
+      html.dark .hero {
+        background: #0d0603 !important;
+      }
+      html.dark .hero::before {
+        opacity: 0.7 !important;
+      }
+      html.dark .hero::after {
+        color: rgba(255, 255, 255, 0.018) !important;
+      }
+      html.dark .hero h1 {
+        color: #fdf6ec !important;
+      }
+      html.dark .hero h1 span,
+      html.dark .hero h1 .acc,
+      html.dark .hero h1 .fig {
+        color: #c89b3c !important;
+      }
+      html.dark .hero-sub {
+        color: rgba(253, 246, 236, 0.58) !important;
+      }
+      html.dark .hero-eyebrow {
+        color: #c89b3c !important;
+        background: rgba(200, 155, 60, 0.12) !important;
+        border-color: rgba(200, 155, 60, 0.28) !important;
+      }
+      html.dark .hero-chip {
+        background: rgba(255, 255, 255, 0.07) !important;
+        color: rgba(253, 246, 236, 0.72) !important;
+        border-color: rgba(255, 255, 255, 0.1) !important;
+      }
+      html.dark .hero-part-badge,
+      html.dark .hero-badge {
+        background: #c89b3c !important;
+        color: #1c0f07 !important;
+      }
+      html.dark .hero-eye {
+        color: rgba(255, 255, 255, 0.22) !important;
+      }
+      html.dark .topics-strip {
+        background: rgba(0, 0, 0, 0.25) !important;
+        border-color: rgba(200, 155, 60, 0.12) !important;
+      }
+      html.dark .t-pill {
+        color: rgba(253, 246, 236, 0.38) !important;
+        border-color: rgba(200, 155, 60, 0.08) !important;
+      }
+      html.dark .hero-mesh {
+        opacity: 0.7 !important;
+      }
+      html.dark .hero-glow {
+        opacity: 0.5 !important;
+      }
+      html.dark .hero-grid-bg {
+        opacity: 0.5 !important;
+      }
+    </style>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- ░░ MOBILE TOC ░░ -->
+    <button class="sb-toc-toggle" id="sbTocToggle" aria-label="Open contents">
+      <svg
+        width="18"
+        height="14"
+        viewBox="0 0 18 14"
+        fill="none"
+        aria-hidden="true"
+        style="display: block; pointer-events: none; flex-shrink: 0"
+      >
+        <line
+          x1="0"
+          y1="1"
+          x2="18"
+          y2="1"
+          stroke="#C89B3C"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+        <line
+          x1="0"
+          y1="7"
+          x2="18"
+          y2="7"
+          stroke="#C89B3C"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+        <line
+          x1="0"
+          y1="13"
+          x2="18"
+          y2="13"
+          stroke="#C89B3C"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+      </svg>
+    </button>
+    <div class="sb-toc-overlay" id="sbTocOverlay"></div>
+    <div class="sb-toc-drawer" id="sbTocDrawer">
+      <div class="sb-toc-header">
+        <span class="sb-toc-header-label">មាតិកា — PART 1</span>
+        <button class="sb-toc-close" id="sbTocClose" aria-label="Close">
+          ✕
+        </button>
+      </div>
+      <div class="sb-toc-body">
+        <a href="#s1"><span class="sb-toc-num">01</span>UI និង UX គឺជាអ្វី?</a>
+        <a href="#s2"><span class="sb-toc-num">02</span>ភាពខុសគ្នា</a>
+        <a href="#s3"><span class="sb-toc-num">03</span>ហេតុអ្វីត្រូវរៀន</a>
+        <a href="#s4"><span class="sb-toc-num">04</span>គោលការណ៍ UI/UX</a>
+        <a href="#s5"><span class="sb-toc-num">05</span>Color Theory</a>
+        <a href="#s6"><span class="sb-toc-num">06</span>Typography</a>
+        <a href="#s7"><span class="sb-toc-num">07</span>Design System</a>
+        <a href="#s8"><span class="sb-toc-num">08</span>Tools &amp; Workflow</a>
+        <a href="#s9"><span class="sb-toc-num">09</span>ឧទាហរណ៍ SBCMS</a>
+        <a href="#quiz"><span class="sb-toc-num">✏</span>Quiz</a>
+      </div>
+    </div>
+    <script>
+      (function () {
+        var T = document.getElementById("sbTocToggle"),
+          D = document.getElementById("sbTocDrawer"),
+          O = document.getElementById("sbTocOverlay"),
+          C = document.getElementById("sbTocClose");
+        function openDrawer() {
+          D.classList.add("open");
+          O.classList.add("open");
+          T.classList.add("hidden");
+          document.body.style.overflow = "hidden";
+        }
+        function closeDrawer() {
+          D.classList.remove("open");
+          O.classList.remove("open");
+          T.classList.remove("hidden");
+          document.body.style.overflow = "";
+        }
+        T.addEventListener("click", openDrawer);
+        C.addEventListener("click", closeDrawer);
+        O.addEventListener("click", closeDrawer);
+        D.querySelectorAll('a[href^="#"]').forEach(function (a) {
+          a.addEventListener("click", closeDrawer);
+        });
+        /* Keyboard: Escape closes drawer */
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") closeDrawer();
+        });
+        /* Active highlight while scrolling */
+        var dLinks = D.querySelectorAll('a[href^="#s"]');
+        function markActive() {
+          var top = window.scrollY + 120;
+          var cur = null;
+          dLinks.forEach(function (a) {
+            var el = document.getElementById(a.getAttribute("href").slice(1));
+            if (el && el.offsetTop <= top) cur = a;
+          });
+          dLinks.forEach(function (a) {
+            a.classList.remove("active");
+          });
+          if (cur) cur.classList.add("active");
+        }
+        window.addEventListener("scroll", markActive, { passive: true });
+        markActive();
+      })();
+    </script>
+
+    <!-- PROGRESS BAR -->
+    <div class="top-strip">
+      <a href="index.html">SBCMS Lessons</a>
+      <span class="sep">›</span>
+      <a href="index.html">UI/UX Series</a>
+      <span class="sep">›</span>
+      <span class="cur">Part 1 — Introduction to UI/UX</span>
+    </div>
+    <!-- ════════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════ -->
+    <div class="hero">
+      <div class="hero-inner">
+        <div class="hero-eyebrow">
+          Sharp Bean Café Management System · Lesson Series
+        </div>
+        <h1>Introduction to <span>UI/UX</span><br />Design</h1>
+        <p class="hero-sub">
+          រៀនស្គាល់ User Interface និង User Experience ជាមូលដ្ឋាន —
+          មូលដ្ឋានគ្រឹះសម្រាប់ការរចនា SBCMS ។
+        </p>
+        <div class="hero-meta">
+          <span class="hero-part-badge">PART 1</span>
+          <span class="hero-chip">📚 មូលដ្ឋានគ្រឹះ</span>
+          <span class="hero-chip">⏱ 45–60 នាទី</span>
+          <span class="hero-chip">🎯 UI · UX · Design System</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════
+     BODY
+════════════════════════════════════════════════ -->
+    <div class="page-wrapper">
+      <!-- TOC -->
+      <nav class="toc">
+        <div class="toc-title">មាតិកា</div>
+        <a href="#s1" class="active"
+          ><span class="toc-num">01</span> UI និង UX គឺជាអ្វី?</a
+        >
+        <a href="#s2"><span class="toc-num">02</span> ភាពខុសគ្នា</a>
+        <a href="#s3"><span class="toc-num">03</span> ហេតុអ្វីត្រូវរៀន</a>
+        <a href="#s4"><span class="toc-num">04</span> គោលការណ៍ UI/UX</a>
+        <a href="#s5"><span class="toc-num">05</span> Color Theory</a>
+        <a href="#s6"><span class="toc-num">06</span> Typography</a>
+        <a href="#s7"><span class="toc-num">07</span> Design System</a>
+        <a href="#s8"><span class="toc-num">08</span> Tools &amp; Workflow</a>
+        <a href="#s9"><span class="toc-num">09</span> ឧទាហរណ៍ SBCMS</a>
+        <div class="toc-divider"></div>
+        <a href="#quiz"><span class="toc-num">✏</span> Quiz</a>
+      </nav>
+
+      <!-- CONTENT -->
+      <main class="content">
+        <!-- ══ SECTION 1 ══ -->
+        <div class="lesson-section" id="s1">
+          <span class="section-number">Section 01</span>
+          <h2>UI និង UX គឺជាអ្វី?</h2>
+
+          <p>
+            នៅក្នុងពិភព Software Development, យើងតែងតែឮពាក្យ
+            <span class="kw-blue">UI</span> និង <span class="kw-green">UX</span>
+            រួមគ្នា ប៉ុន្តែទាំងពីរនេះមានន័យខុសគ្នា។ ការយល់ដឹងអំពីភាពខុសគ្នានេះ
+            គឺជាជំហានដំបូងក្នុងការក្លាយជា Designer ឬ Developer ល្អ។
+          </p>
+
+          <div class="comparison-grid">
+            <div class="comp-card ui">
+              <div class="comp-header">
+                <div class="comp-badge">🖼️</div>
+                <div>
+                  <div class="comp-label">UI — User Interface</div>
+                  <div class="comp-sublabel">រូបរាង · ពណ៌ · ប្លង់</div>
+                </div>
+              </div>
+              <div class="comp-body">
+                <div class="comp-item">
+                  <div class="comp-dot"></div>
+                  <span
+                    >UI ជាអ្វីដែល <strong>មើលឃើញ</strong> — Buttons, Colors,
+                    Fonts, Icons, Layout</span
+                  >
+                </div>
+                <div class="comp-item">
+                  <div class="comp-dot"></div>
+                  <span
+                    >ចុចប៊ូតុងមួយ → ពណ៌ប្រែ, Animation លេចឡើង — នោះជា UI</span
+                  >
+                </div>
+                <div class="comp-item">
+                  <div class="comp-dot"></div>
+                  <span
+                    >ផ្តោតលើ <strong>Visual Design</strong> — ស្អាត, មានរចនា,
+                    ទាក់ទាញ</span
+                  >
+                </div>
+                <div class="comp-item">
+                  <div class="comp-dot"></div>
+                  <span>ឧបករណ៍: Figma, Adobe XD, CSS, HTML</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="comp-card ux">
+              <div class="comp-header">
+                <div class="comp-badge">🧠</div>
+                <div>
+                  <div class="comp-label">UX — User Experience</div>
+                  <div class="comp-sublabel">
+                    ប្រសិទ្ធភាព · ភាពងាយ · អារម្មណ៍
+                  </div>
+                </div>
+              </div>
+              <div class="comp-body">
+                <div class="comp-item">
+                  <div class="comp-dot"></div>
+                  <span
+                    >UX ជា <strong>អារម្មណ៍</strong> ដែល User មានពេលប្រើ App —
+                    ងាយ? ច្របូកច្របល់? រំភើប?</span
+                  >
+                </div>
+                <div class="comp-item">
+                  <div class="comp-dot"></div>
+                  <span
+                    >User ចូល App ហើយស្វែងរកបានលឿន, មិនច្របូកច្របល់ — នោះជា UX
+                    ល្អ</span
+                  >
+                </div>
+                <div class="comp-item">
+                  <div class="comp-dot"></div>
+                  <span
+                    >ផ្តោតលើ <strong>User Flow</strong>, Usability,
+                    Research</span
+                  >
+                </div>
+                <div class="comp-item">
+                  <div class="comp-dot"></div>
+                  <span>ឧបករណ៍: Personas, Wireframes, User Testing</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout coffee">
+            <div class="callout-icon">☕</div>
+            <div class="callout-body">
+              <div class="callout-title">ពាក្យប្រៀបធៀបដ៏ល្អ — Coffee Shop</div>
+              <div class="callout-text">
+                ស្រមៃថា Sharp Bean Café — <strong>UI</strong> ដូចជាការតុបតែង
+                cafe: ជញ្ជាំងស្អាត, menu board ច្បាស់, ពណ៌ Espresso ស្រស់ស្អាត ។
+                <strong>UX</strong> ដូចជាដំណើរការ: Order លឿន, Barista យល់ Order
+                ត្រូវ, អាហារមកឆាប់, Customer ពេញចិត្ត — ហើយត្រឡប់មកវិញ ។
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ SECTION 2 ══ -->
+        <div class="lesson-section" id="s2">
+          <span class="section-number">Section 02</span>
+          <h2>ភាពខុសគ្នា: UI vs UX</h2>
+
+          <p>
+            UI និង UX ធ្វើការជាមួយគ្នា ប៉ុន្តែមានទំនួលខុសត្រូវខុសគ្នា។ Product
+            ល្អត្រូវការ <mark>ទាំង UI ស្អាត ទាំង UX ល្អ</mark> ។
+          </p>
+
+          <table
+            style="
+              width: 100%;
+              border-collapse: collapse;
+              margin: 16px 0;
+              font-size: 13.5px;
+            "
+          >
+            <thead>
+              <tr style="background: var(--milk)">
+                <th
+                  style="
+                    padding: 12px 16px;
+                    text-align: left;
+                    font-weight: 700;
+                    color: var(--latte);
+                    font-size: 11px;
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
+                  "
+                >
+                  លក្ខណៈ
+                </th>
+                <th
+                  style="
+                    padding: 12px 16px;
+                    text-align: left;
+                    color: #2563eb;
+                    font-size: 11px;
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
+                  "
+                >
+                  UI
+                </th>
+                <th
+                  style="
+                    padding: 12px 16px;
+                    text-align: left;
+                    color: #166534;
+                    font-size: 11px;
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
+                  "
+                >
+                  UX
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--milk)">
+                <td
+                  style="
+                    padding: 11px 16px;
+                    font-weight: 600;
+                    color: var(--roast);
+                  "
+                >
+                  ផ្តោតលើ
+                </td>
+                <td style="padding: 11px 16px">Visual, Aesthetics</td>
+                <td style="padding: 11px 16px">Usability, Behavior</td>
+              </tr>
+              <tr
+                style="
+                  border-bottom: 1px solid var(--milk);
+                  background: var(--foam);
+                "
+              >
+                <td
+                  style="
+                    padding: 11px 16px;
+                    font-weight: 600;
+                    color: var(--roast);
+                  "
+                >
+                  សំណួរ
+                </td>
+                <td style="padding: 11px 16px">"App ស្អាតទេ?"</td>
+                <td style="padding: 11px 16px">"User ប្រើបានងាយទេ?"</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--milk)">
+                <td
+                  style="
+                    padding: 11px 16px;
+                    font-weight: 600;
+                    color: var(--roast);
+                  "
+                >
+                  លទ្ធផល
+                </td>
+                <td style="padding: 11px 16px">Mockups, Style Guide</td>
+                <td style="padding: 11px 16px">Wireframes, User Flow</td>
+              </tr>
+              <tr
+                style="
+                  border-bottom: 1px solid var(--milk);
+                  background: var(--foam);
+                "
+              >
+                <td
+                  style="
+                    padding: 11px 16px;
+                    font-weight: 600;
+                    color: var(--roast);
+                  "
+                >
+                  ដំណើរការ
+                </td>
+                <td style="padding: 11px 16px">Color, Font, Layout</td>
+                <td style="padding: 11px 16px">Research, Testing, Iteration</td>
+              </tr>
+              <tr>
+                <td
+                  style="
+                    padding: 11px 16px;
+                    font-weight: 600;
+                    color: var(--roast);
+                  "
+                >
+                  SBCMS
+                </td>
+                <td style="padding: 11px 16px">
+                  Design System, WinForms Style
+                </td>
+                <td style="padding: 11px 16px">Order Flow, Login Flow</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="callout warning">
+            <div class="callout-icon">⚠️</div>
+            <div class="callout-body">
+              <div class="callout-title">កំហុស Common</div>
+              <div class="callout-text">
+                <strong>UI ស្អាត ≠ UX ល្អ !</strong>
+                App អាចមានពណ៌ស្អាត, Font ល្អ ប៉ុន្តែ User ស្វែងរកអ្វីមិនឃើញ —
+                នោះ UX ខ្សោយ ។ ផ្ទុយទៅវិញ App ងាយប្រើ ប៉ុន្តែបើរូបរាងអាក្រក់
+                (ugly) — UI ខ្សោយ ។ ត្រូវការ <strong>ទាំងពីរ</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ SECTION 3 ══ -->
+        <div class="lesson-section" id="s3">
+          <span class="section-number">Section 03</span>
+          <h2>ហេតុអ្វីត្រូវរៀន UI/UX?</h2>
+
+          <p>
+            ក្នុងការសិក្សា Software Engineering, UI/UX ជា Phase ដ៏សំខាន់ ព្រោះ
+            System ល្អត្រូវ <mark>ទាំង Code ល្អ ទាំង Interface ល្អ</mark> ។ User
+            ស្ទើរមិនដែលអាន Source Code — ពួកគេឃើញ UI ប៉ុណ្ណោះ ។
+          </p>
+
+          <div
+            class="principles-grid"
+            style="grid-template-columns: 1fr 1fr 1fr; gap: 12px"
+          >
+            <div class="principle-card" style="grid-column: span 1">
+              <div class="principle-icon">💼</div>
+              <div class="principle-name">Professional Skills</div>
+              <div class="principle-km">
+                ក្រុមហ៊ុន IT ទាំងអស់ ត្រូវការ Developer ដែលយល់ Design ។
+              </div>
+            </div>
+            <div class="principle-card" style="grid-column: span 1">
+              <div class="principle-icon">👤</div>
+              <div class="principle-name">User-Centered</div>
+              <div class="principle-km">
+                រៀន Design ជួយ Developer គិតដូច User — ធ្វើ Feature ត្រឹមត្រូវ ។
+              </div>
+            </div>
+            <div class="principle-card" style="grid-column: span 1">
+              <div class="principle-icon">🚀</div>
+              <div class="principle-name">Product Quality</div>
+              <div class="principle-km">
+                UI/UX ល្អ → User ពេញចិត្ត → Product ជោគជ័យ ។
+              </div>
+            </div>
+          </div>
+
+          <div class="callout info">
+            <div class="callout-icon">💡</div>
+            <div class="callout-body">
+              <div class="callout-title">នៅក្នុង SBCMS Project</div>
+              <div class="callout-text">
+                Team យើងបានបង្កើត <strong>Design System</strong> (Task #21,
+                #22), <strong>Wireframes</strong> (Task #23–27) ដែលផ្អែកលើ UI/UX
+                Principles ។ នេះ មិនមែន "ពណ៌ស្អាត" ប្រចាំ — វាជា System ដែល
+                Scalable, Consistent ។
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ SECTION 4 ══ -->
+        <div class="lesson-section" id="s4">
+          <span class="section-number">Section 04</span>
+          <h2>គោលការណ៍ UI/UX ជាមូលដ្ឋាន</h2>
+          <p>
+            Jakob Nielsen ដែលជា UX Expert ល្បីល្បាញ បានបង្កើត
+            <span class="kw">10 Usability Heuristics</span> ។ ខាងក្រោមនេះ ជា 6
+            គោលការណ៍ដ៏ចាំបាច់ ។
+          </p>
+
+          <div class="principles-grid">
+            <div class="principle-card">
+              <div class="principle-icon">👁️</div>
+              <div class="principle-name">1. Visibility of System Status</div>
+              <div class="principle-km">
+                ប្រាប់ User ថា System ធ្វើអ្វី ។ ឧ. Loading Spinner ពេល Submit
+                Order, Badge "Confirmed" ពេល Order ជោគជ័យ ។
+              </div>
+            </div>
+            <div class="principle-card">
+              <div class="principle-icon">🌍</div>
+              <div class="principle-name">2. Match Real World</div>
+              <div class="principle-km">
+                ប្រើ Language និង Icon ដែល User ស្គាល់ ។ ប្រើ 🗑️ សម្រាប់ Delete,
+                ✏️ សម្រាប់ Edit — មិនប្រើ Technical Code Words ។
+              </div>
+            </div>
+            <div class="principle-card">
+              <div class="principle-icon">🎮</div>
+              <div class="principle-name">3. User Control & Freedom</div>
+              <div class="principle-km">
+                User ជ្រើស Cancel, Back, Undo បាន ។ ឧ. ប៊ូតុង "Clear" ក្នុង POS
+                Form ដូចក្នុង SBCMS Wireframe Task #24 ។
+              </div>
+            </div>
+            <div class="principle-card">
+              <div class="principle-icon">📐</div>
+              <div class="principle-name">4. Consistency</div>
+              <div class="principle-km">
+                ប្រើ Button Style, Font, Color ដូចគ្នា ។ SBCMS Design System ជា
+                Consistency Guide — ប្រើ Espresso Brown ជារបស់ Brand ។
+              </div>
+            </div>
+            <div class="principle-card">
+              <div class="principle-icon">🛡️</div>
+              <div class="principle-name">5. Error Prevention</div>
+              <div class="principle-km">
+                ការពារ Error ជាការប្រសើរជាង Error Message ។ ឧ. Disable ប៊ូតុង
+                "Confirm" ពេល Cart ទទេ ។
+              </div>
+            </div>
+            <div class="principle-card">
+              <div class="principle-icon">🧹</div>
+              <div class="principle-name">6. Aesthetic & Minimalism</div>
+              <div class="principle-km">
+                បង្ហាញតែ Information ចាំបាច់ ។ Information ច្រើនពេក → User
+                Overwhelmed → UX ខ្សោយ ។
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ SECTION 5 ══ -->
+        <div class="lesson-section" id="s5">
+          <span class="section-number">Section 05</span>
+          <h2>Color Theory — ទ្រឹស្ដីពណ៌</h2>
+
+          <p>
+            ពណ៌ជា Element សំខាន់បំផុតក្នុង UI ។ ពណ៌ប៉ះពាល់ដល់
+            <mark>អារម្មណ៍, ការទុកចិត្ត, ការសម្រេចចិត្ត</mark> របស់ User ។
+          </p>
+
+          <h3>Color Roles</h3>
+          <div class="palette-row">
+            <div class="swatch-item">
+              <div class="swatch-color" style="background: #2c1a0e"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Primary</div>
+                <div class="swatch-hex">#2C1A0E — Espresso</div>
+                <div class="swatch-role">Brand, Headers, Text</div>
+              </div>
+            </div>
+            <div class="swatch-item">
+              <div class="swatch-color" style="background: #c89b3c"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Accent</div>
+                <div class="swatch-hex">#C89B3C — Caramel</div>
+                <div class="swatch-role">CTA Buttons, Highlights</div>
+              </div>
+            </div>
+            <div class="swatch-item">
+              <div class="swatch-color" style="background: #fdf6ec"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Background</div>
+                <div class="swatch-hex">#FDF6EC — Cream</div>
+                <div class="swatch-role">Page Background</div>
+              </div>
+            </div>
+            <div class="swatch-item">
+              <div class="swatch-color" style="background: #3a7d44"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Success</div>
+                <div class="swatch-hex">#3A7D44 — Green</div>
+                <div class="swatch-role">Done, Confirmed</div>
+              </div>
+            </div>
+            <div class="swatch-item">
+              <div class="swatch-color" style="background: #b83232"></div>
+              <div class="swatch-info">
+                <div class="swatch-name">Danger</div>
+                <div class="swatch-hex">#B83232 — Red</div>
+                <div class="swatch-role">Error, Delete</div>
+              </div>
+            </div>
+          </div>
+
+          <h3>60–30–10 Rule</h3>
+          <p>
+            ច្បាប់ <span class="kw">60-30-10</span> ជា Rule សំខាន់ ក្នុងការចែក
+            ពណ៌ក្នុង UI ។
+          </p>
+          <div
+            style="
+              display: flex;
+              gap: 12px;
+              margin: 16px 0;
+              align-items: stretch;
+            "
+          >
+            <div
+              style="
+                flex: 6;
+                background: var(--cream);
+                border: 2px solid var(--milk);
+                border-radius: 12px;
+                padding: 18px;
+                text-align: center;
+              "
+            >
+              <div
+                style="font-size: 30px; font-weight: 700; color: var(--roast)"
+              >
+                60%
+              </div>
+              <div
+                style="
+                  font-weight: 600;
+                  color: var(--roast);
+                  margin-bottom: 4px;
+                "
+              >
+                Dominant Color
+              </div>
+              <div style="font-size: 12.5px; color: var(--latte)">
+                Background, ផ្ទៃធំៗ<br /><span class="kw">Cream #FDF6EC</span>
+              </div>
+            </div>
+            <div
+              style="
+                flex: 3;
+                background: var(--roast);
+                border-radius: 12px;
+                padding: 18px;
+                text-align: center;
+              "
+            >
+              <div
+                style="font-size: 30px; font-weight: 700; color: var(--cream)"
+              >
+                30%
+              </div>
+              <div
+                style="
+                  font-weight: 600;
+                  color: var(--cream);
+                  margin-bottom: 4px;
+                "
+              >
+                Secondary
+              </div>
+              <div style="font-size: 12.5px; color: rgba(253, 246, 236, 0.7)">
+                Sidebar, Headers<br /><span style="font-family: var(--mono)"
+                  >Espresso</span
+                >
+              </div>
+            </div>
+            <div
+              style="
+                flex: 1;
+                background: var(--caramel);
+                border-radius: 12px;
+                padding: 18px;
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <div
+                style="
+                  font-size: 24px;
+                  font-weight: 700;
+                  color: var(--espresso);
+                "
+              >
+                10%
+              </div>
+              <div
+                style="
+                  font-size: 11px;
+                  font-weight: 600;
+                  color: var(--espresso);
+                "
+              >
+                Accent
+              </div>
+              <div
+                style="
+                  font-size: 10px;
+                  color: rgba(28, 15, 7, 0.7);
+                  text-align: center;
+                "
+              >
+                CTA<br />Caramel
+              </div>
+            </div>
+          </div>
+
+          <div class="callout success">
+            <div class="callout-icon">✅</div>
+            <div class="callout-body">
+              <div class="callout-title">SBCMS Design System — Color ត្រូវ</div>
+              <div class="callout-text">
+                SBCMS Design System ប្រើ <strong>Espresso</strong> ជា
+                Header/Nav, <strong>Cream</strong> ជា Background,
+                <strong>Caramel</strong> ជា Accent CTA — ដូច 60-30-10 Rule ។
+                ពណ៌ទាំងអស់ Consistent តាមរយៈ
+                <span class="kw">CSS Variables</span> ។
+              </div>
+            </div>
+          </div>
+
+          <h3>Color Contrast — WCAG</h3>
+          <p>
+            <span class="kw">WCAG</span> (Web Content Accessibility Guidelines)
+            កំណត់ថា Text ត្រូវ Contrast Ratio <strong>≥ 4.5:1</strong> ។ នេះ
+            ទាក់ទងនឹង Accessibility — User ដែលមានបញ្ហាភ្នែកក៏អានបាន ។
+          </p>
+          <div class="code-block">
+            <span class="code-block-label"
+              >CSS Variables — SBCMS Color System</span
+            >
+            <pre><span class="c-key">:root</span> {
+  <span class="c-comment">/* Primary Palette */</span>
+  <span class="c-attr">--espresso</span>:  <span class="c-val">#2C1A0E</span>;   <span class="c-comment">/* Darkest — Headers, Primary Text */</span>
+  <span class="c-attr">--roast</span>:      <span class="c-val">#4A2C0A</span>;   <span class="c-comment">/* Brand Primary — Nav Background */</span>
+  <span class="c-attr">--caramel</span>:    <span class="c-val">#C89B3C</span>;   <span class="c-comment">/* Gold Accent — CTA Buttons ✦ */</span>
+  <span class="c-attr">--cream</span>:      <span class="c-val">#FDF6EC</span>;   <span class="c-comment">/* Page Background */</span>
+
+  <span class="c-comment">/* Semantic Colors */</span>
+  <span class="c-attr">--success</span>:    <span class="c-val">#3A7D44</span>;   <span class="c-comment">/* Done, Confirmed */</span>
+  <span class="c-attr">--warning</span>:    <span class="c-val">#C47C1A</span>;   <span class="c-comment">/* Low Stock, Pending */</span>
+  <span class="c-attr">--danger</span>:     <span class="c-val">#B83232</span>;   <span class="c-comment">/* Error, Delete */</span>
+}</pre>
+          </div>
+        </div>
+
+        <!-- ══ SECTION 6 ══ -->
+        <div class="lesson-section" id="s6">
+          <span class="section-number">Section 06</span>
+          <h2>Typography — ការជ្រើស Font</h2>
+
+          <p>
+            <span class="kw">Typography</span> គឺជា
+            <mark>ជំនាញប្រើ Font</mark> ក្នុង Design ។ Font ជ្រើសខុស → UI មើលទៅ
+            Amateur ។ Font ជ្រើសត្រូវ → Professional, ទំនុកចិត្ត ។
+          </p>
+
+          <h3>Font Pairing — ការដាក់ Font ជាគូ</h3>
+          <p>
+            Designer ល្អ ច្រើន Pair Font ១ Display + ១ Body ។
+            <span class="kw">Display Font</span> = ស្រស់, Character;
+            <span class="kw">Body Font</span> = ងាយអាន ។
+          </p>
+
+          <div class="type-showcase">
+            <div class="type-row">
+              <div class="type-meta">
+                H1 · 36px · 700<br />Display · Heading
+              </div>
+              <div class="type-sample-h1">Sharp Bean Café</div>
+            </div>
+            <div class="type-row">
+              <div class="type-meta">H2 · 24px · 600<br />Section Title</div>
+              <div class="type-sample-h2">Sales Report — March 2026</div>
+            </div>
+            <div class="type-row">
+              <div class="type-meta">H3 · 18px · 500<br />Sub-heading</div>
+              <div class="type-sample-h3">Inventory Management</div>
+            </div>
+            <div class="type-row">
+              <div class="type-meta">Body · 14px · 400<br />Content Text</div>
+              <div class="type-sample-body">
+                ប្រព័ន្ធ SBCMS គ្រប់គ្រងការ Order, Inventory, Employee និង
+                Report សម្រាប់ Sharp Bean Café ។
+              </div>
+            </div>
+            <div class="type-row">
+              <div class="type-meta">Mono · 13px<br />Code · Data</div>
+              <div
+                style="
+                  font-family: var(--mono);
+                  font-size: 13px;
+                  color: var(--roast);
+                "
+              >
+                ORDER-20260307-0042 | $24.50 | Table #07
+              </div>
+            </div>
+          </div>
+
+          <h3>Typography Rules</h3>
+          <div class="step-flow">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">Font Size Hierarchy</div>
+                <div class="step-desc">
+                  H1 &gt; H2 &gt; H3 &gt; Body &gt; Label — ធ្វើឱ្យ User ដឹង
+                  Information ណា Important ។
+                </div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">Line Height (Leading)</div>
+                <div class="step-desc">
+                  Body Text ត្រូវ Line Height ប្រហែល
+                  <span class="kw">1.6–1.8</span> — ងាយអាន, ចន្លោះល្អ ។
+                </div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">Maximum 2–3 Fonts</div>
+                <div class="step-desc">
+                  Font ច្រើនពេក → ច្របូកច្របល់ ។ SBCMS ប្រើ Playfair Display +
+                  DM Sans + DM Mono — ត្រឹមបី ។
+                </div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <div class="step-title">Monospace for Code/Data</div>
+                <div class="step-desc">
+                  <span class="kw">Consolas, DM Mono</span> — ប្រើសម្រាប់ Order
+                  ID, Code, Database Values — ងាយអានជា Column ។
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ SECTION 7 ══ -->
+        <div class="lesson-section" id="s7">
+          <span class="section-number">Section 07</span>
+          <h2>Design System — ប្រព័ន្ធ Design</h2>
+
+          <p>
+            <span class="kw">Design System</span> ជា Collection នៃ Rules,
+            Components, Colors, Fonts ដែល Team ប្រើរួមគ្នា ។ គ្មាន Design System
+            → Developer ម្នាក់ Button ពណ៌ខៀវ, ម្នាក់ Button ពណ៌ក្រហម →
+            <mark>ខ្វះ Consistency</mark> ។
+          </p>
+
+          <div class="callout coffee">
+            <div class="callout-icon">📋</div>
+            <div class="callout-body">
+              <div class="callout-title">Design System Components</div>
+              <div class="callout-text">
+                Design System ល្អ មាន:
+                <strong
+                  >Color Palette · Typography Scale · Spacing System · Component
+                  Library (Buttons, Inputs, Badges, Alerts) · Icon Set · Grid
+                  System</strong
+                >
+                ។
+              </div>
+            </div>
+          </div>
+
+          <h3>SBCMS Design System Components</h3>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 12px;
+              margin: 16px 0;
+            "
+          >
+            <div
+              style="
+                background: white;
+                border: 1px solid var(--milk);
+                border-radius: 10px;
+                padding: 16px;
+              "
+            >
+              <div
+                style="
+                  font-family: var(--mono);
+                  font-size: 10px;
+                  color: var(--caramel);
+                  letter-spacing: 2px;
+                  text-transform: uppercase;
+                  margin-bottom: 12px;
+                "
+              >
+                Buttons
+              </div>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px">
+                <button
+                  style="
+                    padding: 8px 16px;
+                    background: var(--roast);
+                    color: var(--cream);
+                    border: none;
+                    border-radius: 6px;
+                    font-family: var(--font);
+                    font-size: 12px;
+                    font-weight: 600;
+                    cursor: default;
+                  "
+                >
+                  Primary
+                </button>
+                <button
+                  style="
+                    padding: 8px 16px;
+                    background: var(--caramel);
+                    color: var(--espresso);
+                    border: none;
+                    border-radius: 6px;
+                    font-family: var(--font);
+                    font-size: 12px;
+                    font-weight: 600;
+                    cursor: default;
+                  "
+                >
+                  Accent
+                </button>
+                <button
+                  style="
+                    padding: 8px 16px;
+                    background: transparent;
+                    color: var(--roast);
+                    border: 1.5px solid var(--roast);
+                    border-radius: 6px;
+                    font-family: var(--font);
+                    font-size: 12px;
+                    font-weight: 600;
+                    cursor: default;
+                  "
+                >
+                  Outline
+                </button>
+                <button
+                  style="
+                    padding: 8px 16px;
+                    background: #b83232;
+                    color: white;
+                    border: none;
+                    border-radius: 6px;
+                    font-family: var(--font);
+                    font-size: 12px;
+                    font-weight: 600;
+                    cursor: default;
+                  "
+                >
+                  Danger
+                </button>
+              </div>
+            </div>
+            <div
+              style="
+                background: white;
+                border: 1px solid var(--milk);
+                border-radius: 10px;
+                padding: 16px;
+              "
+            >
+              <div
+                style="
+                  font-family: var(--mono);
+                  font-size: 10px;
+                  color: var(--caramel);
+                  letter-spacing: 2px;
+                  text-transform: uppercase;
+                  margin-bottom: 12px;
+                "
+              >
+                Status Badges
+              </div>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px">
+                <span
+                  style="
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    background: #d4edda;
+                    color: #3a7d44;
+                    font-size: 11px;
+                    font-weight: 600;
+                  "
+                  >✓ Done</span
+                >
+                <span
+                  style="
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    background: #fff3cd;
+                    color: #b45309;
+                    font-size: 11px;
+                    font-weight: 600;
+                  "
+                  >⏳ Pending</span
+                >
+                <span
+                  style="
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    background: #f8d7da;
+                    color: #b83232;
+                    font-size: 11px;
+                    font-weight: 600;
+                  "
+                  >✗ Cancelled</span
+                >
+                <span
+                  style="
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    background: var(--roast);
+                    color: white;
+                    font-size: 11px;
+                    font-weight: 600;
+                  "
+                  >Manager</span
+                >
+              </div>
+            </div>
+            <div
+              style="
+                background: white;
+                border: 1px solid var(--milk);
+                border-radius: 10px;
+                padding: 16px;
+              "
+            >
+              <div
+                style="
+                  font-family: var(--mono);
+                  font-size: 10px;
+                  color: var(--caramel);
+                  letter-spacing: 2px;
+                  text-transform: uppercase;
+                  margin-bottom: 12px;
+                "
+              >
+                Alerts
+              </div>
+              <div
+                style="
+                  padding: 10px 14px;
+                  border-radius: 7px;
+                  background: #f0faf2;
+                  border-left: 3px solid #3a7d44;
+                  color: #3a7d44;
+                  font-size: 12.5px;
+                  margin-bottom: 8px;
+                "
+              >
+                ✅ Order confirmed successfully.
+              </div>
+              <div
+                style="
+                  padding: 10px 14px;
+                  border-radius: 7px;
+                  background: #fffbf0;
+                  border-left: 3px solid #c47c1a;
+                  color: #92400e;
+                  font-size: 12.5px;
+                "
+              >
+                ⚠️ Low stock: Espresso Beans.
+              </div>
+            </div>
+            <div
+              style="
+                background: white;
+                border: 1px solid var(--milk);
+                border-radius: 10px;
+                padding: 16px;
+              "
+            >
+              <div
+                style="
+                  font-family: var(--mono);
+                  font-size: 10px;
+                  color: var(--caramel);
+                  letter-spacing: 2px;
+                  text-transform: uppercase;
+                  margin-bottom: 12px;
+                "
+              >
+                Spacing Scale
+              </div>
+              <div style="display: flex; gap: 8px; align-items: flex-end">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 4px;
+                  "
+                >
+                  <div
+                    style="
+                      width: 20px;
+                      height: 4px;
+                      background: var(--caramel);
+                      border-radius: 2px;
+                      opacity: 0.7;
+                    "
+                  ></div>
+                  <div
+                    style="
+                      font-size: 9px;
+                      color: var(--latte);
+                      font-family: var(--mono);
+                    "
+                  >
+                    4px
+                  </div>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 4px;
+                  "
+                >
+                  <div
+                    style="
+                      width: 20px;
+                      height: 8px;
+                      background: var(--caramel);
+                      border-radius: 2px;
+                      opacity: 0.7;
+                    "
+                  ></div>
+                  <div
+                    style="
+                      font-size: 9px;
+                      color: var(--latte);
+                      font-family: var(--mono);
+                    "
+                  >
+                    8px
+                  </div>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 4px;
+                  "
+                >
+                  <div
+                    style="
+                      width: 20px;
+                      height: 16px;
+                      background: var(--caramel);
+                      border-radius: 2px;
+                      opacity: 0.7;
+                    "
+                  ></div>
+                  <div
+                    style="
+                      font-size: 9px;
+                      color: var(--latte);
+                      font-family: var(--mono);
+                    "
+                  >
+                    16px
+                  </div>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 4px;
+                  "
+                >
+                  <div
+                    style="
+                      width: 20px;
+                      height: 24px;
+                      background: var(--caramel);
+                      border-radius: 2px;
+                      opacity: 0.7;
+                    "
+                  ></div>
+                  <div
+                    style="
+                      font-size: 9px;
+                      color: var(--latte);
+                      font-family: var(--mono);
+                    "
+                  >
+                    24px
+                  </div>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 4px;
+                  "
+                >
+                  <div
+                    style="
+                      width: 20px;
+                      height: 32px;
+                      background: var(--caramel);
+                      border-radius: 2px;
+                      opacity: 0.7;
+                    "
+                  ></div>
+                  <div
+                    style="
+                      font-size: 9px;
+                      color: var(--latte);
+                      font-family: var(--mono);
+                    "
+                  >
+                    32px
+                  </div>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 4px;
+                  "
+                >
+                  <div
+                    style="
+                      width: 20px;
+                      height: 48px;
+                      background: var(--caramel);
+                      border-radius: 2px;
+                      opacity: 0.7;
+                    "
+                  ></div>
+                  <div
+                    style="
+                      font-size: 9px;
+                      color: var(--latte);
+                      font-family: var(--mono);
+                    "
+                  >
+                    48px
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="code-block">
+            <span class="code-block-label"
+              >HTML — Button Component Example</span
+            >
+            <pre><span class="c-comment">&lt;!-- Primary Button --&gt;</span>
+<span class="c-tag">&lt;button</span> <span class="c-attr">class</span>=<span class="c-str">"btn btn-primary"</span><span class="c-tag">&gt;</span>
+  ☕ Confirm Order
+<span class="c-tag">&lt;/button&gt;</span>
+
+<span class="c-comment">&lt;!-- Accent Button --&gt;</span>
+<span class="c-tag">&lt;button</span> <span class="c-attr">class</span>=<span class="c-str">"btn btn-accent"</span><span class="c-tag">&gt;</span>
+  ✦ New Order
+<span class="c-tag">&lt;/button&gt;</span>
+
+<span class="c-comment">/* CSS */</span>
+<span class="c-key">.btn</span> {
+  <span class="c-attr">padding</span>: <span class="c-val">10px 22px</span>;
+  <span class="c-attr">border-radius</span>: <span class="c-val">8px</span>;
+  <span class="c-attr">font-weight</span>: <span class="c-val">600</span>;
+  <span class="c-attr">transition</span>: <span class="c-val">all 0.18s</span>;
+}
+<span class="c-key">.btn-primary</span> { <span class="c-attr">background</span>: <span class="c-val">var(--roast)</span>; <span class="c-attr">color</span>: <span class="c-val">var(--cream)</span>; }
+<span class="c-key">.btn-accent</span>  { <span class="c-attr">background</span>: <span class="c-val">var(--caramel)</span>; <span class="c-attr">color</span>: <span class="c-val">var(--espresso)</span>; }</pre>
+          </div>
+        </div>
+
+        <!-- ══ SECTION 8 ══ -->
+        <div class="lesson-section" id="s8">
+          <span class="section-number">Section 08</span>
+          <h2>Tools &amp; UX Design Workflow</h2>
+
+          <p>
+            Designer ប្រើ Tools ខុសគ្នា ។ SBCMS Team ប្រើ
+            <span class="kw">Figma</span> ដើម្បីធ្វើ Wireframe,
+            <span class="kw">draw.io</span> ដើម្បីធ្វើ Diagram,
+            <span class="kw">HTML/CSS</span> ដើម្បីធ្វើ Design System ។
+          </p>
+
+          <div class="tag-row">
+            <span class="tag tag-tool">Figma</span>
+            <span class="tag tag-tool">draw.io</span>
+            <span class="tag tag-tool">Visual Paradigm</span>
+            <span class="tag tag-tool">Adobe XD</span>
+            <span class="tag tag-tool">Sketch</span>
+            <span class="tag tag-skill">HTML/CSS</span>
+            <span class="tag tag-skill">React</span>
+            <span class="tag tag-skill">Tailwind CSS</span>
+            <span class="tag tag-role">UI Designer</span>
+            <span class="tag tag-role">UX Researcher</span>
+            <span class="tag tag-role">Frontend Dev</span>
+          </div>
+
+          <h3>UX Design Process</h3>
+          <div class="step-flow">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">Research — ស្រាវជ្រាវ</div>
+                <div class="step-desc">
+                  ស្គាល់ User: ពួកគេជានរណា? ចង់ធ្វើអ្វី? Problem អ្វី? →
+                  Personas, User Stories, Interviews ។
+                </div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">Wireframe — គ្រោង</div>
+                <div class="step-desc">
+                  គ្រោង Layout ប្រហែលៗ — ដោយ Pencil ឬ Tool ។ SBCMS: Task #23–27
+                  ជា Wireframes ។
+                </div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">Prototype — គំរូ</div>
+                <div class="step-desc">
+                  ធ្វើ Clickable Prototype ដែល User អាច Test — ស្វែងរក Problem
+                  មុន Code ។
+                </div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <div class="step-title">Test &amp; Iterate — ធ្វើ Test</div>
+                <div class="step-desc">
+                  User Test → ស្ដាប់ Feedback → កែ Design → Test ម្ដងទៀត — Cycle
+                  ។
+                </div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">5</div>
+              <div class="step-body">
+                <div class="step-title">Handoff to Developer</div>
+                <div class="step-desc">
+                  ប្រគល់ Design + Design System ដល់ Developer ដើម្បី Code ។
+                  SBCMS: Design System + Wireframes → C# WinForms ។
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ SECTION 9 ══ -->
+        <div class="lesson-section" id="s9">
+          <span class="section-number">Section 09</span>
+          <h2>ឧទាហរណ៍: SBCMS UI/UX Analysis</h2>
+
+          <p>តោះ Analyze UI/UX ក្នុង SBCMS Wireframes ដែល Team បានបង្កើត ។</p>
+
+          <div class="sbcms-example">
+            <span class="sbcms-example-label"
+              >SBCMS — Task #23: Login Form</span
+            >
+            <h4>UI Analysis: Login Form</h4>
+            <ul>
+              <li>
+                <strong>Color:</strong> Dark Espresso Background → Professional,
+                Secure, Brand Consistent
+              </li>
+              <li>
+                <strong>Layout:</strong> Centered Card → ផ្តោត User Attention,
+                ងាយប្រើ
+              </li>
+              <li>
+                <strong>Role Selector:</strong> Employee / Manager Toggle →
+                Clear Role-Based Access
+              </li>
+              <li>
+                <strong>Typography:</strong> Playfair Display + DM Mono →
+                Elegant + Technical
+              </li>
+              <li>
+                <strong>UX Flow:</strong> Login → Redirect to Dashboard ដោយ Role
+                → Efficient
+              </li>
+            </ul>
+          </div>
+
+          <div class="sbcms-example" style="margin-top: 14px">
+            <span class="sbcms-example-label"
+              >SBCMS — Task #24: POS Order Form</span
+            >
+            <h4>UX Analysis: POS Order Form</h4>
+            <ul>
+              <li>
+                <strong>Split Layout:</strong> Menu Grid + Order Panel → ឃើញ
+                Menu និង Order ក្នុងតែ Screen ១
+              </li>
+              <li>
+                <strong>Category Tabs:</strong> ចុច Filter → ស្វែងរក Item លឿន
+                (UX Principle #3: Control)
+              </li>
+              <li>
+                <strong>Real-time Total:</strong> Total Update ដោយ Auto →
+                (**Visibility of System Status**)
+              </li>
+              <li>
+                <strong>+/− Qty Buttons:</strong> User ចង្អុលបន្ថែម/កាត់ ងាយ →
+                (User Control & Freedom)
+              </li>
+              <li>
+                <strong>Confirm Button:</strong> Accent Color Caramel →
+                ចូលភ្នែក, CTA ច្បាស់
+              </li>
+            </ul>
+          </div>
+
+          <div class="callout info" style="margin-top: 16px">
+            <div class="callout-icon">🔗</div>
+            <div class="callout-body">
+              <div class="callout-title">ភ្ជាប់ UI/UX → Backend</div>
+              <div class="callout-text">
+                UI/UX ល្អ → User Order ផ្ញើ Request → Backend
+                (OrderService.ConfirmOrder()) → Database (sp_CreateOrder) →
+                Stock Deducted (InventoryService.DeductStock()) → Alert ត្រឡប់
+                UI → ✅ នេះ ជា <strong>End-to-End Flow</strong> ដែលចាប់ផ្ដើម UX
+                ។
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ QUIZ ══ -->
+        <div class="lesson-section" id="quiz">
+          <span class="section-number">Quiz</span>
+          <h2>ពិនិត្យចំណេះដឹង</h2>
+
+          <!-- Q1 -->
+          <div class="quiz-box" style="margin-bottom: 16px">
+            <span class="quiz-label">Question 01 / 04</span>
+            <div class="quiz-q">UI (User Interface) ផ្តោតលើអ្វី?</div>
+            <div class="quiz-options">
+              <div class="quiz-opt" onclick="checkQuiz(this, 'wrong', 'q1')">
+                ការស្វែងយល់ User
+              </div>
+              <div class="quiz-opt" onclick="checkQuiz(this, 'correct', 'q1')">
+                Visual Design — ពណ៌, Font, Layout
+              </div>
+              <div class="quiz-opt" onclick="checkQuiz(this, 'wrong', 'q1')">
+                Database Design
+              </div>
+              <div class="quiz-opt" onclick="checkQuiz(this, 'wrong', 'q1')">
+                Server Performance
+              </div>
+            </div>
+            <div class="quiz-feedback" id="q1-fb"></div>
+          </div>
+
+          <!-- Q2 -->
+          <div class="quiz-box" style="margin-bottom: 16px">
+            <span class="quiz-label">Question 02 / 04</span>
+            <div class="quiz-q">ច្បាប់ 60-30-10 ទាក់ទងនឹងអ្វី?</div>
+            <div class="quiz-options">
+              <div class="quiz-opt" onclick="checkQuiz(this, 'wrong', 'q2')">
+                Font Size Hierarchy
+              </div>
+              <div class="quiz-opt" onclick="checkQuiz(this, 'wrong', 'q2')">
+                Database Normalization
+              </div>
+              <div class="quiz-opt" onclick="checkQuiz(this, 'correct', 'q2')">
+                Color Distribution ក្នុង UI
+              </div>
+              <div class="quiz-opt" onclick="checkQuiz(this, 'wrong', 'q2')">
+                Loading Speed Rule
+              </div>
+            </div>
+            <div class="quiz-feedback" id="q2-fb"></div>
+          </div>
+
+          <!-- Q3 -->
+          <div class="quiz-box" style="margin-bottom: 16px">
+            <span class="quiz-label">Question 03 / 04</span>
+            <div class="quiz-q">
+              SBCMS ប្រើ CSS Variable
+              <code style="font-family: var(--mono); font-size: 0.9em"
+                >--caramel</code
+              >
+              ដើម្បីធ្វើអ្វី?
+            </div>
+            <div class="quiz-options">
+              <div class="quiz-opt" onclick="checkQuiz(this, 'wrong', 'q3')">
+                Database Connection String
+              </div>
+              <div class="quiz-opt" onclick="checkQuiz(this, 'correct', 'q3')">
+                Accent Color — CTA Buttons, Highlights
+              </div>
+              <div class="quiz-opt" onclick="checkQuiz(this, 'wrong', 'q3')">
+                Error Message Color
+              </div>
+              <div class="quiz-opt" onclick="checkQuiz(this, 'wrong', 'q3')">
+                Background Image
+              </div>
+            </div>
+            <div class="quiz-feedback" id="q3-fb"></div>
+          </div>
+
+          <!-- Q4 -->
+          <div class="quiz-box">
+            <span class="quiz-label">Question 04 / 04</span>
+            <div class="quiz-q">UX Design Process ជំហានដំបូងគឺ?</div>
+            <div class="quiz-options">
+              <div class="quiz-opt" onclick="checkQuiz(this, 'wrong', 'q4')">
+                Coding ភ្លាម
+              </div>
+              <div class="quiz-opt" onclick="checkQuiz(this, 'wrong', 'q4')">
+                Design Prototype
+              </div>
+              <div class="quiz-opt" onclick="checkQuiz(this, 'correct', 'q4')">
+                Research — ស្គាល់ User
+              </div>
+              <div class="quiz-opt" onclick="checkQuiz(this, 'wrong', 'q4')">
+                Deploy ទៅ Server
+              </div>
+            </div>
+            <div class="quiz-feedback" id="q4-fb"></div>
+          </div>
+        </div>
+
+        <!-- SUMMARY -->
+        <div class="callout success" style="margin-bottom: 32px">
+          <div class="callout-icon">🎓</div>
+          <div class="callout-body">
+            <div class="callout-title">Part 1 Summary</div>
+            <div class="callout-text">
+              ក្នុង Part 1 នេះ យើងបានរៀន:
+              <strong
+                >UI vs UX, Color Theory (60-30-10, WCAG), Typography, Design
+                System, UX Workflow, Tools</strong
+              >
+              — ហើយបានភ្ជាប់ ទៅ SBCMS Wireframes និង Design System ជាក់ស្ដែង ។
+              Part 2 → Wireframes Design, Responsive Layout, Interactive
+              Components ។
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div>
+        SBCMS Lesson Series — Introduction to UI/UX · <span>Part 1</span>
+      </div>
+      <div class="part-links">
+        <span class="cur">Part 1: UI/UX Intro ✦</span>
+        <span style="color: rgba(253, 246, 236, 0.2)">|</span>
+        <a href="SBCMS_Lesson_UIUX_Part2.html"
+          >Part 2: Wireframes · Grid · A11y →</a
+        >
+        <span style="color: rgba(253, 246, 236, 0.2)">|</span>
+        <a href="SBCMS_Lesson_Figma_Part3.html">Part 3: Figma Basics →</a>
+        <span style="color: rgba(253, 246, 236, 0.2)">|</span>
+        <a href="SBCMS_Lesson_Figma_Part4.html">Part 4: Components →</a>
+        <span style="color: rgba(253, 246, 236, 0.2)">|</span>
+        <a href="SBCMS_Lesson_Figma_Part5.html">Part 5: Wireframes →</a>
+      </div>
+      <div style="margin-top: 10px">
+        <span>TUN Sopheak</span> · <span>TIT Sokhom</span> ·
+        <span>TEP Makhon</span>
+        &nbsp;|&nbsp; Sharp Bean Café Management System © 2026
+      </div>
+    </div>
+
+    <script>
+      // ─── TOC ACTIVE ──────────────────────────────────
+      const tocLinks = document.querySelectorAll('.toc a[href^="#"]');
+      const sections = [...document.querySelectorAll(".lesson-section[id]")];
+      window.addEventListener(
+        "scroll",
+        () => {
+          let cur = "";
+          sections.forEach((s) => {
+            if (window.scrollY >= s.offsetTop - 100) cur = s.id;
+          });
+          tocLinks.forEach((a) => {
+            a.classList.toggle("active", a.getAttribute("href") === "#" + cur);
+          });
+        },
+        { passive: true },
+      );
+
+      // ─── QUIZ ────────────────────────────────────────
+      const msgs = {
+        correct: {
+          q1: "✅ ត្រូវហើយ! UI ផ្តោតលើ Visual — ពណ៌, Font, Layout, Icon ។",
+          q2: "✅ ត្រូវហើយ! 60% Dominant Color, 30% Secondary, 10% Accent ។",
+          q3: "✅ ត្រូវ! Caramel (#C89B3C) ជា Accent Color — CTA Buttons ។",
+          q4: "✅ ត្រូវ! Research គឺ Step 1 — ស្គាល់ User, Problem ជាមុន ។",
+        },
+        wrong: {
+          q1: "❌ ខុស! UI = User Interface = Visual Design — ពណ៌, Font, Layout ។",
+          q2: "❌ ខុស! 60-30-10 Rule ជា Color Distribution — ពណ៌ Dom/Secondary/Accent ។",
+          q3: "❌ ខុស! CSS Variable --caramel (#C89B3C) ជា Gold Accent Color ។",
+          q4: "❌ ខុស! Research ជា Step 1 — Code ភ្លាម = Common Mistake ។",
+        },
+      };
+
+      function checkQuiz(el, type, qId) {
+        const box = el.closest(".quiz-box");
+        if (box.dataset.answered) return;
+        box.dataset.answered = "1";
+        box
+          .querySelectorAll(".quiz-opt")
+          .forEach((o) => (o.style.pointerEvents = "none"));
+        el.classList.add(type);
+        const fb = document.getElementById(qId + "-fb");
+        fb.textContent = msgs[type][qId];
+        fb.className =
+          "quiz-feedback show " +
+          (type === "correct" ? "correct-fb" : "wrong-fb");
+      }
+    </script>
+
+    <div class="sbcms-read-progress" id="readProgress"></div>
+    <nav class="sbcms-nav-bar">
+      <div class="snb-left">
+        <span class="snb-btn snb-prev snb-disabled"
+          >&#8592; <span class="snb-label">Start</span></span
+        >
+      </div>
+      <div class="snb-center">
+        <a class="snb-btn snb-home" href="index.html" title="Home">&#127968;</a>
+        <div class="snb-dots">
+          <a
+            class="snb-dot snb-active"
+            href="SBCMS_Lesson_UIUX_Part1.html"
+            data-title="Part 1: UI/UX"
+          ></a>
+          <a
+            class="snb-dot"
+            href="SBCMS_Lesson_UIUX_Part2.html"
+            data-title="Part 2: Wireframes"
+          ></a>
+          <a
+            class="snb-dot"
+            href="SBCMS_Lesson_Figma_Part3.html"
+            data-title="Part 3: Figma"
+          ></a>
+          <a
+            class="snb-dot"
+            href="SBCMS_Lesson_Figma_Part4.html"
+            data-title="Part 4: Components"
+          ></a>
+          <a
+            class="snb-dot"
+            href="SBCMS_Lesson_Figma_Part5.html"
+            data-title="Part 5: Wireframes"
+          ></a>
+        </div>
+        <span
+          class="snb-part-tag"
+          style="
+            color: #0acf83;
+            background: rgba(10, 207, 131, 0.15);
+            border-color: #0acf8340;
+          "
+          >Part 1</span
+        >
+      </div>
+      <div class="snb-right">
+        <a class="snb-btn snb-next" href="SBCMS_Lesson_UIUX_Part2.html"
+          ><span class="snb-label">Part 2: Wireframes</span> &#8594;</a
+        >
+      </div>
+    </nav>
+    <button
+      class="sbcms-top-btn"
+      id="topBtn"
+      onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+    >
+      &#8593;
+    </button>
+    <div class="sbcms-toast" id="kbToast"></div>
+    <script>
+      (function () {
+        var rp = document.getElementById("readProgress");
+        var topBtn = document.getElementById("topBtn");
+        window.addEventListener(
+          "scroll",
+          function () {
+            var h = document.documentElement;
+            var pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+            if (rp) rp.style.width = Math.min(pct, 100) + "%";
+            if (topBtn)
+              topBtn.classList.toggle("visible", window.scrollY > 380);
+          },
+          { passive: true },
+        );
+        var PREV = null;
+        var NEXT = "SBCMS_Lesson_UIUX_Part2.html";
+        var toast = document.getElementById("kbToast");
+        var toastT;
+        function showToast(msg) {
+          toast.innerHTML = msg;
+          toast.classList.add("show");
+          clearTimeout(toastT);
+          toastT = setTimeout(function () {
+            toast.classList.remove("show");
+          }, 2000);
+        }
+        document.addEventListener("keydown", function (e) {
+          if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")
+            return;
+          if (e.key === "ArrowRight" && NEXT) {
+            showToast("&#8594; Next part...");
+            setTimeout(function () {
+              location.href = NEXT;
+            }, 300);
+          } else if (e.key === "ArrowLeft" && PREV) {
+            showToast("&#8592; Previous part...");
+            setTimeout(function () {
+              location.href = PREV;
+            }, 300);
+          } else if (e.key.toLowerCase() === "h") {
+            showToast("&#127968; Home...");
+            setTimeout(function () {
+              location.href = "index.html";
+            }, 300);
+          } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            showToast("&#8593; Top...");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
+        });
+      })();
+    </script>
+    <script src="lang-system-ai.js"></script>
+  </body>
+</html>

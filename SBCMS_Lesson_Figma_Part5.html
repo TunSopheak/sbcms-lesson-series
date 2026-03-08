@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SBCMS Full Wireframes — Part 5 | Figma</title>
+<link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --espresso:#1C0F07;--roast:#3B2007;--latte:#7B4F2E;
+  --caramel:#C89B3C;--cream:#FDF6EC;--foam:#FFF9F2;--milk:#EEE0CC;--chalk:#F5F0E8;
+  --fig-purple:#A259FF;--fig-red:#F24E1E;--fig-green:#1ABCFE;--fig-teal:#0ACF83;
+  --fig-dark:#1E1E1E;--fig-panel:#2C2C2C;--fig-border:#3C3C3C;
+  --success:#15803D;--warning:#B45309;--danger:#B91C1C;--info:#1D4ED8;
+  --font:'Kantumruy Pro',sans-serif;--mono:'Consolas','Courier New',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--cream);color:var(--espresso);line-height:1.8;font-size:15px}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--milk)}::-webkit-scrollbar-thumb{background:var(--fig-teal);border-radius:4px}
+#pb{position:fixed;top:0;left:0;height:3px;z-index:9999;background:linear-gradient(90deg,var(--fig-red),var(--fig-purple),var(--fig-teal));width:0%;transition:width .12s linear}
+
+/* TOP STRIP */
+/* top-strip styles now in style.css */
+.ts a:hover{color:var(--caramel)}
+
+
+/* HERO */
+.hero{background:var(--fig-dark);padding:72px 60px 0;position:relative;overflow:hidden}
+.hero-mesh{position:absolute;inset:0;z-index:0;
+  background:radial-gradient(ellipse 55% 65% at 90% 15%,rgba(242,78,30,.14) 0%,transparent 60%),
+             radial-gradient(ellipse 50% 60% at 5% 85%,rgba(162,89,255,.12) 0%,transparent 55%),
+             radial-gradient(ellipse 45% 50% at 45% 45%,rgba(10,207,131,.07) 0%,transparent 50%)}
+.hero-inner{max-width:900px;margin:0 auto;position:relative;z-index:1;padding-bottom:48px}
+.hero-eye{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:3px;text-transform:uppercase;color:var(--fig-red);background:rgba(242,78,30,.1);border:1px solid rgba(242,78,30,.3);padding:6px 16px;border-radius:20px;margin-bottom:20px}
+.hero h1{font-size:clamp(28px,5vw,50px);font-weight:700;color:#F5F5F5;line-height:1.16;margin-bottom:14px;letter-spacing:-.5px}
+.hero h1 .acc{color:var(--fig-red)}.hero h1 .p{color:var(--fig-teal)}
+.hero-sub{font-size:14.5px;color:rgba(245,245,245,.5);max-width:580px;line-height:1.95;margin-bottom:28px}
+.hero-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.hero-badge{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;padding:6px 16px;border-radius:6px;background:var(--fig-red);color:white}
+.hero-chip{padding:5px 13px;border-radius:6px;font-size:11.5px;background:rgba(255,255,255,.06);color:rgba(245,245,245,.65);border:1px solid rgba(255,255,255,.1)}
+.tstrip{background:rgba(255,255,255,.03);border-top:1px solid rgba(242,78,30,.15);display:flex;flex-wrap:wrap;margin-left:-60px;margin-right:-60px;padding:0 60px;margin-top:32px}
+.tp{display:flex;align-items:center;gap:6px;padding:12px 16px;font-size:11.5px;color:rgba(245,245,245,.4);border-right:1px solid rgba(242,78,30,.1)}
+.tp .tn{font-family:var(--mono);font-size:9px;color:var(--fig-red);opacity:.65}
+
+/* LAYOUT */
+.pw{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:230px 1fr;padding:0 24px;align-items:start}
+.toc{position:sticky;top:32px;padding:32px 0;padding-right:24px}
+.toc-title{font-family:var(--font);font-size:9.5px;letter-spacing:3px;text-transform:uppercase;color:var(--fig-red);margin-bottom:11px}
+.toc a{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#a08060;text-decoration:none;padding:6px 10px;border-radius:6px;border-left:2px solid transparent;transition:all .17s;line-height:1.45;margin-bottom:1px}
+.toc a:hover,.toc a.active{color:var(--fig-red);background:rgba(242,78,30,.08);border-left-color:var(--fig-red)}
+.toc a .n{font-family:var(--mono);font-size:9px;color:var(--fig-red);opacity:.5;min-width:20px;margin-top:2px}
+.toc-sep{height:1px;background:var(--milk);margin:9px 0}
+.toc-part{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--latte);text-decoration:none;padding:7px 10px;border-radius:6px;border:1px solid var(--milk);background:white;margin-bottom:7px;transition:all .15s}
+.toc-part:hover{border-color:var(--fig-red);color:var(--roast)}
+.toc-part .pl{font-family:var(--mono);font-size:9px;color:var(--fig-red)}
+
+/* CONTENT */
+.content{padding:48px 0 80px 44px;border-left:1px solid var(--milk)}
+.ls{margin-bottom:68px}
+.sec-num{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--fig-red);margin-bottom:5px}
+.ls h2{font-size:25px;font-weight:700;color:var(--roast);margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid var(--milk);line-height:1.3}
+.ls h3{font-size:16.5px;font-weight:600;color:var(--roast);margin:26px 0 11px}
+.ls h4{font-family:var(--mono);font-size:10.5px;font-weight:700;color:var(--fig-red);text-transform:uppercase;letter-spacing:2px;margin:16px 0 8px}
+.ls p{margin-bottom:13px;line-height:1.9}
+
+/* CALLOUT */
+.box{border-left:4px solid;border-radius:0 10px 10px 0;padding:15px 20px;margin:16px 0;display:flex;gap:13px;align-items:flex-start}
+.box-i{font-size:19px;flex-shrink:0;margin-top:2px}
+.box-b{flex:1}.box-t{font-weight:700;font-size:13px;margin-bottom:4px}.box-x{font-size:13.5px;line-height:1.85}
+.box.info   {border-color:var(--info);   background:#EFF6FF;color:#1E3A8A}
+.box.success{border-color:var(--success);background:#F0FDF4;color:#14532D}
+.box.warning{border-color:var(--warning);background:#FFFBEB;color:#78350F}
+.box.coffee {border-color:var(--caramel);background:rgba(200,155,60,.08);color:var(--roast)}
+.box.red    {border-color:var(--fig-red);background:rgba(242,78,30,.07);color:#7C2D12}
+.box.teal   {border-color:var(--fig-teal);background:rgba(10,207,131,.07);color:#065F46}
+
+/* KW */
+.kw{font-family:var(--mono);font-size:.87em;background:rgba(200,155,60,.13);color:var(--roast);border:1px solid rgba(200,155,60,.28);padding:1px 6px;border-radius:4px;white-space:nowrap}
+.kp{font-family:var(--mono);font-size:.87em;background:rgba(162,89,255,.1);color:#5B21B6;border:1px solid rgba(162,89,255,.25);padding:1px 6px;border-radius:4px;white-space:nowrap}
+.kt{font-family:var(--mono);font-size:.87em;background:rgba(10,207,131,.1);color:#065F46;border:1px solid rgba(10,207,131,.25);padding:1px 6px;border-radius:4px;white-space:nowrap}
+.kr{font-family:var(--mono);font-size:.87em;background:rgba(242,78,30,.1);color:#9A3412;border:1px solid rgba(242,78,30,.25);padding:1px 6px;border-radius:4px;white-space:nowrap}
+mark{background:linear-gradient(120deg,rgba(242,78,30,.18),rgba(242,78,30,.04));border-radius:3px;padding:0 2px;color:inherit}
+
+/* CODE */
+.code{background:#111;border-radius:10px;padding:20px 24px;margin:14px 0;overflow-x:auto;border:1px solid rgba(242,78,30,.2)}
+.code-lbl{font-family:var(--mono);font-size:9.5px;color:rgba(242,78,30,.65);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px;display:block}
+.code pre{font-family:var(--mono);font-size:12.5px;color:#ccc;line-height:1.95}
+.cc{color:#4a6a4a}.ck{color:var(--fig-teal)}.cv{color:#e8956a}.cs{color:#A259FF}.ct{color:#80b8d8}
+
+/* STEPS */
+.steps{margin:16px 0}
+.step{display:flex;gap:15px;align-items:flex-start;position:relative}
+.step:not(:last-child)::after{content:'';position:absolute;left:17px;top:37px;width:2px;height:calc(100% - 8px);background:linear-gradient(to bottom,var(--fig-red),rgba(242,78,30,.1))}
+.step-n{width:36px;height:36px;border-radius:50%;background:var(--fig-red);color:white;font-weight:700;font-size:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;box-shadow:0 2px 10px rgba(242,78,30,.35)}
+.step-b{padding-bottom:22px;flex:1}
+.step-title{font-weight:700;font-size:14px;color:var(--roast);margin-bottom:3px}
+.step-desc{font-size:13px;color:var(--latte);line-height:1.75}
+
+/* SCREEN PREVIEW — Wireframe style */
+.wf-window{background:var(--fig-dark);border-radius:14px;overflow:hidden;margin:14px 0;border:1px solid var(--fig-border);box-shadow:0 16px 48px rgba(0,0,0,.4)}
+.wf-titlebar{background:#252525;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--fig-border)}
+.wf-title{font-family:var(--mono);font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.5px}
+.wf-btns{display:flex;gap:6px}
+.wf-btn{width:12px;height:12px;border-radius:50%;border:none}
+.wf-btn.c{background:#FF5F57}.wf-btn.m{background:#FFBD2E}.wf-btn.x{background:#28CA41}
+.wf-body{display:flex}
+.wf-sidebar{width:190px;background:#141414;flex-shrink:0;padding:0}
+.wf-sb-logo{padding:14px 16px;border-bottom:1px solid var(--fig-border);font-size:13.5px;color:var(--cream);}
+.wf-sb-logo span{color:var(--caramel)}
+.wf-sb-sec{padding:10px 16px 3px;font-family:var(--mono);font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.2)}
+.wf-nav{display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:12px;color:rgba(255,255,255,.4);border-left:3px solid transparent;cursor:default}
+.wf-nav.active{background:rgba(10,207,131,.12);border-left-color:var(--fig-teal);color:var(--fig-teal);font-weight:600}
+.wf-nav .icon{font-size:13px;width:16px}
+.wf-user{padding:12px 16px;border-top:1px solid var(--fig-border);display:flex;align-items:center;gap:8px;margin-top:auto}
+.wf-avatar{width:26px;height:26px;border-radius:50%;background:var(--caramel);color:var(--espresso);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.wf-uname{font-size:10.5px;color:rgba(255,255,255,.7);font-weight:600}
+.wf-urole{font-size:9.5px;color:rgba(255,255,255,.35);font-family:var(--mono)}
+.wf-main{flex:1;background:#1a1a1a;display:flex;flex-direction:column}
+.wf-header{background:#202020;padding:12px 20px;border-bottom:1px solid var(--fig-border);display:flex;align-items:center;justify-content:space-between}
+.wf-htitle{font-size:16px;font-weight:700;color:rgba(255,255,255,.85);font-family:var(--font)}
+.wf-hsub{font-size:10px;color:rgba(255,255,255,.3);margin-top:1px;font-family:var(--mono)}
+.wf-content{padding:16px 20px;overflow:hidden}
+
+/* Wireframe UI Atoms */
+.wf-stat{background:#252525;border:1px solid var(--fig-border);border-left:3px solid var(--caramel);border-radius:8px;padding:12px 14px}
+.wf-stat-label{font-family:var(--mono);font-size:8.5px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.3);margin-bottom:4px}
+.wf-stat-val{font-size:20px;font-weight:700;color:rgba(255,255,255,.85)}
+.wf-stat-sub{font-size:9.5px;color:rgba(255,255,255,.25);margin-top:2px}
+.wf-btn-p{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:var(--roast);color:var(--cream);border-radius:6px;font-size:11.5px;font-weight:600;cursor:default}
+.wf-btn-a{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:var(--caramel);color:var(--espresso);border-radius:6px;font-size:11.5px;font-weight:600;cursor:default}
+.wf-btn-o{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;background:transparent;color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.2);border-radius:6px;font-size:11px;cursor:default}
+.wf-btn-sm{padding:5px 10px;font-size:10.5px}
+.wf-input{background:#252525;border:1.5px solid var(--fig-border);border-radius:6px;padding:7px 12px;font-size:12px;color:rgba(255,255,255,.5);font-family:var(--font);width:100%}
+.wf-input.focused{border-color:var(--caramel);color:rgba(255,255,255,.8);box-shadow:0 0 0 2px rgba(200,155,60,.12)}
+.wf-badge{display:inline-block;padding:3px 9px;border-radius:12px;font-size:10px;font-weight:600;font-family:var(--mono)}
+.wf-bd-done{background:rgba(21,128,61,.25);color:#4ADE80}
+.wf-bd-pend{background:rgba(180,83,9,.25);color:#FCD34D}
+.wf-bd-cncl{background:rgba(185,28,28,.25);color:#F87171}
+.wf-table{width:100%;border-collapse:collapse;font-size:11.5px}
+.wf-th{background:#252525;color:rgba(255,255,255,.35);font-size:9.5px;text-transform:uppercase;letter-spacing:.8px;padding:8px 12px;text-align:left;font-family:var(--mono)}
+.wf-td{padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.65)}
+.wf-td:hover{background:rgba(255,255,255,.03)}
+.wf-alert{padding:8px 14px;border-radius:7px;font-size:11.5px;display:flex;align-items:center;gap:8px;border-left:3px solid;margin-bottom:10px}
+.wf-alert-w{background:rgba(180,83,9,.15);border-color:#F59E0B;color:#FCD34D}
+.wf-alert-s{background:rgba(21,128,61,.15);border-color:#4ADE80;color:#86EFAC}
+.wf-prog{background:rgba(255,255,255,.1);border-radius:3px;height:5px;overflow:hidden;margin-top:4px}
+.wf-prog-fill{height:100%;border-radius:3px;background:linear-gradient(to right,var(--roast),var(--caramel))}
+.wf-search{background:#252525;border:1.5px solid var(--fig-border);border-radius:6px;padding:6px 12px;font-size:11.5px;color:rgba(255,255,255,.35);display:flex;align-items:center;gap:6px}
+
+/* ANNOTATION */
+.ann{background:white;border:1px solid var(--milk);border-radius:12px;overflow:hidden;margin:14px 0}
+.ann-head{background:var(--chalk);padding:11px 18px;font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--latte);display:flex;align-items:center;justify-content:space-between}
+.ann-body{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0}
+.ann-col{padding:16px 18px;border-right:1px solid var(--milk)}
+.ann-col:last-child{border-right:none}
+.ann-col-title{font-family:var(--mono);font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:var(--fig-red);margin-bottom:10px}
+.ann-col ul{list-style:none;padding:0}
+.ann-col li{font-size:12px;color:var(--latte);padding:4px 0;border-bottom:1px solid rgba(238,224,204,.5);display:flex;align-items:flex-start;gap:6px;line-height:1.55}
+.ann-col li:last-child{border-bottom:none}
+.ann-col li::before{content:'▸';color:var(--fig-red);font-size:9px;margin-top:3px;flex-shrink:0}
+
+/* SCREEN TAB NAV */
+.screen-tabs{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+.stab{padding:8px 18px;border-radius:8px;font-size:12.5px;font-weight:600;cursor:pointer;border:1.5px solid var(--milk);background:white;color:var(--latte);transition:all .15s;font-family:var(--font)}
+.stab:hover{border-color:var(--fig-red);color:var(--roast)}
+.stab.active{background:var(--fig-red);color:white;border-color:var(--fig-red)}
+
+/* PRACTICE */
+.practice-box{background:linear-gradient(135deg,#1a0a0a 0%,#1a0a1a 100%);border-radius:14px;padding:26px 30px;margin:18px 0;border:1px solid rgba(242,78,30,.25);position:relative;overflow:hidden}
+.practice-box::before{content:'✦';position:absolute;right:24px;top:50%;transform:translateY(-50%);font-size:100px;color:rgba(242,78,30,.05);pointer-events:none}
+.pb-label{font-family:var(--mono);font-size:9.5px;letter-spacing:3px;text-transform:uppercase;color:var(--fig-red);margin-bottom:8px;display:block}
+.practice-box h4{font-size:15px;font-weight:700;color:#F5F5F5;margin-bottom:10px}
+.pb-step{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.pb-step:last-child{border-bottom:none}
+.pb-num{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--fig-red);min-width:24px;padding-top:1px}
+.pb-text{font-size:13px;color:rgba(245,245,245,.7);line-height:1.75}
+
+/* CHECKLIST */
+.checklist{background:white;border:1px solid var(--milk);border-radius:12px;padding:20px 24px;margin:14px 0}
+.checklist h4{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--fig-red);margin-bottom:14px}
+.cl-item{display:flex;align-items:flex-start;gap:12px;padding:9px 0;border-bottom:1px solid var(--milk);font-size:13px;color:var(--espresso)}
+.cl-item:last-child{border-bottom:none}
+.cl-check{width:20px;height:20px;border-radius:4px;background:var(--chalk);border:1.5px solid var(--milk);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;transition:all .15s;margin-top:2px}
+.cl-check.done{background:var(--fig-teal);border-color:var(--fig-teal);color:var(--fig-dark)}
+.cl-label{flex:1;line-height:1.6}
+.cl-label strong{color:var(--roast)}
+.cl-tag{font-family:var(--mono);font-size:9.5px;padding:2px 8px;border-radius:10px;background:rgba(242,78,30,.1);color:var(--fig-red);margin-left:6px}
+
+/* QUIZ */
+.quiz{background:var(--fig-dark);border-radius:14px;padding:26px 30px;margin:14px 0;color:#F5F5F5;border:1px solid var(--fig-border)}
+.quiz-lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:3px;text-transform:uppercase;color:var(--fig-red);margin-bottom:12px;display:block}
+.quiz-q{font-size:14.5px;font-weight:600;margin-bottom:14px;line-height:1.6}
+.quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.qo{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;font-size:13px;cursor:pointer;transition:all .17s;color:rgba(245,245,245,.8);font-family:var(--font);text-align:left;line-height:1.5}
+.qo:hover{background:rgba(242,78,30,.15);border-color:rgba(242,78,30,.5)}
+.qo.correct{background:rgba(10,207,131,.2);border-color:var(--fig-teal);color:#6EDBB8}
+.qo.wrong  {background:rgba(242,78,30,.2); border-color:var(--fig-red); color:#F9A58C}
+.quiz-fb{margin-top:12px;padding:11px 15px;border-radius:8px;font-size:13px;line-height:1.75;display:none}
+.quiz-fb.show{display:block}
+.quiz-fb.ok{background:rgba(10,207,131,.15);border:1px solid var(--fig-teal);color:#6EDBB8}
+.quiz-fb.no{background:rgba(242,78,30,.15);border:1px solid var(--fig-red);color:#F9A58C}
+
+/* TAGS */
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
+.tag{padding:4px 11px;border-radius:20px;font-size:11.5px;font-weight:500;font-family:var(--mono)}
+.tg-p{background:rgba(162,89,255,.1);color:#5B21B6;border:1px solid rgba(162,89,255,.25)}
+.tg-t{background:rgba(10,207,131,.1);color:#065F46;border:1px solid rgba(10,207,131,.25)}
+.tg-c{background:rgba(200,155,60,.12);color:var(--roast);border:1px solid rgba(200,155,60,.28)}
+.tg-r{background:rgba(242,78,30,.1);color:#9A3412;border:1px solid rgba(242,78,30,.25)}
+
+/* HANDOFF */
+.handoff-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.hf-card{background:white;border:1px solid var(--milk);border-radius:12px;overflow:hidden}
+.hf-head{padding:12px 16px;font-family:var(--mono);font-size:9.5px;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid var(--milk)}
+.hf-body{padding:14px 16px}
+.hf-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(238,224,204,.5);font-size:12.5px}
+.hf-row:last-child{border-bottom:none}
+.hf-key{color:var(--latte)}
+.hf-val{font-family:var(--mono);font-size:11.5px;color:var(--espresso);font-weight:600}
+
+/* FOOTER */
+.footer{background:var(--fig-dark);color:rgba(245,245,245,.35);text-align:center;padding:28px 20px;font-size:11.5px;font-family:var(--mono);letter-spacing:.5px}
+.footer span{color:var(--fig-red)}
+.footer .pl{display:flex;justify-content:center;gap:16px;margin-top:10px;flex-wrap:wrap}
+.footer .pl a{color:rgba(245,245,245,.3);text-decoration:none;font-size:11px;transition:color .15s}
+.footer .pl a:hover,.footer .pl a.cur{color:var(--fig-red)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.ls{animation:fadeUp .45s ease both}
+
+@media(max-width:820px){
+  .pw{grid-template-columns:1fr}.toc{display:none}.content{padding:30px 20px;border-left:none}
+  .ann-body,.handoff-grid,.quiz-opts{grid-template-columns:1fr}
+  .hero{padding:52px 28px 0}.tstrip{margin-left:-28px;margin-right:-28px;padding:0 28px}
+  .wf-sidebar{display:none}
+}
+@media(max-width:600px){
+  .hero{padding:36px 18px 24px}
+  .hero h1{font-size:clamp(26px,8vw,38px)!important;line-height:1.2}
+  .ann-body,.handoff-grid,.quiz-opts{grid-template-columns:1fr!important}
+  [style*="grid-template-columns"]{grid-template-columns:1fr!important}
+  .content{padding:18px 16px}
+  .lesson-section{padding:20px 16px!important;border-radius:12px!important}
+  .wf-frame{min-width:0!important;width:100%!important}
+  p,li{font-size:14.5px!important;line-height:1.85!important}
+  table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;font-size:13px!important}
+  pre{font-size:12px!important;overflow-x:auto}
+}
+
+/* ── 390 × 844 — iPhone exact ── */
+@media(min-width:375px) and (max-width:430px){
+  .hero{padding:40px 18px 28px!important}
+  .hero h1{font-size:28px!important;line-height:1.18!important}
+  .content{padding:18px 18px!important}
+  .lesson-section{padding:22px 18px!important;border-radius:14px!important}
+  p,li{font-size:14.5px!important;line-height:1.82!important}
+  h3{font-size:17px!important}
+  pre{font-size:12.5px!important;overflow-x:auto!important;padding:16px 18px!important;line-height:1.65!important}
+  code{font-size:12.5px!important}
+  table{display:block!important;overflow-x:auto!important;font-size:13px!important;white-space:nowrap}
+  table th,table td{padding:11px 13px!important}
+  [style*="grid-template-columns"]{grid-template-columns:1fr!important}
+  .ann-body,.handoff-grid,.quiz-opts{grid-template-columns:1fr!important}
+  .wf-sidebar{display:none!important}
+  .wf-frame{min-width:0!important;width:100%!important}
+  .tstrip{overflow-x:auto!important;white-space:nowrap!important;flex-wrap:nowrap!important;scrollbar-width:none!important;margin-left:-18px!important;margin-right:-18px!important;padding-left:18px!important;padding-right:18px!important}
+}
+
+  /* ═══════════════════════════════════════════════════════════
+     DARK MODE — CSS Variable Override + Targeted Fixes
+     Toggled by lang-system-ai.js via html.dark class
+  ═══════════════════════════════════════════════════════════ */
+
+  /* Flip CSS variables so all var()-based rules auto-switch */
+  html.dark {
+    --espresso: #fdf6ec;
+    --roast:    #eee0cc;
+    --latte:    #c8a882;
+    --cream:    #120a04;
+    --foam:     #1a0e06;
+    --milk:     #1f1208;
+    --chalk:    #221408;
+    --ui-bg:    #0d1929;
+    --ux-bg:    #0a1a0f;
+  }
+  html.dark body {
+    background: #120a04 !important;
+    color: rgba(253,246,236,0.88) !important;
+  }
+
+  html.dark .toc-part          { background: #1a0e06 !important; color: rgba(253,246,236,0.6) !important; }
+  html.dark .toc-sep           { background: rgba(255,255,255,0.07) !important; }
+  html.dark .ann               { background: #1a0e06 !important; border-color: rgba(255,255,255,0.08) !important; }
+  html.dark .ann-head          { background: rgba(255,255,255,0.05) !important; color: #fdf6ec !important; }
+  html.dark .checklist         { background: #1a0e06 !important; border-color: rgba(255,255,255,0.08) !important; }
+  html.dark .cl-check          { background: rgba(255,255,255,0.06) !important; border-color: rgba(255,255,255,0.14) !important; }
+  html.dark .hf-card           { background: #1a0e06 !important; border-color: rgba(255,255,255,0.08) !important; }
+  html.dark .stab              { background: rgba(255,255,255,0.05) !important; color: rgba(253,246,236,0.8) !important; }
+  html.dark .stab:hover        { background: rgba(255,255,255,0.09) !important; }
+  html.dark .wf-window         { border-color: rgba(255,255,255,0.1) !important; }
+  html.dark .box.warning       { background: rgba(180,83,9,0.14) !important; }
+  html.dark .box.info          { background: rgba(29,78,216,0.14) !important; }
+  html.dark .box.success       { background: rgba(21,128,61,0.14) !important; }
+  html.dark .box.teal          { background: rgba(10,207,131,0.1) !important; }
+</style>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- ░░ MOBILE TOC ░░ -->
+<button class="sb-toc-toggle" id="sbTocToggle" aria-label="Open contents"><svg width="18" height="14" viewBox="0 0 18 14" fill="none" aria-hidden="true" style="display:block;pointer-events:none;flex-shrink:0"><line x1="0" y1="1" x2="18" y2="1" stroke="#C89B3C" stroke-width="2" stroke-linecap="round"/><line x1="0" y1="7" x2="18" y2="7" stroke="#C89B3C" stroke-width="2" stroke-linecap="round"/><line x1="0" y1="13" x2="18" y2="13" stroke="#C89B3C" stroke-width="2" stroke-linecap="round"/></svg></button>
+<div class="sb-toc-overlay" id="sbTocOverlay"></div>
+<div class="sb-toc-drawer" id="sbTocDrawer">
+  <div class="sb-toc-header">
+    <span class="sb-toc-header-label">មាតិកា — PART 5</span>
+    <button class="sb-toc-close" id="sbTocClose" aria-label="Close">✕</button>
+  </div>
+  <div class="sb-toc-body">
+    <a class="sb-toc-partlink" href="SBCMS_Lesson_UIUX_Part1.html">← Part 1: UI/UX Intro</a>
+    <a class="sb-toc-partlink" href="SBCMS_Lesson_UIUX_Part2.html">← Part 2: Wireframes</a>
+    <a class="sb-toc-partlink" href="SBCMS_Lesson_Figma_Part3.html">← Part 3: Figma Basics</a>
+    <a class="sb-toc-partlink" href="SBCMS_Lesson_Figma_Part4.html">← Part 4: Components</a>
+    <div class="sb-toc-sep"></div>
+    <a href="#s1"><span class="sb-toc-num">01</span>Setup File</a>
+    <a href="#s2"><span class="sb-toc-num">02</span>Screen 1: Login</a>
+    <a href="#s3"><span class="sb-toc-num">03</span>Screen 2: POS</a>
+    <a href="#s4"><span class="sb-toc-num">04</span>Screen 3: Inventory</a>
+    <a href="#s5"><span class="sb-toc-num">05</span>Screen 4: Reports</a>
+    <a href="#s6"><span class="sb-toc-num">06</span>Screen 5: Employee</a>
+    <a href="#s7"><span class="sb-toc-num">07</span>Prototype Links</a>
+    <a href="#s8"><span class="sb-toc-num">08</span>Developer Handoff</a>
+    <a href="#s9"><span class="sb-toc-num">09</span>Final Checklist</a>
+    <a href="#quiz"><span class="sb-toc-num">✏</span>Quiz</a>
+  </div>
+</div>
+<script>
+(function(){
+  var T=document.getElementById('sbTocToggle'),D=document.getElementById('sbTocDrawer'),O=document.getElementById('sbTocOverlay'),C=document.getElementById('sbTocClose');
+  function openDrawer(){D.classList.add('open');O.classList.add('open');T.classList.add('hidden');document.body.style.overflow='hidden';}
+  function closeDrawer(){D.classList.remove('open');O.classList.remove('open');T.classList.remove('hidden');document.body.style.overflow='';}
+  T.addEventListener('click',openDrawer);C.addEventListener('click',closeDrawer);O.addEventListener('click',closeDrawer);
+  D.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',closeDrawer);});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeDrawer();});
+  var dLinks=D.querySelectorAll('a[href^="#s"]');
+  function markActive(){var top=window.scrollY+120;var cur=null;dLinks.forEach(function(a){var el=document.getElementById(a.getAttribute('href').slice(1));if(el&&el.offsetTop<=top)cur=a;});dLinks.forEach(function(a){a.classList.remove('active');});if(cur)cur.classList.add('active');}
+  window.addEventListener('scroll',markActive,{passive:true});markActive();
+})();
+</script>
+
+<div id="pb"></div>
+
+<!-- TOP STRIP -->
+<div class="top-strip">
+  <a href="index.html">SBCMS Lessons</a><span class="sep">›</span>
+  <a href="index.html">Figma Series</a><span class="sep">›</span>
+  <span class="cur">Part 5 — SBCMS Full Wireframes</span>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-mesh"></div>
+  <div class="hero-inner">
+    <div class="hero-eye">Sharp Bean Café · Figma Series · Final Part</div>
+    <h1>SBCMS Full<br/><span class="acc">Wireframes</span> <span class="p">✦</span></h1>
+    <p class="hero-sub">
+      Apply Components ទាំងអស់ពី Part 1–4 —
+      Build Screens ៥ ពេញ: Login · POS · Inventory · Reports · Employee
+      ជា High-Fidelity Wireframes ក្នុង Figma ។
+    </p>
+    <div class="hero-meta">
+      <span class="hero-badge">PART 5 — FINAL</span>
+      <span class="hero-chip">⏱ 70–90 នាទី</span>
+      <span class="hero-chip">🎯 Applied Practice</span>
+      <span class="hero-chip">🔗 ត្រូវការ Part 3–4</span>
+    </div>
+  </div>
+  <div class="tstrip">
+    <div class="tp"><span class="tn">01</span> Setup File</div>
+    <div class="tp"><span class="tn">02</span> Screen 1: Login</div>
+    <div class="tp"><span class="tn">03</span> Screen 2: POS</div>
+    <div class="tp"><span class="tn">04</span> Screen 3: Inventory</div>
+    <div class="tp"><span class="tn">05</span> Screen 4: Reports</div>
+    <div class="tp"><span class="tn">06</span> Screen 5: Employee</div>
+    <div class="tp"><span class="tn">07</span> Prototype Links</div>
+    <div class="tp"><span class="tn">08</span> Developer Handoff</div>
+    <div class="tp"><span class="tn">09</span> Final Checklist</div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="pw">
+  <nav class="toc">
+    <div class="toc-title">Part Navigation</div>
+    <a class="toc-part" href="SBCMS_Lesson_Figma_Part4.html"><span class="pl">← PART 4</span> Components</a>
+    <div class="toc-sep"></div>
+    <div class="toc-title">មាតិកា — Part 5</div>
+    <a href="#s1" class="active"><span class="n">01</span> Setup File</a>
+    <a href="#s2"><span class="n">02</span> Screen 1: Login</a>
+    <a href="#s3"><span class="n">03</span> Screen 2: POS</a>
+    <a href="#s4"><span class="n">04</span> Screen 3: Inventory</a>
+    <a href="#s5"><span class="n">05</span> Screen 4: Reports</a>
+    <a href="#s6"><span class="n">06</span> Screen 5: Employee</a>
+    <a href="#s7"><span class="n">07</span> Prototype Links</a>
+    <a href="#s8"><span class="n">08</span> Developer Handoff</a>
+    <a href="#s9"><span class="n">09</span> Final Checklist</a>
+    <div class="toc-sep"></div>
+    <a href="#quiz"><span class="n">✏</span> Quiz</a>
+  </nav>
+
+  <main class="content">
+
+    <!-- ══ S1 — SETUP ══ -->
+    <div class="ls" id="s1">
+      <span class="sec-num">Section 01</span>
+      <h2>Setup Figma File — រៀបចំ File</h2>
+      <p>
+        មុន Build Screens — ត្រូវ <mark>Setup File Structure ត្រឹមត្រូវ</mark>
+        ដើម្បី Workflow មានសណ្ដាប់ ។
+        File ១ = Design System + Screens ទាំងអស់ ។
+      </p>
+      <h3>File Structure</h3>
+      <div class="code">
+        <span class="code-lbl">Figma File — SBCMS_Wireframes.fig</span>
+        <pre><span class="ck">Pages (Figma Left Panel — Pages Tab)</span>
+<span class="cc">─────────────────────────────────────</span>
+<span class="cv">Page 1:</span>  <span class="ck">🎨 Design System</span>
+          <span class="cc">Color Styles · Text Styles · Icons</span>
+
+<span class="cv">Page 2:</span>  <span class="ck">⬡ _Components</span>
+          <span class="cc">Master Components ទាំងអស់ (Buttons · Inputs · Nav...)</span>
+
+<span class="cv">Page 3:</span>  <span class="ck">🖥 Screen 01 — Login</span>
+          <span class="cc">Frame: Desktop 1440×1024</span>
+
+<span class="cv">Page 4:</span>  <span class="ck">🖥 Screen 02 — POS Order</span>
+          <span class="cc">Frame: Desktop 1440×1024</span>
+
+<span class="cv">Page 5:</span>  <span class="ck">🖥 Screen 03 — Inventory</span>
+          <span class="cc">Frame: Desktop 1440×1024</span>
+
+<span class="cv">Page 6:</span>  <span class="ck">🖥 Screen 04 — Reports</span>
+          <span class="cc">Frame: Desktop 1440×1024</span>
+
+<span class="cv">Page 7:</span>  <span class="ck">🖥 Screen 05 — Employee</span>
+          <span class="cc">Frame: Desktop 1440×1024</span></pre>
+      </div>
+      <h3>Setup Steps</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-n">1</div>
+          <div class="step-b">
+            <div class="step-title">Rename Figma File</div>
+            <div class="step-desc">ចូល Figma → Open File ចេញពី Part 3/4 → Double-click File Name → Rename: <strong>"SBCMS_Wireframes"</strong></div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">2</div>
+          <div class="step-b">
+            <div class="step-title">Add Color Styles</div>
+            <div class="step-desc">Draw Rectangle → Fill: <span class="kw">#3B2007</span> → Right Panel → Fill → Click "⊕ Style" → Save as "Roast/Primary" ។ Repeat for ​Espresso, Caramel, Cream, Milk ។</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">3</div>
+          <div class="step-b">
+            <div class="step-title">Add Text Styles</div>
+            <div class="step-desc">Select Text → Right Panel → Type → "⊕ Style" → Save as "H1/Display", "Body/Regular", "Label/Mono" ។</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">4</div>
+          <div class="step-b">
+            <div class="step-title">Create 5 Screen Pages</div>
+            <div class="step-desc">Left Panel → Pages → "+" × 5 → Rename ដូច Structure ខាងលើ ។ ការ Organize Pages = Professional Workflow ។</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">5</div>
+          <div class="step-b">
+            <div class="step-title">Frame Setup Per Screen</div>
+            <div class="step-desc">ជ្រើស Page → ចុច <span class="kt">F</span> → Right Panel → Frame Preset → "Desktop" → W:1440, H:1024 → Fill: <span class="kw">#FDF6EC</span> (Cream) ។</div>
+          </div>
+        </div>
+      </div>
+      <div class="box coffee">
+        <div class="box-i">☕</div>
+        <div class="box-b">
+          <div class="box-t">Figma Color Styles = SBCMS Design System</div>
+          <div class="box-x">
+            ក្រោយ Save Color Style → Elements ទាំងអស់ប្រើ Style Name ។
+            ប្ដូរ Color ១ → UI ទាំងអស់ Update ។
+            Professional Figma Files Always ប្រើ Styles ។
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ S2 — LOGIN ══ -->
+    <div class="ls" id="s2">
+      <span class="sec-num">Section 02</span>
+      <h2>Screen 1 — Login Form</h2>
+      <p>
+        Login Screen ជា Entry Point ។
+        Design ផ្ដោត: <mark>Brand Identity + Role Selection + Clean Form</mark> ។
+        WinForms Task #23 ។
+      </p>
+
+      <!-- WIREFRAME PREVIEW -->
+      <div class="wf-window">
+        <div class="wf-titlebar">
+          <span class="wf-title">☕ SBCMS — Login · Screen 1 of 5</span>
+          <div class="wf-btns"><div class="wf-btn c"></div><div class="wf-btn m"></div><div class="wf-btn x"></div></div>
+        </div>
+        <div style="background:linear-gradient(135deg,#1C0F07 0%,#3d1f0a 50%,#5a2e10 100%);min-height:420px;display:flex;align-items:center;justify-content:center;padding:40px;position:relative;overflow:hidden;">
+          <div style="position:absolute;right:-30px;top:-30px;font-size:220px;opacity:.04;pointer-events:none;">☕</div>
+          <div style="background:var(--foam);border-radius:14px;padding:36px;width:360px;box-shadow:0 24px 60px rgba(0,0,0,.4);position:relative;z-index:1;">
+            <!-- Logo -->
+            <div style="text-align:center;margin-bottom:24px;">
+              <div style="font-size:34px;margin-bottom:8px;">☕</div>
+              <div style="font-size:20px;font-weight:700;color:var(--roast);">Sharp Bean <span style="color:var(--caramel);">Café</span></div>
+              <div style="font-family:var(--mono);font-size:10px;color:var(--latte);letter-spacing:2px;text-transform:uppercase;margin-top:4px;">MANAGEMENT SYSTEM</div>
+            </div>
+            <!-- Role Selector -->
+            <div style="display:flex;gap:8px;margin-bottom:20px;">
+              <div style="flex:1;text-align:center;padding:9px;border-radius:7px;background:var(--roast);border:1.5px solid var(--roast);">
+                <div style="font-size:15px;">👤</div>
+                <div style="font-family:var(--mono);font-size:10px;color:var(--cream);font-weight:700;margin-top:3px;">EMPLOYEE</div>
+              </div>
+              <div style="flex:1;text-align:center;padding:9px;border-radius:7px;background:white;border:1.5px solid var(--milk);">
+                <div style="font-size:15px;">🏢</div>
+                <div style="font-family:var(--mono);font-size:10px;color:var(--latte);font-weight:700;margin-top:3px;">MANAGER</div>
+              </div>
+            </div>
+            <!-- Form -->
+            <div style="margin-bottom:12px;">
+              <div style="font-size:11px;font-weight:600;color:var(--latte);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px;">USERNAME</div>
+              <input class="wf-input focused" value="sopheak.tun" readonly/>
+            </div>
+            <div style="margin-bottom:18px;">
+              <div style="font-size:11px;font-weight:600;color:var(--latte);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px;">PASSWORD</div>
+              <input class="wf-input" type="password" value="••••••••" readonly/>
+            </div>
+            <div style="background:var(--roast);color:var(--cream);padding:11px;text-align:center;border-radius:8px;font-weight:700;font-size:13.5px;cursor:default;">Login to System →</div>
+            <div style="text-align:center;margin-top:12px;font-size:10.5px;color:var(--latte);">Sharp Bean Café © 2026 · v1.0.0</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ann">
+        <div class="ann-head"><span>🎨 Screen 1 — Login Annotations</span><span style="font-size:11px;color:var(--latte);">Task #23 · Due Mar 13</span></div>
+        <div class="ann-body">
+          <div class="ann-col">
+            <div class="ann-col-title">🎨 Design Notes</div>
+            <ul>
+              <li>Dark espresso gradient background #1C0F07</li>
+              <li>Login Card width: 360px · Padding: 36px</li>
+              <li>Role Toggle: Employee (Active) / Manager</li>
+              <li>Coffee icon watermark — opacity 4%</li>
+              <li>Footer: version + copyright</li>
+            </ul>
+          </div>
+          <div class="ann-col">
+            <div class="ann-col-title">⚙️ Components Used</div>
+            <ul>
+              <li>⬡ Input/Default (Username + Password)</li>
+              <li>⬡ Btn/Primary (Login Button)</li>
+              <li>⬡ Role/Toggle (Employee · Manager)</li>
+              <li>Color Style: Espresso, Roast, Caramel, Foam</li>
+              <li>Text Style: H1/Brand, Label/Mono</li>
+            </ul>
+          </div>
+          <div class="ann-col">
+            <div class="ann-col-title">🔗 Behavior (Code)</div>
+            <ul>
+              <li>Role Toggle ប្ដូរ Access Level</li>
+              <li>Enter Key triggers Login Button</li>
+              <li>Error: ⬡ Alert/Danger shows ក្រោម Form</li>
+              <li>Success: Redirect → POS Screen</li>
+              <li>Links: EmployeesRole Table · UserService</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <h3>Figma Build Steps — Login Screen</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-n">1</div>
+          <div class="step-b">
+            <div class="step-title">Background</div>
+            <div class="step-desc">Frame 1440×1024 → Fill: Linear Gradient → From <span class="kw">#1C0F07</span> to <span class="kw">#5a2e10</span> → Angle 135° ។</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">2</div>
+          <div class="step-b">
+            <div class="step-title">Login Card</div>
+            <div class="step-desc">Rectangle 360×auto → Fill: <span class="kw">#FFF9F2</span> → Corner: 14 → Shadow: 0,24,60 rgba(0,0,0,.4) → Auto Layout Vertical Gap:20 Padding:36 ។</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">3</div>
+          <div class="step-b">
+            <div class="step-title">Logo Section</div>
+            <div class="step-desc">Text "☕" 34px → Text "Sharp Bean Café" H1 Style → Text "MANAGEMENT SYSTEM" Label Mono → Group → Center Align ។</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">4</div>
+          <div class="step-b">
+            <div class="step-title">Role Toggle</div>
+            <div class="step-desc">2 Rectangles side-by-side → Auto Layout Horizontal → Employee (Fill Roast) · Manager (Fill White) → Create ⬡ Role/Toggle Component ។</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">5</div>
+          <div class="step-b">
+            <div class="step-title">Form Fields</div>
+            <div class="step-desc">Drag ⬡ Input/Default × 2 → Override Labels: "USERNAME" / "PASSWORD" → Stack Vertical Gap:12 ។</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">6</div>
+          <div class="step-b">
+            <div class="step-title">Login Button + Center Card</div>
+            <div class="step-desc">Drag ⬡ Btn/Primary → Override Text "Login to System →" → Width: Fill Container → Center Card ក្នុង Frame (Align H+V Center) ។</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ S3 — POS ══ -->
+    <div class="ls" id="s3">
+      <span class="sec-num">Section 03</span>
+      <h2>Screen 2 — POS Order Form</h2>
+      <p>
+        POS Screen ជា Screen ធំបំផុត — Split Layout:
+        <mark>Menu Grid (Left) + Order Panel (Right)</mark> ។
+        Task #24 ។
+      </p>
+
+      <!-- WIREFRAME PREVIEW -->
+      <div class="wf-window">
+        <div class="wf-titlebar">
+          <span class="wf-title">☕ SBCMS — POS Order · Screen 2 of 5</span>
+          <div class="wf-btns"><div class="wf-btn c"></div><div class="wf-btn m"></div><div class="wf-btn x"></div></div>
+        </div>
+        <div class="wf-body" style="min-height:420px;">
+          <!-- Sidebar -->
+          <div class="wf-sidebar" style="display:flex;flex-direction:column;">
+            <div class="wf-sb-logo">☕ <span>Sharp Bean</span></div>
+            <div class="wf-sb-sec">MAIN</div>
+            <div class="wf-nav active"><span class="icon">🖥</span> POS Order</div>
+            <div class="wf-nav"><span class="icon">📦</span> Inventory</div>
+            <div class="wf-nav"><span class="icon">📊</span> Reports</div>
+            <div class="wf-sb-sec">ADMIN</div>
+            <div class="wf-nav"><span class="icon">👤</span> Employees</div>
+            <div class="wf-nav"><span class="icon">🍽</span> Menu</div>
+            <div style="flex:1;"></div>
+            <div class="wf-user">
+              <div class="wf-avatar">TS</div>
+              <div><div class="wf-uname">TUN Sopheak</div><div class="wf-urole">Employee</div></div>
+            </div>
+          </div>
+          <!-- Main -->
+          <div class="wf-main">
+            <!-- Menu Grid Area -->
+            <div style="flex:1;display:flex;overflow:hidden;">
+              <div style="flex:1;padding:14px;background:#1a1a1a;overflow:hidden;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                  <div style="color:rgba(255,255,255,.75);font-weight:700;font-size:15px;">Select Items</div>
+                  <div style="font-size:10.5px;color:rgba(255,255,255,.3);">Table <strong style="color:rgba(255,255,255,.6);">#07</strong> · Dine-In</div>
+                </div>
+                <!-- Search -->
+                <div class="wf-search" style="margin-bottom:10px;">🔍 <span>Search menu...</span></div>
+                <!-- Category Tabs -->
+                <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;">
+                  <div style="padding:5px 12px;background:var(--roast);color:var(--cream);border-radius:14px;font-size:10.5px;font-weight:600;">All</div>
+                  <div style="padding:5px 12px;background:rgba(255,255,255,.06);color:rgba(255,255,255,.45);border-radius:14px;font-size:10.5px;border:1px solid rgba(255,255,255,.1);">☕ Coffee</div>
+                  <div style="padding:5px 12px;background:rgba(255,255,255,.06);color:rgba(255,255,255,.45);border-radius:14px;font-size:10.5px;border:1px solid rgba(255,255,255,.1);">🧃 Cold</div>
+                  <div style="padding:5px 12px;background:rgba(255,255,255,.06);color:rgba(255,255,255,.45);border-radius:14px;font-size:10.5px;border:1px solid rgba(255,255,255,.1);">🥐 Snacks</div>
+                </div>
+                <!-- Menu Items Grid -->
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+                  <div style="background:#252525;border:1.5px solid var(--fig-border);border-radius:8px;padding:10px;text-align:center;">
+                    <div style="font-size:20px;margin-bottom:4px;">☕</div>
+                    <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,.75);">Iced Latte</div>
+                    <div style="font-size:11px;color:var(--caramel);font-family:var(--mono);font-weight:700;">$4.00</div>
+                  </div>
+                  <div style="background:#252525;border:1.5px solid var(--caramel);border-radius:8px;padding:10px;text-align:center;">
+                    <div style="font-size:20px;margin-bottom:4px;">☕</div>
+                    <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,.75);">Cappuccino</div>
+                    <div style="font-size:11px;color:var(--caramel);font-family:var(--mono);font-weight:700;">$3.50</div>
+                  </div>
+                  <div style="background:#252525;border:1.5px solid var(--fig-border);border-radius:8px;padding:10px;text-align:center;">
+                    <div style="font-size:20px;margin-bottom:4px;">☕</div>
+                    <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,.75);">Espresso</div>
+                    <div style="font-size:11px;color:var(--caramel);font-family:var(--mono);font-weight:700;">$3.00</div>
+                  </div>
+                  <div style="background:#252525;border:1.5px solid var(--fig-border);border-radius:8px;padding:10px;text-align:center;">
+                    <div style="font-size:20px;margin-bottom:4px;">🧋</div>
+                    <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,.75);">Matcha</div>
+                    <div style="font-size:11px;color:var(--caramel);font-family:var(--mono);font-weight:700;">$4.50</div>
+                  </div>
+                  <div style="background:#252525;border:1.5px solid var(--fig-border);border-radius:8px;padding:10px;text-align:center;">
+                    <div style="font-size:20px;margin-bottom:4px;">🥐</div>
+                    <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,.75);">Croissant</div>
+                    <div style="font-size:11px;color:var(--caramel);font-family:var(--mono);font-weight:700;">$2.50</div>
+                  </div>
+                  <div style="background:#252525;border:1.5px solid var(--fig-border);border-radius:8px;padding:10px;text-align:center;">
+                    <div style="font-size:20px;margin-bottom:4px;">🍰</div>
+                    <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,.75);">Cheesecake</div>
+                    <div style="font-size:11px;color:var(--caramel);font-family:var(--mono);font-weight:700;">$5.00</div>
+                  </div>
+                </div>
+              </div>
+              <!-- Order Panel -->
+              <div style="width:220px;background:#202020;border-left:1px solid var(--fig-border);display:flex;flex-direction:column;">
+                <div style="padding:12px 14px;border-bottom:1px solid var(--fig-border);display:flex;justify-content:space-between;align-items:center;">
+                  <span style="font-weight:700;font-size:12.5px;color:rgba(255,255,255,.8);">🧾 Order</span>
+                  <span style="font-family:var(--mono);font-size:9.5px;color:rgba(255,255,255,.3);">#0045</span>
+                </div>
+                <div style="flex:1;padding:10px 14px;">
+                  <div style="display:flex;align-items:center;gap:6px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.07);">
+                    <span style="flex:1;font-size:11.5px;color:rgba(255,255,255,.7);">Iced Latte</span>
+                    <div style="display:flex;align-items:center;gap:4px;">
+                      <div style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,.5);">−</div>
+                      <span style="font-size:11.5px;font-weight:700;color:rgba(255,255,255,.8);">2</span>
+                      <div style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,.5);">+</div>
+                    </div>
+                    <span style="font-family:var(--mono);font-size:11px;color:var(--caramel);min-width:40px;text-align:right;">$8.00</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:6px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.07);">
+                    <span style="flex:1;font-size:11.5px;color:rgba(255,255,255,.7);">Espresso</span>
+                    <div style="display:flex;align-items:center;gap:4px;">
+                      <div style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,.5);">−</div>
+                      <span style="font-size:11.5px;font-weight:700;color:rgba(255,255,255,.8);">1</span>
+                      <div style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,.5);">+</div>
+                    </div>
+                    <span style="font-family:var(--mono);font-size:11px;color:var(--caramel);min-width:40px;text-align:right;">$3.00</span>
+                  </div>
+                </div>
+                <div style="padding:12px 14px;border-top:1px solid var(--fig-border);">
+                  <div style="display:flex;justify-content:space-between;font-size:10.5px;color:rgba(255,255,255,.35);margin-bottom:4px;"><span>Subtotal</span><span style="font-family:var(--mono);">$11.00</span></div>
+                  <div style="display:flex;justify-content:space-between;font-size:10.5px;color:rgba(255,255,255,.35);margin-bottom:8px;"><span>Tax 10%</span><span style="font-family:var(--mono);">$1.10</span></div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-top:6px;border-top:1px solid rgba(255,255,255,.1);">
+                    <span style="font-size:11.5px;font-weight:700;color:rgba(255,255,255,.7);">TOTAL</span>
+                    <span style="font-size:18px;font-weight:700;color:rgba(255,255,255,.9);">$12.10</span>
+                  </div>
+                  <div class="wf-btn-a" style="width:100%;justify-content:center;margin-bottom:5px;">✓ Confirm</div>
+                  <div class="wf-btn-o" style="width:100%;justify-content:center;font-size:10.5px;">🗑 Clear</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ann">
+        <div class="ann-head"><span>🎨 Screen 2 — POS Annotations</span><span style="font-size:11px;color:var(--latte);">Task #24 · Due Mar 14</span></div>
+        <div class="ann-body">
+          <div class="ann-col">
+            <div class="ann-col-title">🎨 Layout Notes</div>
+            <ul>
+              <li>3-Column Split: Sidebar (190) + Menu (Fill) + Order Panel (220)</li>
+              <li>Menu Item Cards: 3 columns Grid</li>
+              <li>Category Filter Tabs (Horizontal Auto Layout)</li>
+              <li>Selected Item: Caramel Border highlight</li>
+            </ul>
+          </div>
+          <div class="ann-col">
+            <div class="ann-col-title">⚙️ Components Used</div>
+            <ul>
+              <li>⬡ Nav/Sidebar (POS Active)</li>
+              <li>⬡ MenuItem/Card × 6+</li>
+              <li>⬡ CatTab/Active + Default</li>
+              <li>⬡ OrderLine (Name + Qty +/− + Price)</li>
+              <li>⬡ Btn/Accent (Confirm), Btn/Outline (Clear)</li>
+            </ul>
+          </div>
+          <div class="ann-col">
+            <div class="ann-col-title">🔗 Behavior</div>
+            <ul>
+              <li>Click Card → Add to Order Panel</li>
+              <li>+/− Qty → Auto Recalculate Total</li>
+              <li>Confirm → sp_CreateOrder + DeductStock</li>
+              <li>Links: Orders, OrderItems, StockItems Tables</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ S4 — INVENTORY ══ -->
+    <div class="ls" id="s4">
+      <span class="sec-num">Section 04</span>
+      <h2>Screen 3 — Inventory Form</h2>
+      <p>
+        Inventory Screen ផ្ដោត: <mark>Warning Alerts + Stats + Data Table + Stock Level Bars</mark> ។
+        Task #25 ។
+      </p>
+
+      <div class="wf-window">
+        <div class="wf-titlebar">
+          <span class="wf-title">☕ SBCMS — Inventory · Screen 3 of 5</span>
+          <div class="wf-btns"><div class="wf-btn c"></div><div class="wf-btn m"></div><div class="wf-btn x"></div></div>
+        </div>
+        <div class="wf-body" style="min-height:420px;">
+          <div class="wf-sidebar" style="display:flex;flex-direction:column;">
+            <div class="wf-sb-logo">☕ <span>Sharp Bean</span></div>
+            <div class="wf-sb-sec">MAIN</div>
+            <div class="wf-nav"><span class="icon">🖥</span> POS Order</div>
+            <div class="wf-nav active"><span class="icon">📦</span> Inventory</div>
+            <div class="wf-nav"><span class="icon">📊</span> Reports</div>
+            <div class="wf-sb-sec">ADMIN</div>
+            <div class="wf-nav"><span class="icon">👤</span> Employees</div>
+            <div class="wf-nav"><span class="icon">🍽</span> Menu</div>
+            <div style="flex:1;"></div>
+            <div class="wf-user"><div class="wf-avatar">TS</div><div><div class="wf-uname">TUN Sopheak</div><div class="wf-urole">Employee</div></div></div>
+          </div>
+          <div class="wf-main">
+            <div class="wf-header">
+              <div><div class="wf-htitle">📦 Inventory</div><div class="wf-hsub">Stock monitoring & management</div></div>
+              <div style="display:flex;gap:8px;">
+                <div class="wf-btn-o wf-btn-sm">⬇ Export</div>
+                <div class="wf-btn-a wf-btn-sm">+ Restock</div>
+              </div>
+            </div>
+            <div class="wf-content">
+              <div class="wf-alert wf-alert-w">⚠️ 2 items are running low on stock — review before next shift.</div>
+              <!-- Stats -->
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;">
+                <div class="wf-stat"><div class="wf-stat-label">Total Items</div><div class="wf-stat-val">12</div><div class="wf-stat-sub">Tracked</div></div>
+                <div class="wf-stat" style="border-left-color:#F59E0B;"><div class="wf-stat-label">Low Stock</div><div class="wf-stat-val" style="color:#FCD34D;">2</div><div class="wf-stat-sub">Alert</div></div>
+                <div class="wf-stat" style="border-left-color:#4ADE80;"><div class="wf-stat-label">Healthy</div><div class="wf-stat-val" style="color:#86EFAC;">10</div><div class="wf-stat-sub">OK</div></div>
+              </div>
+              <!-- Table -->
+              <div style="background:#1e1e1e;border-radius:8px;overflow:hidden;border:1px solid var(--fig-border);">
+                <table class="wf-table">
+                  <thead><tr><th class="wf-th">Item</th><th class="wf-th">Qty</th><th class="wf-th">Unit</th><th class="wf-th">Status</th><th class="wf-th">Level</th><th class="wf-th">Action</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="wf-td"><strong>Espresso Beans</strong></td>
+                      <td class="wf-td" style="color:#F87171;font-family:var(--mono);font-weight:700;">3.0</td>
+                      <td class="wf-td">kg</td>
+                      <td class="wf-td"><span class="wf-badge wf-bd-cncl">⚠ Low</span></td>
+                      <td class="wf-td" style="width:80px;"><div class="wf-prog"><div class="wf-prog-fill" style="width:15%;background:#F87171;"></div></div></td>
+                      <td class="wf-td"><div class="wf-btn-a wf-btn-sm">+ Restock</div></td>
+                    </tr>
+                    <tr>
+                      <td class="wf-td"><strong>Fresh Milk</strong></td>
+                      <td class="wf-td" style="color:#FCD34D;font-family:var(--mono);font-weight:700;">4.0</td>
+                      <td class="wf-td">L</td>
+                      <td class="wf-td"><span class="wf-badge wf-bd-pend">⚠ Low</span></td>
+                      <td class="wf-td"><div class="wf-prog"><div class="wf-prog-fill" style="width:25%;background:#FCD34D;"></div></div></td>
+                      <td class="wf-td"><div class="wf-btn-a wf-btn-sm">+ Restock</div></td>
+                    </tr>
+                    <tr>
+                      <td class="wf-td"><strong>Matcha Powder</strong></td>
+                      <td class="wf-td" style="font-family:var(--mono);">1.2</td>
+                      <td class="wf-td">kg</td>
+                      <td class="wf-td"><span class="wf-badge wf-bd-done">✓ OK</span></td>
+                      <td class="wf-td"><div class="wf-prog"><div class="wf-prog-fill" style="width:70%;"></div></div></td>
+                      <td class="wf-td"><div class="wf-btn-o wf-btn-sm">Edit</div></td>
+                    </tr>
+                    <tr>
+                      <td class="wf-td"><strong>Flour</strong></td>
+                      <td class="wf-td" style="font-family:var(--mono);">8.0</td>
+                      <td class="wf-td">kg</td>
+                      <td class="wf-td"><span class="wf-badge wf-bd-done">✓ OK</span></td>
+                      <td class="wf-td"><div class="wf-prog"><div class="wf-prog-fill" style="width:85%;"></div></div></td>
+                      <td class="wf-td"><div class="wf-btn-o wf-btn-sm">Edit</div></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ann">
+        <div class="ann-head"><span>🎨 Screen 3 — Inventory Annotations</span><span style="font-size:11px;color:var(--latte);">Task #25 · Due Mar 15</span></div>
+        <div class="ann-body">
+          <div class="ann-col"><div class="ann-col-title">🎨 Design Notes</div><ul><li>⬡ Alert/Warning ក្នុង Top ប្រសិន Low Stock</li><li>3 Stat Cards: Total / Low / Healthy</li><li>Data Table ជាមួយ Progress Bar Column</li><li>Color Code: Red &lt;20% · Yellow &lt;50% · Green OK</li></ul></div>
+          <div class="ann-col"><div class="ann-col-title">⚙️ Components Used</div><ul><li>⬡ Nav/Sidebar (Inventory Active)</li><li>⬡ Alert/Warning</li><li>⬡ Stat/Card × 3</li><li>⬡ Table/Row · ⬡ Badge/Status</li><li>⬡ ProgressBar/Stock</li><li>⬡ Btn/Accent, Btn/Outline (sm)</li></ul></div>
+          <div class="ann-col"><div class="ann-col-title">🔗 Behavior</div><ul><li>Auto Alert when Qty &lt; Threshold</li><li>Restock → Dialog ចាប់ Amount</li><li>Search + Filter: All / Low / Healthy</li><li>Links: StockItems Table · InventoryService</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ S5 — REPORTS ══ -->
+    <div class="ls" id="s5">
+      <span class="sec-num">Section 05</span>
+      <h2>Screen 4 — Sales Reports</h2>
+      <p>
+        Reports Screen ផ្ដោត: <mark>Period Selector + 4 KPI Stats + Bar Chart + Top Items Table</mark> ។
+        Manager Access Only ។ Task #26 ។
+      </p>
+
+      <div class="wf-window">
+        <div class="wf-titlebar">
+          <span class="wf-title">☕ SBCMS — Reports · Screen 4 of 5</span>
+          <div class="wf-btns"><div class="wf-btn c"></div><div class="wf-btn m"></div><div class="wf-btn x"></div></div>
+        </div>
+        <div class="wf-body" style="min-height:420px;">
+          <div class="wf-sidebar" style="display:flex;flex-direction:column;">
+            <div class="wf-sb-logo">☕ <span>Sharp Bean</span></div>
+            <div class="wf-sb-sec">MAIN</div>
+            <div class="wf-nav"><span class="icon">🖥</span> POS Order</div>
+            <div class="wf-nav"><span class="icon">📦</span> Inventory</div>
+            <div class="wf-nav active"><span class="icon">📊</span> Reports</div>
+            <div class="wf-sb-sec">ADMIN</div>
+            <div class="wf-nav"><span class="icon">👤</span> Employees</div>
+            <div class="wf-nav"><span class="icon">🍽</span> Menu</div>
+            <div style="flex:1;"></div>
+            <div class="wf-user"><div class="wf-avatar">TS</div><div><div class="wf-uname">TUN Sopheak</div><div class="wf-urole">Manager</div></div></div>
+          </div>
+          <div class="wf-main">
+            <div class="wf-header">
+              <div><div class="wf-htitle">📊 Sales Reports</div><div class="wf-hsub">Revenue analytics · March 2026</div></div>
+              <div style="display:flex;gap:8px;">
+                <div class="wf-btn-o wf-btn-sm">⬇ PDF</div>
+                <div class="wf-btn-p wf-btn-sm">🔄 Generate</div>
+              </div>
+            </div>
+            <div class="wf-content">
+              <!-- Period Selector -->
+              <div style="background:#252525;border-radius:8px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:14px;border:1px solid var(--fig-border);">
+                <div style="display:flex;gap:5px;">
+                  <div style="padding:5px 12px;background:var(--roast);color:var(--cream);border-radius:5px;font-size:10.5px;font-weight:700;">Daily</div>
+                  <div style="padding:5px 12px;background:rgba(255,255,255,.06);color:rgba(255,255,255,.4);border-radius:5px;font-size:10.5px;">Weekly</div>
+                  <div style="padding:5px 12px;background:rgba(255,255,255,.06);color:rgba(255,255,255,.4);border-radius:5px;font-size:10.5px;">Monthly</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:10.5px;color:rgba(255,255,255,.35);">
+                  <span>From</span>
+                  <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:4px 10px;font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.6);">2026-03-01</div>
+                  <span>To</span>
+                  <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:4px 10px;font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.6);">2026-03-07</div>
+                </div>
+              </div>
+              <!-- 4 Stats -->
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;">
+                <div class="wf-stat"><div class="wf-stat-label">Revenue</div><div class="wf-stat-val" style="font-size:16px;">$1,240</div><div class="wf-stat-sub">+12% ↑</div></div>
+                <div class="wf-stat"><div class="wf-stat-label">Orders</div><div class="wf-stat-val" style="font-size:16px;">84</div><div class="wf-stat-sub">This week</div></div>
+                <div class="wf-stat"><div class="wf-stat-label">Avg. Order</div><div class="wf-stat-val" style="font-size:16px;">$14.8</div><div class="wf-stat-sub">Per txn</div></div>
+                <div class="wf-stat" style="border-left-color:#4ADE80;"><div class="wf-stat-label">Top Item</div><div class="wf-stat-val" style="font-size:13px;color:#86EFAC;">Iced Latte</div><div class="wf-stat-sub">32 sold</div></div>
+              </div>
+              <!-- Chart + Table Grid -->
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                <!-- Bar Chart -->
+                <div style="background:#252525;border-radius:8px;padding:14px;border:1px solid var(--fig-border);">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px;">Daily Revenue — Mar 1–7</div>
+                  <div style="display:flex;align-items:flex-end;gap:5px;height:80px;">
+                    <div style="flex:1;background:linear-gradient(to top,var(--roast),var(--caramel));border-radius:3px 3px 0 0;height:55%;opacity:.85;"></div>
+                    <div style="flex:1;background:linear-gradient(to top,var(--roast),var(--caramel));border-radius:3px 3px 0 0;height:70%;opacity:.65;"></div>
+                    <div style="flex:1;background:linear-gradient(to top,var(--roast),var(--caramel));border-radius:3px 3px 0 0;height:45%;opacity:.9;"></div>
+                    <div style="flex:1;background:linear-gradient(to top,var(--roast),var(--caramel));border-radius:3px 3px 0 0;height:80%;opacity:.55;"></div>
+                    <div style="flex:1;background:linear-gradient(to top,var(--roast),var(--caramel));border-radius:3px 3px 0 0;height:65%;opacity:.75;"></div>
+                    <div style="flex:1;background:linear-gradient(to top,var(--roast),var(--caramel));border-radius:3px 3px 0 0;height:100%;opacity:1;"></div>
+                    <div style="flex:1;background:linear-gradient(to top,var(--roast),var(--caramel));border-radius:3px 3px 0 0;height:78%;opacity:.8;"></div>
+                  </div>
+                  <div style="display:flex;gap:5px;margin-top:5px;">
+                    <div style="flex:1;text-align:center;font-family:var(--mono);font-size:8.5px;color:rgba(255,255,255,.25);">Mon</div>
+                    <div style="flex:1;text-align:center;font-family:var(--mono);font-size:8.5px;color:rgba(255,255,255,.25);">Tue</div>
+                    <div style="flex:1;text-align:center;font-family:var(--mono);font-size:8.5px;color:rgba(255,255,255,.25);">Wed</div>
+                    <div style="flex:1;text-align:center;font-family:var(--mono);font-size:8.5px;color:rgba(255,255,255,.25);">Thu</div>
+                    <div style="flex:1;text-align:center;font-family:var(--mono);font-size:8.5px;color:rgba(255,255,255,.25);">Fri</div>
+                    <div style="flex:1;text-align:center;font-family:var(--mono);font-size:8.5px;color:rgba(255,255,255,.25);">Sat</div>
+                    <div style="flex:1;text-align:center;font-family:var(--mono);font-size:8.5px;color:rgba(255,255,255,.25);">Sun</div>
+                  </div>
+                </div>
+                <!-- Top Items -->
+                <div style="background:#252525;border-radius:8px;overflow:hidden;border:1px solid var(--fig-border);">
+                  <div style="padding:10px 14px;border-bottom:1px solid var(--fig-border);font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.3);">Top Selling Items</div>
+                  <table class="wf-table">
+                    <thead><tr><th class="wf-th">Item</th><th class="wf-th">Qty</th><th class="wf-th">Revenue</th></tr></thead>
+                    <tbody>
+                      <tr><td class="wf-td">☕ Iced Latte</td><td class="wf-td">32</td><td class="wf-td" style="font-family:var(--mono);font-weight:700;color:var(--caramel);">$128</td></tr>
+                      <tr><td class="wf-td">☕ Cappuccino</td><td class="wf-td">28</td><td class="wf-td" style="font-family:var(--mono);font-weight:700;color:var(--caramel);">$98</td></tr>
+                      <tr><td class="wf-td">🧋 Matcha</td><td class="wf-td">18</td><td class="wf-td" style="font-family:var(--mono);font-weight:700;color:var(--caramel);">$81</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ann">
+        <div class="ann-head"><span>🎨 Screen 4 — Reports Annotations</span><span style="font-size:11px;color:var(--latte);">Task #26 · Due Mar 17</span></div>
+        <div class="ann-body">
+          <div class="ann-col"><div class="ann-col-title">🎨 Design Notes</div><ul><li>Period Selector: Daily/Weekly/Monthly + Date Range</li><li>4 KPI Stat Cards (Revenue, Orders, Avg, Top Item)</li><li>Bar Chart Mock + Top Items Table side-by-side</li><li>Manager Role Only — Employee hidden</li></ul></div>
+          <div class="ann-col"><div class="ann-col-title">⚙️ Components Used</div><ul><li>⬡ Nav/Sidebar (Reports Active)</li><li>⬡ PeriodSelector · ⬡ DatePicker</li><li>⬡ Stat/Card × 4</li><li>⬡ BarChart/Mock · ⬡ Table/Row</li><li>⬡ Btn/Primary (Generate) · Btn/Outline (PDF)</li></ul></div>
+          <div class="ann-col"><div class="ann-col-title">🔗 Behavior</div><ul><li>Generate → ReportService.GetRevenueByPeriod()</li><li>Export PDF → sp_GetSalesReport</li><li>Chart Updates per Period Selection</li><li>Links: Orders, OrderItems Tables</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ S6 — EMPLOYEE ══ -->
+    <div class="ls" id="s6">
+      <span class="sec-num">Section 06</span>
+      <h2>Screen 5 — Employee Management</h2>
+      <p>
+        Employee Screen ផ្ដោត: <mark>Stats + Search Table + Inline Add/Edit Form</mark> ។
+        Manager Access Only ។ Task #27 ។
+      </p>
+
+      <div class="wf-window">
+        <div class="wf-titlebar">
+          <span class="wf-title">☕ SBCMS — Employee · Screen 5 of 5</span>
+          <div class="wf-btns"><div class="wf-btn c"></div><div class="wf-btn m"></div><div class="wf-btn x"></div></div>
+        </div>
+        <div class="wf-body" style="min-height:420px;">
+          <div class="wf-sidebar" style="display:flex;flex-direction:column;">
+            <div class="wf-sb-logo">☕ <span>Sharp Bean</span></div>
+            <div class="wf-sb-sec">MAIN</div>
+            <div class="wf-nav"><span class="icon">🖥</span> POS Order</div>
+            <div class="wf-nav"><span class="icon">📦</span> Inventory</div>
+            <div class="wf-nav"><span class="icon">📊</span> Reports</div>
+            <div class="wf-sb-sec">ADMIN</div>
+            <div class="wf-nav active"><span class="icon">👤</span> Employees</div>
+            <div class="wf-nav"><span class="icon">🍽</span> Menu</div>
+            <div style="flex:1;"></div>
+            <div class="wf-user"><div class="wf-avatar">TS</div><div><div class="wf-uname">TUN Sopheak</div><div class="wf-urole">Manager</div></div></div>
+          </div>
+          <div class="wf-main">
+            <div class="wf-header">
+              <div><div class="wf-htitle">👤 Employees</div><div class="wf-hsub">Staff accounts & roles</div></div>
+              <div class="wf-btn-a wf-btn-sm">+ Add Employee</div>
+            </div>
+            <div class="wf-content">
+              <!-- Stats -->
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;">
+                <div class="wf-stat"><div class="wf-stat-label">Total Staff</div><div class="wf-stat-val">6</div><div class="wf-stat-sub">Active</div></div>
+                <div class="wf-stat"><div class="wf-stat-label">Managers</div><div class="wf-stat-val">2</div><div class="wf-stat-sub">Admin</div></div>
+                <div class="wf-stat" style="border-left-color:#4ADE80;"><div class="wf-stat-label">Employees</div><div class="wf-stat-val" style="color:#86EFAC;">4</div><div class="wf-stat-sub">Regular</div></div>
+              </div>
+              <!-- Search -->
+              <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center;">
+                <div class="wf-search" style="flex:1;">🔍 <span>Search employee...</span></div>
+                <div style="background:#252525;border:1px solid var(--fig-border);border-radius:6px;padding:6px 10px;font-size:10.5px;color:rgba(255,255,255,.4);">All Roles ▾</div>
+              </div>
+              <!-- Table -->
+              <div style="background:#1e1e1e;border-radius:8px;overflow:hidden;border:1px solid var(--fig-border);margin-bottom:10px;">
+                <table class="wf-table">
+                  <thead><tr><th class="wf-th">ID</th><th class="wf-th">Name</th><th class="wf-th">Username</th><th class="wf-th">Role</th><th class="wf-th">Salary</th><th class="wf-th">Actions</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="wf-td" style="font-family:var(--mono);font-size:10.5px;">EMP-001</td>
+                      <td class="wf-td"><strong style="color:rgba(255,255,255,.8);">TUN Sopheak</strong></td>
+                      <td class="wf-td" style="font-family:var(--mono);font-size:10.5px;">sopheak.tun</td>
+                      <td class="wf-td"><span class="wf-badge" style="background:rgba(59,32,7,.5);color:var(--caramel);">Manager</span></td>
+                      <td class="wf-td" style="font-family:var(--mono);">$800</td>
+                      <td class="wf-td" style="display:flex;gap:5px;"><div class="wf-btn-o wf-btn-sm">✏️</div><div class="wf-btn-o wf-btn-sm" style="border-color:rgba(185,28,28,.4);color:#F87171;">🗑</div></td>
+                    </tr>
+                    <tr>
+                      <td class="wf-td" style="font-family:var(--mono);font-size:10.5px;">EMP-002</td>
+                      <td class="wf-td"><strong style="color:rgba(255,255,255,.8);">TIT Sokhom</strong></td>
+                      <td class="wf-td" style="font-family:var(--mono);font-size:10.5px;">sokhom.tit</td>
+                      <td class="wf-td"><span class="wf-badge" style="background:rgba(123,79,46,.4);color:#D4A574;">Employee</span></td>
+                      <td class="wf-td" style="font-family:var(--mono);">$500</td>
+                      <td class="wf-td" style="display:flex;gap:5px;"><div class="wf-btn-o wf-btn-sm">✏️</div><div class="wf-btn-o wf-btn-sm" style="border-color:rgba(185,28,28,.4);color:#F87171;">🗑</div></td>
+                    </tr>
+                    <tr>
+                      <td class="wf-td" style="font-family:var(--mono);font-size:10.5px;">EMP-003</td>
+                      <td class="wf-td"><strong style="color:rgba(255,255,255,.8);">TEP Makhon</strong></td>
+                      <td class="wf-td" style="font-family:var(--mono);font-size:10.5px;">makhon.tep</td>
+                      <td class="wf-td"><span class="wf-badge" style="background:rgba(123,79,46,.4);color:#D4A574;">Employee</span></td>
+                      <td class="wf-td" style="font-family:var(--mono);">$500</td>
+                      <td class="wf-td" style="display:flex;gap:5px;"><div class="wf-btn-o wf-btn-sm">✏️</div><div class="wf-btn-o wf-btn-sm" style="border-color:rgba(185,28,28,.4);color:#F87171;">🗑</div></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- Add Form (collapsed) -->
+              <div style="background:#252525;border-radius:8px;padding:12px 14px;border:1px solid var(--fig-border);">
+                <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:10px;">+ Add / Edit Employee</div>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px;">
+                  <input class="wf-input" placeholder="Full Name" readonly/>
+                  <input class="wf-input" placeholder="Username" readonly/>
+                  <input class="wf-input" placeholder="Phone" readonly/>
+                </div>
+                <div style="display:flex;gap:8px;justify-content:flex-end;">
+                  <div class="wf-btn-o wf-btn-sm">Cancel</div>
+                  <div class="wf-btn-p wf-btn-sm">💾 Save</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ann">
+        <div class="ann-head"><span>🎨 Screen 5 — Employee Annotations</span><span style="font-size:11px;color:var(--latte);">Task #27 · Due Mar 17</span></div>
+        <div class="ann-body">
+          <div class="ann-col"><div class="ann-col-title">🎨 Design Notes</div><ul><li>3 Stats: Total/Managers/Employees</li><li>Search + Role Filter Dropdown</li><li>Table: Edit + Delete per row (color-coded)</li><li>Inline Add/Edit Form ក្រោម Table</li></ul></div>
+          <div class="ann-col"><div class="ann-col-title">⚙️ Components Used</div><ul><li>⬡ Nav/Sidebar (Employee Active)</li><li>⬡ Stat/Card × 3</li><li>⬡ Table/Row · ⬡ Badge/Role</li><li>⬡ Input/Default × 3 (Add Form)</li><li>⬡ Btn/Outline (Edit/Cancel) · Btn/Danger (Delete)</li></ul></div>
+          <div class="ann-col"><div class="ann-col-title">🔗 Behavior</div><ul><li>Manager Role Only (RBAC Check)</li><li>Edit → Fill Form ជាមួយ Row Data</li><li>Delete → Confirmation Dialog</li><li>Links: EmployeesRole Table · UserService</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ S7 — PROTOTYPE ══ -->
+    <div class="ls" id="s7">
+      <span class="sec-num">Section 07</span>
+      <h2>Prototype Links — ភ្ជាប់ Screens</h2>
+      <p>
+        <span class="kp">Prototype</span> ក្នុង Figma អនុញ្ញាតឱ្យ <mark>ចុច Elements → Navigate ទៅ Screen ផ្សេង</mark> —
+        ដូច Real App Demo ។ Teacher/Client Walkthrough ។
+      </p>
+
+      <h3>Prototype Flow — SBCMS</h3>
+      <div style="background:var(--fig-dark);border-radius:14px;padding:24px;margin:14px 0;border:1px solid var(--fig-border);">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;">
+          <div style="background:#252525;border:2px solid var(--fig-teal);border-radius:10px;padding:12px 16px;text-align:center;min-width:110px;">
+            <div style="font-size:18px;margin-bottom:4px;">🔐</div>
+            <div style="font-size:11.5px;font-weight:700;color:rgba(255,255,255,.8);">Login</div>
+            <div style="font-family:var(--mono);font-size:9px;color:var(--fig-teal);">Screen 1</div>
+          </div>
+          <div style="font-size:20px;color:rgba(255,255,255,.2);">→</div>
+          <div style="background:#252525;border:1.5px solid var(--fig-border);border-radius:10px;padding:12px 16px;text-align:center;min-width:110px;">
+            <div style="font-size:18px;margin-bottom:4px;">🖥</div>
+            <div style="font-size:11.5px;font-weight:700;color:rgba(255,255,255,.8);">POS Order</div>
+            <div style="font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.3);">Screen 2</div>
+          </div>
+          <div style="font-size:20px;color:rgba(255,255,255,.2);">↔</div>
+          <div style="background:#252525;border:1.5px solid var(--fig-border);border-radius:10px;padding:12px 16px;text-align:center;min-width:110px;">
+            <div style="font-size:18px;margin-bottom:4px;">📦</div>
+            <div style="font-size:11.5px;font-weight:700;color:rgba(255,255,255,.8);">Inventory</div>
+            <div style="font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.3);">Screen 3</div>
+          </div>
+          <div style="font-size:20px;color:rgba(255,255,255,.2);">↔</div>
+          <div style="background:#252525;border:1.5px solid var(--fig-border);border-radius:10px;padding:12px 16px;text-align:center;min-width:110px;">
+            <div style="font-size:18px;margin-bottom:4px;">📊</div>
+            <div style="font-size:11.5px;font-weight:700;color:rgba(255,255,255,.8);">Reports</div>
+            <div style="font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.3);">Screen 4</div>
+          </div>
+          <div style="font-size:20px;color:rgba(255,255,255,.2);">↔</div>
+          <div style="background:#252525;border:1.5px solid var(--fig-border);border-radius:10px;padding:12px 16px;text-align:center;min-width:110px;">
+            <div style="font-size:18px;margin-bottom:4px;">👤</div>
+            <div style="font-size:11.5px;font-weight:700;color:rgba(255,255,255,.8);">Employee</div>
+            <div style="font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.3);">Screen 5</div>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:14px;font-size:11px;color:rgba(255,255,255,.25);font-family:var(--mono);">Login Button → POS (Main) · Nav Links ↔ All Screens</div>
+      </div>
+
+      <h3>Add Prototype Link — Steps</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-n">1</div>
+          <div class="step-b">
+            <div class="step-title">Switch to Prototype Mode</div>
+            <div class="step-desc">Right Panel → Top Tabs → ចុច "<strong>Prototype</strong>" Tab (ជំនួស Design Tab) ។</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">2</div>
+          <div class="step-b">
+            <div class="step-title">Select Trigger Element</div>
+            <div class="step-desc">Select Login Button ← Hover → Blue Arrow "+" Icon លេចនៅ Edge → Drag Arrow ទៅ POS Screen Frame ។</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">3</div>
+          <div class="step-b">
+            <div class="step-title">Set Interaction</div>
+            <div class="step-desc">Interaction Panel → Trigger: <strong>On Click</strong> · Action: <strong>Navigate to</strong> · Destination: "Screen 02 — POS" · Animation: Smart Animate ។</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">4</div>
+          <div class="step-b">
+            <div class="step-title">Link Nav Items</div>
+            <div class="step-desc">ជ្រើស Nav/Inventory Instance → Drag Arrow → Inventory Screen ។ Repeat Nav Items ទាំងអស់ × 5 Screens ។</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">5</div>
+          <div class="step-b">
+            <div class="step-title">Preview Prototype</div>
+            <div class="step-desc">Top Right → ▶ Play Button → Figma Opens Preview Mode → ចុច Navigate ដូច Real App ។ Share Link → Teacher Review ។</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ S8 — HANDOFF ══ -->
+    <div class="ls" id="s8">
+      <span class="sec-num">Section 08</span>
+      <h2>Developer Handoff — ប្ដូរ Design ទៅ Code</h2>
+      <p>
+        <span class="kp">Dev Mode</span> ក្នុង Figma អនុញ្ញាតឱ្យ Developer
+        ចូល Inspect Design → <mark>Auto-Generate CSS Values</mark>
+        ដោយ Click Element ។
+      </p>
+
+      <h3>Dev Mode — CSS Values Auto-Generated</h3>
+      <div class="handoff-grid">
+        <div class="hf-card">
+          <div class="hf-head" style="color:var(--fig-teal);">🖥 Button — Inspect Values</div>
+          <div class="hf-body">
+            <div class="hf-row"><span class="hf-key">Width</span><span class="hf-val">160px</span></div>
+            <div class="hf-row"><span class="hf-key">Height</span><span class="hf-val">44px</span></div>
+            <div class="hf-row"><span class="hf-key">Background</span><span class="hf-val">#3B2007</span></div>
+            <div class="hf-row"><span class="hf-key">Border Radius</span><span class="hf-val">8px</span></div>
+            <div class="hf-row"><span class="hf-key">Padding</span><span class="hf-val">10px 20px</span></div>
+            <div class="hf-row"><span class="hf-key">Font Size</span><span class="hf-val">13px</span></div>
+            <div class="hf-row"><span class="hf-key">Font Weight</span><span class="hf-val">600</span></div>
+            <div class="hf-row" style="border:none;"><span class="hf-key">Color</span><span class="hf-val">#FDF6EC</span></div>
+          </div>
+        </div>
+        <div class="hf-card">
+          <div class="hf-head" style="color:var(--fig-red);">📝 Input Field — Inspect Values</div>
+          <div class="hf-body">
+            <div class="hf-row"><span class="hf-key">Width</span><span class="hf-val">100%</span></div>
+            <div class="hf-row"><span class="hf-key">Height</span><span class="hf-val">40px</span></div>
+            <div class="hf-row"><span class="hf-key">Background</span><span class="hf-val">#FFFFFF</span></div>
+            <div class="hf-row"><span class="hf-key">Border</span><span class="hf-val">1.5px solid #EEE0CC</span></div>
+            <div class="hf-row"><span class="hf-key">Border Radius</span><span class="hf-val">7px</span></div>
+            <div class="hf-row"><span class="hf-key">Padding</span><span class="hf-val">9px 14px</span></div>
+            <div class="hf-row"><span class="hf-key">Focus Border</span><span class="hf-val">#C89B3C</span></div>
+            <div class="hf-row" style="border:none;"><span class="hf-key">Font Size</span><span class="hf-val">13px</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code">
+        <span class="code-lbl">Dev Mode → C# WinForms Translation</span>
+        <pre><span class="cc">// Figma Button Values → C# WinForms Properties</span>
+<span class="ck">button1</span>.<span class="cv">BackColor</span> = <span class="cs">ColorTranslator</span>.<span class="cv">FromHtml</span>(<span class="ct">"#3B2007"</span>);
+<span class="ck">button1</span>.<span class="cv">ForeColor</span> = <span class="cs">ColorTranslator</span>.<span class="cv">FromHtml</span>(<span class="ct">"#FDF6EC"</span>);
+<span class="ck">button1</span>.<span class="cv">Size</span>      = <span class="cs">new</span> <span class="cv">Size</span>(<span class="ct">160</span>, <span class="ct">44</span>);
+<span class="ck">button1</span>.<span class="cv">Font</span>      = <span class="cs">new</span> <span class="cv">Font</span>(<span class="ct">"Segoe UI"</span>, <span class="ct">9.75f</span>, <span class="cv">FontStyle</span>.<span class="ct">Bold</span>);
+<span class="ck">button1</span>.<span class="cv">FlatStyle</span> = <span class="cv">FlatStyle</span>.<span class="ct">Flat</span>;
+<span class="ck">button1</span>.<span class="cv">FlatAppearance</span>.<span class="cv">BorderSize</span> = <span class="ct">0</span>;
+
+<span class="cc">// Figma Input Field → C# TextBox</span>
+<span class="ck">textBox1</span>.<span class="cv">BackColor</span>    = <span class="cs">Color</span>.<span class="cv">White</span>;
+<span class="ck">textBox1</span>.<span class="cv">BorderStyle</span>  = <span class="cv">BorderStyle</span>.<span class="ct">FixedSingle</span>;
+<span class="ck">textBox1</span>.<span class="cv">Font</span>         = <span class="cs">new</span> <span class="cv">Font</span>(<span class="ct">"Segoe UI"</span>, <span class="ct">9.75f</span>);
+<span class="ck">textBox1</span>.<span class="cv">Size</span>         = <span class="cs">new</span> <span class="cv">Size</span>(<span class="ct">300</span>, <span class="ct">40</span>);
+<span class="ck">textBox1</span>.<span class="cv">Padding</span>      = <span class="cs">new</span> <span class="cv">Padding</span>(<span class="ct">9</span>, <span class="ct">0</span>, <span class="ct">14</span>, <span class="ct">0</span>);</pre>
+      </div>
+
+      <div class="box success">
+        <div class="box-i">💡</div>
+        <div class="box-b">
+          <div class="box-t">Figma → WinForms Mapping Tips</div>
+          <div class="box-x">
+            Figma "px" → WinForms "Size(w,h)" ។
+            Figma "Fill Color (Hex)" → <span class="kt">ColorTranslator.FromHtml("#hex")</span> ។
+            Figma "Border Radius" → WinForms Custom Panel/Button
+            ដោយ <span class="kt">GraphicsPath</span> ។
+            Figma "Auto Layout Gap" → WinForms <span class="kt">FlowLayoutPanel.Spacing</span> ។
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ S9 — FINAL CHECKLIST ══ -->
+    <div class="ls" id="s9">
+      <span class="sec-num">Section 09</span>
+      <h2>Final Checklist — ពិនិត្យ Submission</h2>
+      <p>
+        ប្រើ Checklist នេះ <mark>ពិនិត្យ Figma File ពេញ</mark>
+        មុន Submit ទៅ Teacher ។
+        ✅ = Done ។ ☐ = ត្រូវ Finish ។
+      </p>
+
+      <div class="checklist">
+        <h4>📁 File Structure</h4>
+        <div class="cl-item"><div class="cl-check" onclick="toggle(this)">☐</div><div class="cl-label"><strong>File Renamed</strong>: SBCMS_Wireframes.fig <span class="cl-tag">Setup</span></div></div>
+        <div class="cl-item"><div class="cl-check" onclick="toggle(this)">☐</div><div class="cl-label"><strong>Pages Created</strong>: Design System + _Components + 5 Screens <span class="cl-tag">Setup</span></div></div>
+        <div class="cl-item"><div class="cl-check" onclick="toggle(this)">☐</div><div class="cl-label"><strong>Color Styles Saved</strong>: Espresso, Roast, Caramel, Cream, Milk + Semantic <span class="cl-tag">Design System</span></div></div>
+        <div class="cl-item"><div class="cl-check" onclick="toggle(this)">☐</div><div class="cl-label"><strong>Text Styles Saved</strong>: H1/Display, Body/Regular, Label/Mono <span class="cl-tag">Design System</span></div></div>
+      </div>
+
+      <div class="checklist">
+        <h4>⬡ Components</h4>
+        <div class="cl-item"><div class="cl-check" onclick="toggle(this)">☐</div><div class="cl-label"><strong>Btn/Primary</strong> + Variants (Default, Hover, Disabled) <span class="cl-tag">Part 4</span></div></div>
+        <div class="cl-item"><div class="cl-check" onclick="toggle(this)">☐</div><div class="cl-label"><strong>Btn/Accent</strong> + Variants <span class="cl-tag">Part 4</span></div></div>
+        <div class="cl-item"><div class="cl-check" onclick="toggle(this)">☐</div><div class="cl-label"><strong>Input/Default</strong> + Variants (Empty, Focus, Error, Success) <span class="cl-tag">Part 4</span></div></div>
+        <div class="cl-item"><div class="cl-check" onclick="toggle(this)">☐</div><div class="cl-label"><strong>Nav/Sidebar</strong> + Nav/Item (Default + Active) <span class="cl-tag">Part 4</span></div></div>
+        <div class="cl-item"><div class="cl-check" onclick="toggle(this)">☐</div><div class="cl-label"><strong>Badge/Status</strong> (Done, Pending, Cancel, Info) <span class="cl-tag">Part 4</span></div></div>
+        <div class="cl-item"><div class="cl-check" onclick="toggle(this)">☐</div><div class="cl-label"><strong>Alert/Box</strong> (Warning, Success, Danger) <span class="cl-tag">Part 4</span></div></div>
+      </div>
+
+      <div class="checklist">
+        <h4>🖥 Screens (5/5)</h4>
+        <div class="cl-item"><div class="cl-check" onclick="toggle(this)">☐</div><div class="cl-label"><strong>Screen 1 — Login</strong>: Background gradient + Card + Role Toggle + Form + Button <span class="cl-tag">Task 23</span></div></div>
+        <div class="cl-item"><div class="cl-check" onclick="toggle(this)">☐</div><div class="cl-label"><strong>Screen 2 — POS Order</strong>: Sidebar + Menu Grid + Category Tabs + Order Panel + Total <span class="cl-tag">Task 24</span></div></div>
+        <div class="cl-item"><div class="cl-check" onclick="toggle(this)">☐</div><div class="cl-label"><strong>Screen 3 — Inventory</strong>: Alert + Stats + Table + Progress Bars + Restock Buttons <span class="cl-tag">Task 25</span></div></div>
+        <div class="cl-item"><div class="cl-check" onclick="toggle(this)">☐</div><div class="cl-label"><strong>Screen 4 — Reports</strong>: Period Selector + KPI Stats + Bar Chart + Top Items Table <span class="cl-tag">Task 26</span></div></div>
+        <div class="cl-item"><div class="cl-check" onclick="toggle(this)">☐</div><div class="cl-label"><strong>Screen 5 — Employee</strong>: Stats + Search Table + Inline Form + Edit/Delete Buttons <span class="cl-tag">Task 27</span></div></div>
+      </div>
+
+      <div class="checklist">
+        <h4>🔗 Prototype & Handoff</h4>
+        <div class="cl-item"><div class="cl-check" onclick="toggle(this)">☐</div><div class="cl-label"><strong>Prototype Links</strong>: Login→POS + Nav Links (5 Screens) <span class="cl-tag">Prototype</span></div></div>
+        <div class="cl-item"><div class="cl-check" onclick="toggle(this)">☐</div><div class="cl-label"><strong>Preview Tested</strong>: Click ▶ Play → All Navigation Works <span class="cl-tag">Prototype</span></div></div>
+        <div class="cl-item"><div class="cl-check" onclick="toggle(this)">☐</div><div class="cl-label"><strong>Share Link Generated</strong>: Figma Share → "Can View" → Copy Link <span class="cl-tag">Handoff</span></div></div>
+        <div class="cl-item"><div class="cl-check" onclick="toggle(this)">☐</div><div class="cl-label"><strong>Layer Naming Consistent</strong>: Screens/Login, Screens/POS... ពេញ File <span class="cl-tag">Quality</span></div></div>
+      </div>
+
+      <div class="tags">
+        <span class="tag tg-r">Login Screen</span>
+        <span class="tag tg-r">POS Order</span>
+        <span class="tag tg-r">Inventory</span>
+        <span class="tag tg-r">Reports</span>
+        <span class="tag tg-r">Employee</span>
+        <span class="tag tg-p">Prototype</span>
+        <span class="tag tg-t">Handoff</span>
+        <span class="tag tg-c">Dev Mode</span>
+      </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="ls" id="quiz">
+      <span class="sec-num">Quiz — Part 5</span>
+      <h2>ពិនិត្យចំណេះដឹង</h2>
+
+      <div class="quiz" style="margin-bottom:14px;">
+        <span class="quiz-lbl">Question 01 / 05</span>
+        <div class="quiz-q">SBCMS Figma File ត្រូវ Create Frame Size ប៉ុន្មានសម្រាប់ Desktop Screen?</div>
+        <div class="quiz-opts">
+          <div class="qo" onclick="chk(this,'wrong','q1')">1920 × 1080 px</div>
+          <div class="qo" onclick="chk(this,'correct','q1')">1440 × 1024 px</div>
+          <div class="qo" onclick="chk(this,'wrong','q1')">1280 × 720 px</div>
+          <div class="qo" onclick="chk(this,'wrong','q1')">390 × 844 px (Mobile)</div>
+        </div>
+        <div class="quiz-fb" id="q1-fb"></div>
+      </div>
+
+      <div class="quiz" style="margin-bottom:14px;">
+        <span class="quiz-lbl">Question 02 / 05</span>
+        <div class="quiz-q">Prototype ក្នុង Figma — Trigger Type ណាប្រើ ចុច Button Navigate?</div>
+        <div class="quiz-opts">
+          <div class="qo" onclick="chk(this,'wrong','q2')">On Hover</div>
+          <div class="qo" onclick="chk(this,'correct','q2')">On Click → Navigate To</div>
+          <div class="qo" onclick="chk(this,'wrong','q2')">After Delay</div>
+          <div class="qo" onclick="chk(this,'wrong','q2')">On Drag</div>
+        </div>
+        <div class="quiz-fb" id="q2-fb"></div>
+      </div>
+
+      <div class="quiz" style="margin-bottom:14px;">
+        <span class="quiz-lbl">Question 03 / 05</span>
+        <div class="quiz-q">POS Screen Layout ចែកជា Columns ប៉ុន្មាន?</div>
+        <div class="quiz-opts">
+          <div class="qo" onclick="chk(this,'wrong','q3')">2 Columns: Menu + Order Panel</div>
+          <div class="qo" onclick="chk(this,'correct','q3')">3 Parts: Sidebar (190) + Menu Grid (Fill) + Order Panel (220)</div>
+          <div class="qo" onclick="chk(this,'wrong','q3')">Full Width — No Columns</div>
+          <div class="qo" onclick="chk(this,'wrong','q3')">4 Columns Equal</div>
+        </div>
+        <div class="quiz-fb" id="q3-fb"></div>
+      </div>
+
+      <div class="quiz" style="margin-bottom:14px;">
+        <span class="quiz-lbl">Question 04 / 05</span>
+        <div class="quiz-q">Dev Mode ក្នុង Figma ជួយ Developer ធ្វើអ្វី?</div>
+        <div class="quiz-opts">
+          <div class="qo" onclick="chk(this,'wrong','q4')">Edit Design ដោយផ្ទាល់</div>
+          <div class="qo" onclick="chk(this,'correct','q4')">Inspect Design → Auto-Generate CSS Values (Color, Size, Spacing)</div>
+          <div class="qo" onclick="chk(this,'wrong','q4')">Create New Components</div>
+          <div class="qo" onclick="chk(this,'wrong','q4')">Export PNG Images ប៉ុណ្ណោះ</div>
+        </div>
+        <div class="quiz-fb" id="q4-fb"></div>
+      </div>
+
+      <div class="quiz" style="margin-bottom:14px;">
+        <span class="quiz-lbl">Question 05 / 05</span>
+        <div class="quiz-q">Screen ណា SBCMS ប្រើ Manager Role Access Only?</div>
+        <div class="quiz-opts">
+          <div class="qo" onclick="chk(this,'wrong','q5')">POS Order + Inventory</div>
+          <div class="qo" onclick="chk(this,'correct','q5')">Reports + Employee Management</div>
+          <div class="qo" onclick="chk(this,'wrong','q5')">Login Screen ប៉ុណ្ណោះ</div>
+          <div class="qo" onclick="chk(this,'wrong','q5')">Screens ទាំងអស់ Manager ប៉ុណ្ណោះ</div>
+        </div>
+        <div class="quiz-fb" id="q5-fb"></div>
+      </div>
+    </div>
+
+    <!-- WRAP UP -->
+    <div class="box red" style="margin-bottom:32px;">
+      <div class="box-i">🎓</div>
+      <div class="box-b">
+        <div class="box-t">Figma Series Complete — Part 1 ដល់ Part 5 ✦</div>
+        <div class="box-x">
+          <strong>Series Summary:</strong><br/>
+          Part 1–2: UI/UX Principles, Wireframes, Grid, Accessibility ។<br/>
+          Part 3: Figma Interface, Frames, Tools, Layers ។<br/>
+          Part 4: Components, Variants, Auto Layout, Component Kit ។<br/>
+          Part 5: Full SBCMS Wireframes (5 Screens) + Prototype + Developer Handoff ។<br/><br/>
+          <strong>Next Step → Phase 8:</strong> C# WinForms Implementation
+          ដោយ Reference Figma Wireframes ។
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div>SBCMS Lesson Series — <span>Part 5 · FINAL</span> · Full Wireframes in Figma</div>
+  <div class="pl">
+    <a href="SBCMS_Lesson_UIUX_Part1.html">← Part 1: UI/UX Intro</a>
+    <a href="SBCMS_Lesson_UIUX_Part2.html">← Part 2: Wireframes · A11y</a>
+    <a href="SBCMS_Lesson_Figma_Part3.html">← Part 3: Figma Basics</a>
+    <a href="SBCMS_Lesson_Figma_Part4.html">← Part 4: Components</a>
+    <span class="cur">Part 5: Wireframes ✦</span>
+  </div>
+  <div style="margin-top:10px;">
+    <span>TUN Sopheak</span> · <span>TIT Sokhom</span> · <span>TEP Makhon</span>
+    &nbsp;|&nbsp; Sharp Bean Café Management System © 2026
+  </div>
+</div>
+
+<script>
+/* PROGRESS BAR */
+window.addEventListener('scroll',()=>{
+  const p=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight)*100;
+  document.getElementById('pb').style.width=p+'%';
+},{passive:true});
+
+/* TOC ACTIVE */
+const links=document.querySelectorAll('.toc a[href^="#"]');
+const secs=[...document.querySelectorAll('.ls[id]')];
+window.addEventListener('scroll',()=>{
+  let cur='';
+  secs.forEach(s=>{if(window.scrollY>=s.offsetTop-110)cur=s.id;});
+  links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));
+},{passive:true});
+
+/* CHECKLIST TOGGLE */
+function toggle(el){
+  const done=el.classList.toggle('done');
+  el.textContent=done?'✓':'☐';
+}
+
+/* QUIZ */
+const qm={
+  correct:{
+    q1:'✅ ត្រូវ! SBCMS Desktop Frame = 1440×1024 ។ Standard Desktop Wireframe Size ។',
+    q2:'✅ ត្រូវ! On Click → Navigate To = Button Click Prototype ។ Trigger + Action + Destination ។',
+    q3:'✅ ត្រូវ! POS = 3 Parts: Sidebar (190px) + Menu Grid (Fill) + Order Panel (220px) ។',
+    q4:'✅ ត្រូវ! Dev Mode = Inspect CSS Values (Color, Size, Font, Padding, Spacing) ។ Developer Copy Values ។',
+    q5:'✅ ត្រូវ! Reports + Employee = Manager Only ។ RBAC ត្រូវ Check Role ក្នុង Code ។'
+  },
+  wrong:{
+    q1:'❌ ខុស! SBCMS Desktop = 1440×1024 ។ 390×844 = Mobile ។ 1920×1080 = Full HD (ធំពេក) ។',
+    q2:'❌ ខុស! Button Click = On Click → Navigate To ។ On Hover = Show Tooltip ។ After Delay = Auto Play ។',
+    q3:'❌ ខុស! POS = 3 Parts ។ Sidebar (190) + Menu Grid (Fill Container) + Order Panel (220) ។',
+    q4:'❌ ខុស! Dev Mode = Inspect CSS Values Auto-Generated ។ Designer ផ្ដល់ Spec → Developer Implement ។',
+    q5:'❌ ខុស! Reports + Employee = Manager Only ។ POS + Inventory = Employee + Manager ។ Login = Everyone ។'
+  }
+};
+function chk(el,type,qId){
+  const box=el.closest('.quiz');
+  if(box.dataset.done)return;
+  box.dataset.done='1';
+  box.querySelectorAll('.qo').forEach(o=>o.style.pointerEvents='none');
+  el.classList.add(type);
+  const fb=document.getElementById(qId+'-fb');
+  fb.textContent=qm[type][qId];
+  fb.className='quiz-fb show '+(type==='correct'?'ok':'no');
+}
+</script>
+
+<div class="sbcms-read-progress" id="readProgress"></div>
+<nav class="sbcms-nav-bar">
+  <div class="snb-left">
+    <a class="snb-btn snb-prev" href="SBCMS_Lesson_Figma_Part4.html">&#8592; <span class="snb-label">Part 4: Components</span></a>
+  </div>
+  <div class="snb-center">
+    <a class="snb-btn snb-home" href="index.html" title="Home">&#127968;</a>
+    <div class="snb-dots">
+      <a class="snb-dot" href="SBCMS_Lesson_UIUX_Part1.html" data-title="Part 1: UI/UX"></a>
+      <a class="snb-dot" href="SBCMS_Lesson_UIUX_Part2.html" data-title="Part 2: Wireframes"></a>
+      <a class="snb-dot" href="SBCMS_Lesson_Figma_Part3.html" data-title="Part 3: Figma"></a>
+      <a class="snb-dot" href="SBCMS_Lesson_Figma_Part4.html" data-title="Part 4: Components"></a>
+      <a class="snb-dot snb-active" href="SBCMS_Lesson_Figma_Part5.html" data-title="Part 5: Wireframes"></a>
+    </div>
+    <span class="snb-part-tag" style="color:#F24E1E;background:rgba(242,78,30,.15);border-color:#F24E1E40">Part 5</span>
+  </div>
+  <div class="snb-right">
+    <span class="snb-btn snb-next snb-disabled">&#10022; Completed</span>
+  </div>
+</nav>
+<button class="sbcms-top-btn" id="topBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
+<div class="sbcms-toast" id="kbToast"></div>
+<script>
+(function() {
+  var rp = document.getElementById('readProgress');
+  var topBtn = document.getElementById('topBtn');
+  window.addEventListener('scroll', function() {
+    var h = document.documentElement;
+    var pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    if (rp) rp.style.width = Math.min(pct, 100) + '%';
+    if (topBtn) topBtn.classList.toggle('visible', window.scrollY > 380);
+  }, { passive: true });
+  var PREV = "SBCMS_Lesson_Figma_Part4.html";
+  var NEXT = null;
+  var toast = document.getElementById('kbToast');
+  var toastT;
+  function showToast(msg) {
+    toast.innerHTML = msg;
+    toast.classList.add('show');
+    clearTimeout(toastT);
+    toastT = setTimeout(function() { toast.classList.remove('show'); }, 2000);
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'ArrowRight' && NEXT) {
+      showToast('&#8594; Next part...');
+      setTimeout(function() { location.href = NEXT; }, 300);
+    } else if (e.key === 'ArrowLeft' && PREV) {
+      showToast('&#8592; Previous part...');
+      setTimeout(function() { location.href = PREV; }, 300);
+    } else if (e.key.toLowerCase() === 'h') {
+      showToast('&#127968; Home...');
+      setTimeout(function() { location.href = 'index.html'; }, 300);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      showToast('&#8593; Top...');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+})();
+</script>
+<script src="lang-system-ai.js"></script>
+</body>
+</html>

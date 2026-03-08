@@ -1,0 +1,4126 @@
+<!doctype html>
+<html lang="km">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Getting Started with Figma — Part 3 | SBCMS</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ─── RESET ──────────────────────────────────── */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        /* Base Palette — SBCMS */
+        --espresso: #1c0f07;
+        --roast: #3b2007;
+        --latte: #7b4f2e;
+        --caramel: #c89b3c;
+        --cream: #fdf6ec;
+        --foam: #fff9f2;
+        --milk: #eee0cc;
+        --chalk: #f5f0e8;
+
+        /* Figma Brand Inspired */
+        --fig-purple: #a259ff;
+        --fig-red: #f24e1e;
+        --fig-green: #1abcfe;
+        --fig-teal: #0acf83;
+        --fig-dark: #1e1e1e;
+        --fig-panel: #2c2c2c;
+        --fig-border: #3c3c3c;
+
+        /* Semantic */
+        --success: #15803d;
+        --warning: #b45309;
+        --danger: #b91c1c;
+        --info: #1d4ed8;
+
+        --font: "Kantumruy Pro", sans-serif;
+        --mono: "Consolas", "Courier New", monospace;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: var(--font);
+        background: var(--cream);
+        color: var(--espresso);
+        line-height: 1.8;
+        font-size: 15px;
+      }
+
+      ::-webkit-scrollbar {
+        width: 5px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--milk);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--fig-purple);
+        border-radius: 4px;
+      }
+
+      /* ─── PROGRESS ───────────────────────────────── */
+      /* progress handled by sbcms-read-progress */
+
+      /* top-strip styles now in style.css */
+
+      /* ─── HERO ───────────────────────────────────── */
+      .hero {
+        background: var(--fig-dark);
+        padding: 72px 60px 0;
+        position: relative;
+        overflow: hidden;
+      }
+      /* Animated gradient mesh */
+      .hero-mesh {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background:
+          radial-gradient(
+            ellipse 60% 70% at 80% 30%,
+            rgba(162, 89, 255, 0.18) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 50% 60% at 10% 70%,
+            rgba(26, 188, 254, 0.12) 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse 40% 50% at 50% 100%,
+            rgba(10, 207, 131, 0.1) 0%,
+            transparent 50%
+          );
+      }
+      /* Figma-like floating shapes */
+      .hero-shapes {
+        position: absolute;
+        right: 60px;
+        top: 40px;
+        width: 320px;
+        height: 320px;
+        z-index: 0;
+        opacity: 0.18;
+      }
+      .hero-inner {
+        max-width: 900px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+        padding-bottom: 48px;
+      }
+      .hero-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--mono);
+        font-size: 10.5px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--fig-purple);
+        background: rgba(162, 89, 255, 0.12);
+        border: 1px solid rgba(162, 89, 255, 0.3);
+        padding: 6px 16px;
+        border-radius: 20px;
+        margin-bottom: 20px;
+      }
+      .hero h1 {
+        font-size: clamp(30px, 5vw, 52px);
+        font-weight: 700;
+        color: #f5f5f5;
+        line-height: 1.16;
+        margin-bottom: 14px;
+        letter-spacing: -0.5px;
+      }
+      .hero h1 .fig {
+        color: var(--fig-purple);
+      }
+      .hero h1 .acc {
+        color: var(--fig-teal);
+      }
+      .hero-sub {
+        font-size: 14.5px;
+        color: rgba(245, 245, 245, 0.52);
+        max-width: 560px;
+        line-height: 1.95;
+        margin-bottom: 28px;
+      }
+      .hero-meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .hero-badge {
+        font-family: var(--mono);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        padding: 6px 16px;
+        border-radius: 6px;
+        background: var(--fig-purple);
+        color: white;
+      }
+      .hero-chip {
+        padding: 5px 13px;
+        border-radius: 6px;
+        font-size: 11.5px;
+        background: rgba(255, 255, 255, 0.06);
+        color: rgba(245, 245, 245, 0.65);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      /* Bottom topic strip */
+      .topics-strip {
+        background: rgba(255, 255, 255, 0.03);
+        border-top: 1px solid rgba(162, 89, 255, 0.15);
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: -60px;
+        margin-right: -60px;
+        padding: 0 60px;
+        margin-top: 32px;
+      }
+      .t-pill {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 11px 16px;
+        font-size: 11.5px;
+        color: rgba(245, 245, 245, 0.4);
+        border-right: 1px solid rgba(162, 89, 255, 0.1);
+      }
+      .t-pill .tn {
+        font-family: var(--mono);
+        font-size: 9px;
+        color: var(--fig-purple);
+        opacity: 0.65;
+      }
+
+      /* ─── LAYOUT ─────────────────────────────────── */
+      .page-wrapper {
+        max-width: 1160px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 230px 1fr;
+        padding: 0 24px;
+        align-items: start;
+      }
+      .toc {
+        position: sticky;
+        top: 32px;
+        padding: 32px 0;
+        padding-right: 24px;
+      }
+      .toc-title {
+        font-family: var(--font);
+        font-size: 9.5px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--fig-purple);
+        margin-bottom: 11px;
+      }
+      .toc a {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 12px;
+        color: #a08060;
+        text-decoration: none;
+        padding: 6px 10px;
+        border-radius: 6px;
+        border-left: 2px solid transparent;
+        transition: all 0.17s;
+        line-height: 1.45;
+        margin-bottom: 1px;
+      }
+      .toc a:hover,
+      .toc a.active {
+        color: var(--fig-purple);
+        background: rgba(162, 89, 255, 0.08);
+        border-left-color: var(--fig-purple);
+      }
+      .toc a .n {
+        font-family: var(--mono);
+        font-size: 9px;
+        color: var(--fig-purple);
+        opacity: 0.5;
+        min-width: 20px;
+        margin-top: 2px;
+      }
+      .toc-sep {
+        height: 1px;
+        background: var(--milk);
+        margin: 9px 0;
+      }
+      .toc-part {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 11.5px;
+        color: var(--latte);
+        text-decoration: none;
+        padding: 7px 10px;
+        border-radius: 6px;
+        border: 1px solid var(--milk);
+        background: white;
+        margin-bottom: 7px;
+        transition: all 0.15s;
+      }
+      .toc-part:hover {
+        border-color: var(--fig-purple);
+        color: var(--roast);
+      }
+      .toc-part .pl {
+        font-family: var(--mono);
+        font-size: 9px;
+        color: var(--fig-purple);
+      }
+
+      /* ─── CONTENT ────────────────────────────────── */
+      .content {
+        padding: 48px 0 80px 44px;
+        border-left: 1px solid var(--milk);
+      }
+
+      /* ─── SECTION ────────────────────────────────── */
+      .ls {
+        margin-bottom: 68px;
+      }
+      .sec-num {
+        display: inline-block;
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--fig-purple);
+        margin-bottom: 5px;
+      }
+      .ls h2 {
+        font-size: 25px;
+        font-weight: 700;
+        color: var(--roast);
+        margin-bottom: 18px;
+        padding-bottom: 14px;
+        border-bottom: 2px solid var(--milk);
+        line-height: 1.3;
+      }
+      .ls h3 {
+        font-size: 16.5px;
+        font-weight: 600;
+        color: var(--roast);
+        margin: 26px 0 11px;
+      }
+      .ls h4 {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        font-weight: 700;
+        color: var(--fig-purple);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin: 16px 0 8px;
+      }
+      .ls p {
+        margin-bottom: 13px;
+        line-height: 1.9;
+      }
+
+      /* ─── CALLOUT ────────────────────────────────── */
+      .box {
+        border-left: 4px solid;
+        border-radius: 0 10px 10px 0;
+        padding: 15px 20px;
+        margin: 16px 0;
+        display: flex;
+        gap: 13px;
+        align-items: flex-start;
+      }
+      .box-i {
+        font-size: 19px;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+      .box-b {
+        flex: 1;
+      }
+      .box-t {
+        font-weight: 700;
+        font-size: 13px;
+        margin-bottom: 4px;
+      }
+      .box-x {
+        font-size: 13.5px;
+        line-height: 1.85;
+      }
+      .box.info {
+        border-color: var(--info);
+        background: #eff6ff;
+        color: #1e3a8a;
+      }
+      .box.success {
+        border-color: var(--success);
+        background: #f0fdf4;
+        color: #14532d;
+      }
+      .box.warning {
+        border-color: var(--warning);
+        background: #fffbeb;
+        color: #78350f;
+      }
+      .box.coffee {
+        border-color: var(--caramel);
+        background: rgba(200, 155, 60, 0.08);
+        color: var(--roast);
+      }
+      .box.purple {
+        border-color: var(--fig-purple);
+        background: rgba(162, 89, 255, 0.07);
+        color: #4c1d95;
+      }
+      .box.teal {
+        border-color: var(--fig-teal);
+        background: rgba(10, 207, 131, 0.07);
+        color: #065f46;
+      }
+
+      /* ─── KEYWORDS ───────────────────────────────── */
+      .kw {
+        font-family: var(--mono);
+        font-size: 0.87em;
+        background: rgba(200, 155, 60, 0.13);
+        color: var(--roast);
+        border: 1px solid rgba(200, 155, 60, 0.28);
+        padding: 1px 6px;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
+      .kp {
+        font-family: var(--mono);
+        font-size: 0.87em;
+        background: rgba(162, 89, 255, 0.1);
+        color: #5b21b6;
+        border: 1px solid rgba(162, 89, 255, 0.25);
+        padding: 1px 6px;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
+      .kt {
+        font-family: var(--mono);
+        font-size: 0.87em;
+        background: rgba(10, 207, 131, 0.1);
+        color: #065f46;
+        border: 1px solid rgba(10, 207, 131, 0.25);
+        padding: 1px 6px;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
+      .kr {
+        font-family: var(--mono);
+        font-size: 0.87em;
+        background: rgba(242, 78, 30, 0.1);
+        color: #9a3412;
+        border: 1px solid rgba(242, 78, 30, 0.25);
+        padding: 1px 6px;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
+      mark {
+        background: linear-gradient(
+          120deg,
+          rgba(162, 89, 255, 0.2),
+          rgba(162, 89, 255, 0.05)
+        );
+        border-radius: 3px;
+        padding: 0 2px;
+        color: inherit;
+      }
+
+      /* ─── CODE BLOCK ─────────────────────────────── */
+      .code {
+        background: #111;
+        border-radius: 10px;
+        padding: 20px 24px;
+        margin: 14px 0;
+        overflow-x: auto;
+        border: 1px solid rgba(162, 89, 255, 0.2);
+      }
+      .code-lbl {
+        font-family: var(--mono);
+        font-size: 9.5px;
+        color: rgba(162, 89, 255, 0.65);
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        display: block;
+      }
+      .code pre {
+        font-family: var(--mono);
+        font-size: 12.5px;
+        color: #ccc;
+        line-height: 1.95;
+      }
+      .cc {
+        color: #4a6a4a;
+      }
+      .ck {
+        color: var(--fig-purple);
+      }
+      .cv {
+        color: var(--fig-teal);
+      }
+      .cs {
+        color: #e8956a;
+      }
+      .ct {
+        color: #80b8d8;
+      }
+      .ca {
+        color: #ddd;
+      }
+
+      /* ─── FIGMA UI MOCKUP ────────────────────────── */
+      .figma-window {
+        background: var(--fig-dark);
+        border-radius: 12px;
+        overflow: hidden;
+        margin: 16px 0;
+        border: 1px solid var(--fig-border);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      }
+      .figma-titlebar {
+        background: #2c2c2c;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 14px;
+        border-bottom: 1px solid var(--fig-border);
+      }
+      .figma-tb-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .figma-tb-mid {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .figma-tb-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .fig-logo {
+        font-size: 16px;
+      }
+      .fig-menu-btn {
+        padding: 4px 10px;
+        border-radius: 5px;
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.55);
+        font-family: var(--mono);
+        cursor: default;
+        transition: background 0.15s;
+      }
+      .fig-menu-btn:hover {
+        background: rgba(255, 255, 255, 0.08);
+      }
+      .fig-tool-btn {
+        width: 32px;
+        height: 28px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        cursor: default;
+        color: rgba(255, 255, 255, 0.6);
+        transition: all 0.15s;
+      }
+      .fig-tool-btn.active {
+        background: var(--fig-purple);
+        color: white;
+      }
+      .fig-tool-btn:hover:not(.active) {
+        background: rgba(255, 255, 255, 0.08);
+      }
+      .fig-share-btn {
+        background: var(--fig-purple);
+        color: white;
+        padding: 5px 14px;
+        border-radius: 6px;
+        font-size: 11.5px;
+        font-weight: 600;
+        font-family: var(--mono);
+        cursor: default;
+      }
+      .figma-body {
+        display: flex;
+        height: 460px;
+      }
+
+      /* Left Panel — Layers */
+      .fig-left {
+        width: 220px;
+        background: #252525;
+        border-right: 1px solid var(--fig-border);
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+      }
+      .fig-panel-tabs {
+        display: flex;
+        border-bottom: 1px solid var(--fig-border);
+      }
+      .fig-panel-tab {
+        flex: 1;
+        text-align: center;
+        padding: 9px 0;
+        font-size: 11px;
+        font-family: var(--mono);
+        color: rgba(255, 255, 255, 0.4);
+        cursor: default;
+        border-bottom: 2px solid transparent;
+      }
+      .fig-panel-tab.active {
+        color: white;
+        border-bottom-color: var(--fig-purple);
+      }
+      .fig-panel-content {
+        padding: 10px 0;
+        flex: 1;
+        overflow-y: auto;
+      }
+      .fig-layer {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 5px 12px;
+        font-size: 11.5px;
+        color: rgba(255, 255, 255, 0.65);
+        cursor: default;
+        transition: background 0.12s;
+      }
+      .fig-layer:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .fig-layer.selected {
+        background: rgba(162, 89, 255, 0.2);
+        color: white;
+      }
+      .fig-layer.indent-1 {
+        padding-left: 24px;
+      }
+      .fig-layer.indent-2 {
+        padding-left: 36px;
+      }
+      .fig-layer-icon {
+        font-size: 12px;
+        opacity: 0.7;
+      }
+      .fig-layer-name {
+        font-size: 11.5px;
+      }
+
+      /* Canvas */
+      .fig-canvas {
+        flex: 1;
+        background: #1a1a1a;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .fig-canvas-bg {
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(
+          rgba(255, 255, 255, 0.03) 1px,
+          transparent 1px
+        );
+        background-size: 20px 20px;
+      }
+      .fig-frame {
+        background: white;
+        border-radius: 4px;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+      }
+      .fig-frame-label {
+        position: absolute;
+        top: -22px;
+        left: 0;
+        font-family: var(--mono);
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.45);
+        white-space: nowrap;
+      }
+      .fig-sel-border {
+        position: absolute;
+        inset: -2px;
+        border: 2px solid var(--fig-purple);
+        border-radius: 5px;
+        pointer-events: none;
+      }
+      .fig-sel-handle {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: white;
+        border: 2px solid var(--fig-purple);
+        border-radius: 2px;
+      }
+
+      /* Right Panel — Properties */
+      .fig-right {
+        width: 220px;
+        background: #252525;
+        border-left: 1px solid var(--fig-border);
+        flex-shrink: 0;
+        overflow-y: auto;
+      }
+      .fig-prop-section {
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--fig-border);
+      }
+      .fig-prop-title {
+        font-size: 10.5px;
+        font-family: var(--mono);
+        color: rgba(255, 255, 255, 0.35);
+        margin-bottom: 10px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+      }
+      .fig-prop-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 7px;
+      }
+      .fig-prop-label {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.45);
+        font-family: var(--mono);
+      }
+      .fig-prop-input {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        padding: 3px 7px;
+        width: 80px;
+        font-family: var(--mono);
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.8);
+        text-align: right;
+      }
+      .fig-prop-input.wide {
+        width: 100%;
+        margin-top: 4px;
+      }
+      .fig-color-swatch {
+        width: 16px;
+        height: 16px;
+        border-radius: 3px;
+        margin-right: 6px;
+        flex-shrink: 0;
+      }
+      .fig-color-row {
+        display: flex;
+        align-items: center;
+      }
+
+      /* ─── TOOL GUIDE CARDS ───────────────────────── */
+      .tool-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin: 16px 0;
+      }
+      .tool-card {
+        background: white;
+        border: 1.5px solid var(--milk);
+        border-radius: 12px;
+        padding: 18px;
+        position: relative;
+        overflow: hidden;
+        transition:
+          box-shadow 0.2s,
+          transform 0.2s;
+      }
+      .tool-card:hover {
+        box-shadow: 0 6px 20px rgba(162, 89, 255, 0.12);
+        transform: translateY(-2px);
+      }
+      .tool-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+      }
+      .tool-card:nth-child(1)::before {
+        background: var(--fig-purple);
+      }
+      .tool-card:nth-child(2)::before {
+        background: var(--fig-red);
+      }
+      .tool-card:nth-child(3)::before {
+        background: var(--fig-teal);
+      }
+      .tool-card:nth-child(4)::before {
+        background: var(--fig-green);
+      }
+      .tool-card:nth-child(5)::before {
+        background: #f5a623;
+      }
+      .tool-card:nth-child(6)::before {
+        background: #e040fb;
+      }
+      .tool-card:nth-child(7)::before {
+        background: var(--fig-teal);
+      }
+      .tool-card:nth-child(8)::before {
+        background: var(--fig-red);
+      }
+      .tc-key {
+        font-family: var(--mono);
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--fig-dark);
+        margin-bottom: 4px;
+        background: var(--chalk);
+        border: 1px solid var(--milk);
+        border-bottom: 3px solid var(--milk);
+        display: inline-block;
+        padding: 2px 10px;
+        border-radius: 5px;
+        min-width: 36px;
+        text-align: center;
+      }
+      .tc-name {
+        font-weight: 700;
+        font-size: 13.5px;
+        color: var(--roast);
+        margin: 8px 0 4px;
+      }
+      .tc-desc {
+        font-size: 12px;
+        color: var(--latte);
+        line-height: 1.7;
+      }
+      .tc-tip {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        color: var(--fig-purple);
+        margin-top: 6px;
+      }
+
+      /* ─── SHORTCUT TABLE ─────────────────────────── */
+      .shortcut-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin: 16px 0;
+      }
+      .shortcut-group {
+        background: white;
+        border: 1px solid var(--milk);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .shortcut-head {
+        background: var(--fig-dark);
+        padding: 9px 14px;
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--fig-purple);
+      }
+      .shortcut-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 14px;
+        border-bottom: 1px solid var(--milk);
+        font-size: 12.5px;
+      }
+      .shortcut-row:last-child {
+        border-bottom: none;
+      }
+      .shortcut-action {
+        color: var(--latte);
+      }
+      .shortcut-keys {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+      }
+      .key-badge {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        font-weight: 700;
+        background: var(--chalk);
+        border: 1px solid var(--milk);
+        border-bottom: 2.5px solid #c8c0b0;
+        padding: 2px 7px;
+        border-radius: 4px;
+        color: var(--espresso);
+        white-space: nowrap;
+      }
+      .key-sep {
+        font-size: 10px;
+        color: var(--latte);
+      }
+
+      /* ─── FRAME TYPES ────────────────────────────── */
+      .frame-types {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin: 14px 0;
+      }
+      .frame-type-card {
+        background: white;
+        border: 1.5px solid var(--milk);
+        border-radius: 10px;
+        padding: 14px;
+        text-align: center;
+        transition: border-color 0.15s;
+      }
+      .frame-type-card:hover {
+        border-color: var(--fig-purple);
+      }
+      .ft-preview {
+        margin: 0 auto 10px;
+        background: var(--chalk);
+        border: 2px solid var(--milk);
+        border-radius: 4px;
+        position: relative;
+        overflow: hidden;
+      }
+      .ft-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--roast);
+        margin-bottom: 2px;
+      }
+      .ft-size {
+        font-family: var(--mono);
+        font-size: 10px;
+        color: var(--latte);
+      }
+
+      /* ─── LAYER ANATOMY ──────────────────────────── */
+      .layer-anatomy {
+        background: var(--fig-dark);
+        border-radius: 12px;
+        padding: 20px;
+        margin: 14px 0;
+        border: 1px solid var(--fig-border);
+      }
+      .la-title {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--fig-purple);
+        margin-bottom: 14px;
+      }
+      .la-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 7px 10px;
+        border-radius: 7px;
+        margin-bottom: 4px;
+        transition: background 0.15s;
+        cursor: default;
+      }
+      .la-item:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .la-item.selected {
+        background: rgba(162, 89, 255, 0.18);
+      }
+      .la-indent {
+        padding-left: 28px;
+      }
+      .la-indent2 {
+        padding-left: 44px;
+      }
+      .la-expand {
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.3);
+        width: 12px;
+      }
+      .la-ico {
+        font-size: 13px;
+      }
+      .la-name {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.75);
+        flex: 1;
+        font-family: var(--mono);
+      }
+      .la-type {
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.3);
+        font-family: var(--mono);
+      }
+      .la-vis {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.25);
+      }
+
+      /* ─── COLOR FILL DEMO ────────────────────────── */
+      .fill-demo {
+        background: var(--fig-dark);
+        border-radius: 10px;
+        padding: 16px;
+        margin: 14px 0;
+        border: 1px solid var(--fig-border);
+      }
+      .fill-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      .fill-swatch {
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        flex-shrink: 0;
+      }
+      .fill-info {
+        flex: 1;
+      }
+      .fill-name {
+        font-size: 12px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.8);
+      }
+      .fill-hex {
+        font-family: var(--mono);
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      /* ─── STEP FLOW ──────────────────────────────── */
+      .steps {
+        margin: 16px 0;
+      }
+      .step {
+        display: flex;
+        gap: 15px;
+        align-items: flex-start;
+        position: relative;
+      }
+      .step:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        left: 17px;
+        top: 37px;
+        width: 2px;
+        height: calc(100% - 8px);
+        background: linear-gradient(
+          to bottom,
+          var(--fig-purple),
+          rgba(162, 89, 255, 0.1)
+        );
+      }
+      .step-n {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--fig-purple);
+        color: white;
+        font-weight: 700;
+        font-size: 13px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 2px 10px rgba(162, 89, 255, 0.4);
+      }
+      .step-b {
+        padding-bottom: 22px;
+        flex: 1;
+      }
+      .step-title {
+        font-weight: 700;
+        font-size: 14px;
+        color: var(--roast);
+        margin-bottom: 3px;
+      }
+      .step-desc {
+        font-size: 13px;
+        color: var(--latte);
+        line-height: 1.75;
+      }
+
+      /* ─── PRACTICE BOX ───────────────────────────── */
+      .practice-box {
+        background: linear-gradient(135deg, #1a0a3a 0%, #0a1a2a 100%);
+        border-radius: 14px;
+        padding: 26px 30px;
+        margin: 18px 0;
+        border: 1px solid rgba(162, 89, 255, 0.25);
+        position: relative;
+        overflow: hidden;
+      }
+      .practice-box::before {
+        content: "✦";
+        position: absolute;
+        right: 24px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 80px;
+        color: rgba(162, 89, 255, 0.06);
+        pointer-events: none;
+      }
+      .pb-label {
+        font-family: var(--mono);
+        font-size: 9.5px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--fig-purple);
+        margin-bottom: 8px;
+        display: block;
+      }
+      .practice-box h4 {
+        font-size: 15px;
+        font-weight: 700;
+        color: #f5f5f5;
+        margin-bottom: 10px;
+      }
+      .practice-box p {
+        font-size: 13px;
+        line-height: 1.85;
+        color: rgba(245, 245, 245, 0.65);
+        margin-bottom: 0;
+      }
+      .practice-box ul {
+        padding-left: 16px;
+      }
+      .practice-box li {
+        font-size: 13px;
+        line-height: 1.95;
+        color: rgba(245, 245, 245, 0.65);
+      }
+      .pb-step {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .pb-step:last-child {
+        border-bottom: none;
+      }
+      .pb-num {
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--fig-purple);
+        min-width: 24px;
+        padding-top: 1px;
+      }
+      .pb-text {
+        font-size: 13px;
+        color: rgba(245, 245, 245, 0.7);
+        line-height: 1.75;
+      }
+
+      /* ─── QUIZ ───────────────────────────────────── */
+      .quiz {
+        background: var(--fig-dark);
+        border-radius: 14px;
+        padding: 26px 30px;
+        margin: 14px 0;
+        color: #f5f5f5;
+        border: 1px solid var(--fig-border);
+      }
+      .quiz-lbl {
+        font-family: var(--mono);
+        font-size: 9.5px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--fig-purple);
+        margin-bottom: 12px;
+        display: block;
+      }
+      .quiz-q {
+        font-size: 14.5px;
+        font-weight: 600;
+        margin-bottom: 14px;
+        line-height: 1.6;
+      }
+      .quiz-opts {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .qo {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.17s;
+        color: rgba(245, 245, 245, 0.8);
+        font-family: var(--font);
+        text-align: left;
+        line-height: 1.5;
+      }
+      .qo:hover {
+        background: rgba(162, 89, 255, 0.15);
+        border-color: rgba(162, 89, 255, 0.5);
+      }
+      .qo.correct {
+        background: rgba(10, 207, 131, 0.2);
+        border-color: var(--fig-teal);
+        color: #6edbb8;
+      }
+      .qo.wrong {
+        background: rgba(242, 78, 30, 0.2);
+        border-color: var(--fig-red);
+        color: #f9a58c;
+      }
+      .quiz-fb {
+        margin-top: 12px;
+        padding: 11px 15px;
+        border-radius: 8px;
+        font-size: 13px;
+        line-height: 1.75;
+        display: none;
+      }
+      .quiz-fb.show {
+        display: block;
+      }
+      .quiz-fb.ok {
+        background: rgba(10, 207, 131, 0.15);
+        border: 1px solid var(--fig-teal);
+        color: #6edbb8;
+      }
+      .quiz-fb.no {
+        background: rgba(242, 78, 30, 0.15);
+        border: 1px solid var(--fig-red);
+        color: #f9a58c;
+      }
+
+      /* ─── FOOTER ─────────────────────────────────── */
+      .footer {
+        background: var(--fig-dark);
+        color: rgba(245, 245, 245, 0.35);
+        text-align: center;
+        padding: 28px 20px;
+        font-size: 11.5px;
+        font-family: var(--mono);
+        letter-spacing: 0.5px;
+      }
+      .footer span {
+        color: var(--fig-purple);
+      }
+      .footer .plinks {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 10px;
+        flex-wrap: wrap;
+      }
+      .footer .plinks a {
+        color: rgba(245, 245, 245, 0.3);
+        text-decoration: none;
+        font-size: 11px;
+        transition: color 0.15s;
+      }
+      .footer .plinks a:hover,
+      .footer .plinks a.cur {
+        color: var(--fig-purple);
+      }
+
+      /* ─── TAGS ───────────────────────────────────── */
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin: 12px 0;
+      }
+      .tag {
+        padding: 4px 11px;
+        border-radius: 20px;
+        font-size: 11.5px;
+        font-weight: 500;
+        font-family: var(--mono);
+      }
+      .tp {
+        background: rgba(162, 89, 255, 0.1);
+        color: #5b21b6;
+        border: 1px solid rgba(162, 89, 255, 0.25);
+      }
+      .tt {
+        background: rgba(10, 207, 131, 0.1);
+        color: #065f46;
+        border: 1px solid rgba(10, 207, 131, 0.25);
+      }
+      .tc {
+        background: rgba(200, 155, 60, 0.12);
+        color: var(--roast);
+        border: 1px solid rgba(200, 155, 60, 0.28);
+      }
+      .tr {
+        background: rgba(242, 78, 30, 0.1);
+        color: #9a3412;
+        border: 1px solid rgba(242, 78, 30, 0.25);
+      }
+
+      /* ─── ANIMATIONS ─────────────────────────────── */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .ls {
+        animation: fadeUp 0.45s ease both;
+      }
+      .ls:nth-child(1) {
+        animation-delay: 0.04s;
+      }
+      .ls:nth-child(2) {
+        animation-delay: 0.08s;
+      }
+      .ls:nth-child(3) {
+        animation-delay: 0.12s;
+      }
+
+      /* ─── RESPONSIVE ─────────────────────────────── */
+      @media (max-width: 820px) {
+        .page-wrapper { grid-template-columns: 1fr; }
+        .toc { display: none; }
+        .content { padding: 30px 20px; border-left: none; }
+        .tool-grid { grid-template-columns: 1fr 1fr; }
+        .frame-types { grid-template-columns: 1fr 1fr; }
+        .shortcut-grid, .quiz-opts { grid-template-columns: 1fr; }
+        .hero { padding: 52px 28px 0; }
+        .topics-strip { margin-left: -28px; margin-right: -28px; padding: 0 28px; }
+        .figma-body { flex-direction: column; height: auto; }
+        .fig-left, .fig-right { width: 100%; }
+      }
+      @media (max-width: 600px) {
+        .hero { padding: 36px 18px 24px; }
+        .hero h1 { font-size: clamp(26px, 8vw, 38px); line-height: 1.2; }
+        .tool-grid, .frame-types, .shortcut-grid, .quiz-opts {
+          grid-template-columns: 1fr !important;
+        }
+        [style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+        .content { padding: 18px 16px; }
+        .lesson-section { padding: 20px 16px !important; border-radius: 12px !important; }
+        p, li { font-size: 14.5px !important; line-height: 1.85 !important; }
+        table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; font-size: 13px !important; }
+        pre { font-size: 12px !important; overflow-x: auto; }
+      }
+
+      /* ── 390 × 844 — iPhone exact ── */
+      @media (min-width: 375px) and (max-width: 430px) {
+        .hero { padding: 40px 18px 28px !important; }
+        .hero h1 { font-size: 28px !important; line-height: 1.18 !important; }
+        .content { padding: 18px 18px !important; }
+        .lesson-section { padding: 22px 18px !important; border-radius: 14px !important; }
+        .section-title { font-size: 18.5px !important; }
+        p, li { font-size: 14.5px !important; line-height: 1.82 !important; }
+        h3 { font-size: 17px !important; }
+        pre { font-size: 12.5px !important; overflow-x: auto !important; padding: 16px 18px !important; line-height: 1.65 !important; }
+        code { font-size: 12.5px !important; }
+        table { display: block !important; overflow-x: auto !important; font-size: 13px !important; white-space: nowrap; }
+        table th, table td { padding: 11px 13px !important; }
+        [style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+        .tool-grid, .frame-types, .shortcut-grid, .quiz-opts { grid-template-columns: 1fr !important; }
+        .figma-body { flex-direction: column !important; height: auto !important; }
+        .fig-left, .fig-right { width: 100% !important; }
+        .topics-strip {
+          overflow-x: auto !important; white-space: nowrap !important;
+          flex-wrap: nowrap !important; scrollbar-width: none !important;
+          margin-left: -18px !important; margin-right: -18px !important;
+          padding-left: 18px !important; padding-right: 18px !important;
+        }
+        .topics-strip::-webkit-scrollbar { display: none; }
+      }
+    
+  /* ═══════════════════════════════════════════════════════════
+     DARK MODE — CSS Variable Override + Targeted Fixes
+     Toggled by lang-system-ai.js via html.dark class
+  ═══════════════════════════════════════════════════════════ */
+
+  /* Flip CSS variables so all var()-based rules auto-switch */
+  html.dark {
+    --espresso: #fdf6ec;
+    --roast:    #eee0cc;
+    --latte:    #c8a882;
+    --cream:    #120a04;
+    --foam:     #1a0e06;
+    --milk:     #1f1208;
+    --chalk:    #221408;
+    --ui-bg:    #0d1929;
+    --ux-bg:    #0a1a0f;
+  }
+  html.dark body {
+    background: #120a04 !important;
+    color: rgba(253,246,236,0.88) !important;
+  }
+
+  html.dark .toc-part          { background: #1a0e06 !important; color: rgba(253,246,236,0.6) !important; }
+  html.dark .toc-sep           { background: rgba(255,255,255,0.07) !important; }
+  html.dark .tool-card         { background: #1a0e06 !important; border-color: rgba(255,255,255,0.08) !important; }
+  html.dark .shortcut-group    { background: #1a0e06 !important; border-color: rgba(255,255,255,0.08) !important; }
+  html.dark .frame-type-card   { background: #1a0e06 !important; border-color: rgba(255,255,255,0.08) !important; }
+  html.dark .ft-preview        { background: rgba(255,255,255,0.04) !important; }
+  html.dark .fig-frame         { background: rgba(255,255,255,0.06) !important; border-color: rgba(255,255,255,0.12) !important; }
+  html.dark .fig-sel-handle    { background: rgba(200,155,60,0.7) !important; }
+  html.dark .key-badge         { background: rgba(255,255,255,0.08) !important; border-color: rgba(255,255,255,0.14) !important; color: rgba(253,246,236,0.8) !important; }
+  html.dark .tc-key            { background: rgba(255,255,255,0.07) !important; color: rgba(253,246,236,0.7) !important; }
+  html.dark .box.warning       { background: rgba(180,83,9,0.14) !important; }
+  html.dark .box.info          { background: rgba(29,78,216,0.14) !important; }
+  html.dark .box.success       { background: rgba(21,128,61,0.14) !important; }
+  html.dark .box.teal          { background: rgba(10,207,131,0.1) !important; }
+</style>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- ░░ MOBILE TOC ░░ -->
+    <button class="sb-toc-toggle" id="sbTocToggle" aria-label="Open contents"><svg width="18" height="14" viewBox="0 0 18 14" fill="none" aria-hidden="true" style="display:block;pointer-events:none;flex-shrink:0"><line x1="0" y1="1" x2="18" y2="1" stroke="#C89B3C" stroke-width="2" stroke-linecap="round"/><line x1="0" y1="7" x2="18" y2="7" stroke="#C89B3C" stroke-width="2" stroke-linecap="round"/><line x1="0" y1="13" x2="18" y2="13" stroke="#C89B3C" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <div class="sb-toc-overlay" id="sbTocOverlay"></div>
+    <div class="sb-toc-drawer" id="sbTocDrawer">
+      <div class="sb-toc-header">
+        <span class="sb-toc-header-label">មាតិកា — PART 3</span>
+        <button class="sb-toc-close" id="sbTocClose" aria-label="Close">✕</button>
+      </div>
+      <div class="sb-toc-body">
+        <a class="sb-toc-partlink" href="SBCMS_Lesson_UIUX_Part1.html">← Part 1: UI/UX Intro</a>
+        <a class="sb-toc-partlink" href="SBCMS_Lesson_UIUX_Part2.html">← Part 2: Wireframes</a>
+        <div class="sb-toc-sep"></div>
+        <a href="#s1"><span class="sb-toc-num">01</span>ហ្វីហ្ស្ម៉ាជាអ្វី?</a>
+        <a href="#s2"><span class="sb-toc-num">02</span>Interface Tour</a>
+        <a href="#s3"><span class="sb-toc-num">03</span>Frames &amp; Pages</a>
+        <a href="#s4"><span class="sb-toc-num">04</span>Basic Tools</a>
+        <a href="#s5"><span class="sb-toc-num">05</span>Shapes &amp; Vector</a>
+        <a href="#s6"><span class="sb-toc-num">06</span>Text in Figma</a>
+        <a href="#s7"><span class="sb-toc-num">07</span>Colors &amp; Fills</a>
+        <a href="#s8"><span class="sb-toc-num">08</span>Layers &amp; Groups</a>
+        <a href="#s9"><span class="sb-toc-num">09</span>Practice — SBCMS</a>
+        <a href="#quiz"><span class="sb-toc-num">✏</span>Quiz</a>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var T=document.getElementById('sbTocToggle'),D=document.getElementById('sbTocDrawer'),O=document.getElementById('sbTocOverlay'),C=document.getElementById('sbTocClose');
+      function openDrawer(){D.classList.add('open');O.classList.add('open');T.classList.add('hidden');document.body.style.overflow='hidden';}
+      function closeDrawer(){D.classList.remove('open');O.classList.remove('open');T.classList.remove('hidden');document.body.style.overflow='';}
+      T.addEventListener('click',openDrawer);C.addEventListener('click',closeDrawer);O.addEventListener('click',closeDrawer);
+      D.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',closeDrawer);});
+      document.addEventListener('keydown',function(e){if(e.key==='Escape')closeDrawer();});
+      var dLinks=D.querySelectorAll('a[href^="#s"]');
+      function markActive(){var top=window.scrollY+120;var cur=null;dLinks.forEach(function(a){var el=document.getElementById(a.getAttribute('href').slice(1));if(el&&el.offsetTop<=top)cur=a;});dLinks.forEach(function(a){a.classList.remove('active');});if(cur)cur.classList.add('active');}
+      window.addEventListener('scroll',markActive,{passive:true});markActive();
+    })();
+    </script>
+
+    <!-- TOP STRIP -->
+    <div class="top-strip">
+      <a href="index.html">SBCMS Lessons</a>
+      <span class="sep">›</span>
+      <a href="index.html">Figma Series</a>
+      <span class="sep">›</span>
+      <span class="cur">Part 3 — Getting Started with Figma</span>
+    </div>
+
+    <!-- ════════════════════ HERO ════════════════════ -->
+    <div class="hero">
+      <div class="hero-mesh"></div>
+
+      <!-- Decorative Figma-style shapes -->
+      <svg class="hero-shapes" viewBox="0 0 320 320" fill="none">
+        <!-- Frame rect -->
+        <rect
+          x="60"
+          y="40"
+          width="200"
+          height="140"
+          rx="8"
+          fill="none"
+          stroke="white"
+          stroke-width="2"
+        />
+        <!-- Circle component -->
+        <circle cx="100" cy="220" r="40" fill="rgba(162,89,255,0.8)" />
+        <!-- Square -->
+        <rect
+          x="160"
+          y="200"
+          width="60"
+          height="60"
+          rx="4"
+          fill="rgba(10,207,131,0.8)"
+        />
+        <!-- Small circles — handles -->
+        <circle cx="60" cy="40" r="5" fill="white" />
+        <circle cx="260" cy="40" r="5" fill="white" />
+        <circle cx="60" cy="180" r="5" fill="white" />
+        <circle cx="260" cy="180" r="5" fill="white" />
+        <!-- Text line -->
+        <rect
+          x="80"
+          y="70"
+          width="100"
+          height="10"
+          rx="3"
+          fill="rgba(255,255,255,0.4)"
+        />
+        <rect
+          x="80"
+          y="88"
+          width="140"
+          height="8"
+          rx="3"
+          fill="rgba(255,255,255,0.2)"
+        />
+        <rect
+          x="80"
+          y="104"
+          width="120"
+          height="8"
+          rx="3"
+          fill="rgba(255,255,255,0.2)"
+        />
+        <!-- Button shape -->
+        <rect
+          x="80"
+          y="130"
+          width="80"
+          height="28"
+          rx="14"
+          fill="rgba(162,89,255,0.7)"
+        />
+      </svg>
+
+      <div class="hero-inner">
+        <div class="hero-eyebrow">Sharp Bean Café · Lesson Series · Figma</div>
+        <h1>
+          Getting Started<br />with <span class="fig">Figma</span>
+          <span class="acc">✦</span>
+        </h1>
+        <p class="hero-sub">
+          រៀន Figma ចាប់ពី Interface, Tools, Frames, Layers, Colors — ហើយ Apply
+          ដើម្បី Design SBCMS Wireframes ។
+        </p>
+        <div class="hero-meta">
+          <span class="hero-badge">PART 3</span>
+          <span class="hero-chip">⏱ 50–60 នាទី</span>
+          <span class="hero-chip">🎯 Beginner–Intermediate</span>
+          <span class="hero-chip">🛠 Figma Free Account</span>
+        </div>
+      </div>
+
+      <div class="topics-strip">
+        <div class="t-pill"><span class="tn">01</span> ហ្វីហ្ស្ម៉ាជាអ្វី?</div>
+        <div class="t-pill"><span class="tn">02</span> Interface Tour</div>
+        <div class="t-pill"><span class="tn">03</span> Frames & Pages</div>
+        <div class="t-pill"><span class="tn">04</span> Basic Tools</div>
+        <div class="t-pill"><span class="tn">05</span> Shapes & Vector</div>
+        <div class="t-pill"><span class="tn">06</span> Text in Figma</div>
+        <div class="t-pill"><span class="tn">07</span> Colors & Fills</div>
+        <div class="t-pill"><span class="tn">08</span> Layers & Groups</div>
+        <div class="t-pill"><span class="tn">09</span> Practice — SBCMS</div>
+      </div>
+    </div>
+
+    <!-- ════════════════ BODY ════════════════ -->
+    <div class="page-wrapper">
+      <!-- TOC -->
+      <nav class="toc">
+        <div class="toc-title">Part Navigation</div>
+        <a class="toc-part" href="SBCMS_Lesson_UIUX_Part2.html"
+          ><span class="pl">← PART 2</span> Wireframes · Grid · A11y</a
+        >
+        <div class="toc-sep"></div>
+        <div class="toc-title">មាតិកា — Part 3</div>
+        <a href="#s1" class="active"
+          ><span class="n">01</span> ហ្វីហ្ស្ម៉ាជាអ្វី?</a
+        >
+        <a href="#s2"><span class="n">02</span> Interface Tour</a>
+        <a href="#s3"><span class="n">03</span> Frames & Pages</a>
+        <a href="#s4"><span class="n">04</span> Basic Tools</a>
+        <a href="#s5"><span class="n">05</span> Shapes & Vector</a>
+        <a href="#s6"><span class="n">06</span> Text in Figma</a>
+        <a href="#s7"><span class="n">07</span> Colors & Fills</a>
+        <a href="#s8"><span class="n">08</span> Layers & Groups</a>
+        <a href="#s9"><span class="n">09</span> Practice — SBCMS</a>
+        <div class="toc-sep"></div>
+        <a href="#quiz"><span class="n">✏</span> Quiz</a>
+      </nav>
+
+      <!-- CONTENT -->
+      <main class="content">
+        <!-- ═══════════════════════════════
+         S1 — WHAT IS FIGMA
+    ═══════════════════════════════ -->
+        <div class="ls" id="s1">
+          <span class="sec-num">Section 01</span>
+          <h2>Figma ជាអ្វី?</h2>
+
+          <p>
+            <span class="kp">Figma</span> ជា
+            <mark>Cloud-based Design Tool</mark>
+            ដែល Designer ទូទាំងពិភពលោក ប្រើ ។ Figma ប្រើសម្រាប់ Wireframes, UI
+            Design, Prototyping, Design System — ទាំងអស់ក្នុង Browser ឬ Desktop
+            App តែមួយ ។
+          </p>
+
+          <div class="box purple">
+            <div class="box-i">✦</div>
+            <div class="box-b">
+              <div class="box-t">ហេតុអ្វីប្រើ Figma?</div>
+              <div class="box-x">
+                Figma ជាឧបករណ៍ Standard ក្នុង Industry — Google, Microsoft,
+                Airbnb, Shopify ទាំងអស់ប្រើ Figma ។ Free Plan ផ្ដល់ 3 Projects +
+                Unlimited Files ប្រើ Browser ។ Team Collaboration Real-time —
+                ដូច Google Docs ប៉ុន្តែ Design ។
+              </div>
+            </div>
+          </div>
+
+          <h3>Figma vs Tools ផ្សេង</h3>
+          <div
+            style="
+              background: white;
+              border: 1px solid var(--milk);
+              border-radius: 12px;
+              overflow: hidden;
+              margin: 14px 0;
+            "
+          >
+            <table
+              style="width: 100%; border-collapse: collapse; font-size: 13px"
+            >
+              <thead>
+                <tr style="background: var(--chalk)">
+                  <th
+                    style="
+                      padding: 11px 16px;
+                      text-align: left;
+                      font-size: 10.5px;
+                      letter-spacing: 1px;
+                      text-transform: uppercase;
+                      color: var(--latte);
+                      font-weight: 700;
+                    "
+                  >
+                    Tool
+                  </th>
+                  <th
+                    style="
+                      padding: 11px 16px;
+                      text-align: left;
+                      font-size: 10.5px;
+                      letter-spacing: 1px;
+                      text-transform: uppercase;
+                      color: var(--latte);
+                      font-weight: 700;
+                    "
+                  >
+                    Platform
+                  </th>
+                  <th
+                    style="
+                      padding: 11px 16px;
+                      text-align: left;
+                      font-size: 10.5px;
+                      letter-spacing: 1px;
+                      text-transform: uppercase;
+                      color: var(--latte);
+                      font-weight: 700;
+                    "
+                  >
+                    Price
+                  </th>
+                  <th
+                    style="
+                      padding: 11px 16px;
+                      text-align: left;
+                      font-size: 10.5px;
+                      letter-spacing: 1px;
+                      text-transform: uppercase;
+                      color: var(--latte);
+                      font-weight: 700;
+                    "
+                  >
+                    Best For
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  style="
+                    border-bottom: 1px solid var(--milk);
+                    background: rgba(162, 89, 255, 0.04);
+                  "
+                >
+                  <td
+                    style="
+                      padding: 10px 16px;
+                      font-weight: 700;
+                      color: var(--fig-purple);
+                    "
+                  >
+                    Figma ✦
+                  </td>
+                  <td style="padding: 10px 16px">Browser + Desktop</td>
+                  <td style="padding: 10px 16px">
+                    <span
+                      style="
+                        background: #dcfce7;
+                        color: var(--success);
+                        padding: 2px 8px;
+                        border-radius: 10px;
+                        font-size: 11px;
+                        font-weight: 600;
+                      "
+                      >Free</span
+                    >
+                  </td>
+                  <td style="padding: 10px 16px">
+                    UI Design, Collaboration, Prototyping
+                  </td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--milk)">
+                  <td style="padding: 10px 16px; font-weight: 600">Adobe XD</td>
+                  <td style="padding: 10px 16px">Windows, Mac</td>
+                  <td style="padding: 10px 16px">
+                    <span
+                      style="
+                        background: #fef3c7;
+                        color: var(--warning);
+                        padding: 2px 8px;
+                        border-radius: 10px;
+                        font-size: 11px;
+                        font-weight: 600;
+                      "
+                      >Paid</span
+                    >
+                  </td>
+                  <td style="padding: 10px 16px">Adobe Ecosystem Users</td>
+                </tr>
+                <tr
+                  style="
+                    border-bottom: 1px solid var(--milk);
+                    background: var(--foam);
+                  "
+                >
+                  <td style="padding: 10px 16px; font-weight: 600">Sketch</td>
+                  <td style="padding: 10px 16px">Mac Only</td>
+                  <td style="padding: 10px 16px">
+                    <span
+                      style="
+                        background: #fef3c7;
+                        color: var(--warning);
+                        padding: 2px 8px;
+                        border-radius: 10px;
+                        font-size: 11px;
+                        font-weight: 600;
+                      "
+                      >Paid</span
+                    >
+                  </td>
+                  <td style="padding: 10px 16px">Mac Designers</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px 16px; font-weight: 600">Canva</td>
+                  <td style="padding: 10px 16px">Browser</td>
+                  <td style="padding: 10px 16px">
+                    <span
+                      style="
+                        background: #dcfce7;
+                        color: var(--success);
+                        padding: 2px 8px;
+                        border-radius: 10px;
+                        font-size: 11px;
+                        font-weight: 600;
+                      "
+                      >Free</span
+                    >
+                  </td>
+                  <td style="padding: 10px 16px">
+                    Graphics, Posters — មិនមែន UI Design
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>របៀប Setup Figma</h3>
+          <div class="steps">
+            <div class="step">
+              <div class="step-n">1</div>
+              <div class="step-b">
+                <div class="step-title">ចូល figma.com</div>
+                <div class="step-desc">
+                  ចូល <span class="kp">figma.com</span> → ចុច "Get started for
+                  free" → Sign up ដោយ Email ឬ Google Account ។
+                </div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-n">2</div>
+              <div class="step-b">
+                <div class="step-title">ជ្រើស Plan</div>
+                <div class="step-desc">
+                  ជ្រើស <span class="kp">Starter (Free)</span> —
+                  គ្រប់គ្រាន់សម្រាប់ SBCMS Project ។ Free Plan: 3 Projects,
+                  Unlimited Files ។
+                </div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-n">3</div>
+              <div class="step-b">
+                <div class="step-title">Download Desktop App (Optional)</div>
+                <div class="step-desc">
+                  Figma ប្រើ Browser ក៏ល្អ ។ ប៉ុន្តែ Desktop App ប្រើ Font Local
+                  បាន, ល្អជាង Browser ។ Download ពី figma.com/downloads ។
+                </div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-n">4</div>
+              <div class="step-b">
+                <div class="step-title">បង្កើត New Design File</div>
+                <div class="step-desc">
+                  ក្នុង Dashboard → ចុច
+                  <span class="kp">+ New design file</span> → Canvas ទទេ លេចឡើង
+                  → ចាប់ផ្ដើម! ។
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════
+         S2 — INTERFACE TOUR
+    ═══════════════════════════════ -->
+        <div class="ls" id="s2">
+          <span class="sec-num">Section 02</span>
+          <h2>Figma Interface Tour — ស្គាល់ Interface</h2>
+
+          <p>
+            Figma Interface មាន <mark>5 Zone សំខាន់</mark> ។ ស្គាល់ Zone ទាំងនេះ
+            → Navigation ក្នុង Figma ងាយ ។
+          </p>
+
+          <!-- Figma Mock UI -->
+          <div class="figma-window">
+            <!-- Title Bar -->
+            <div class="figma-titlebar">
+              <div class="figma-tb-left">
+                <span class="fig-logo">✦</span>
+                <span class="fig-menu-btn">File</span>
+                <span class="fig-menu-btn">Edit</span>
+                <span class="fig-menu-btn">View</span>
+              </div>
+              <div class="figma-tb-mid">
+                <div class="fig-tool-btn">↖</div>
+                <div class="fig-tool-btn active">⬜</div>
+                <div class="fig-tool-btn">○</div>
+                <div class="fig-tool-btn">✏</div>
+                <div class="fig-tool-btn">T</div>
+                <div class="fig-tool-btn">🖐</div>
+                <div class="fig-tool-btn">💬</div>
+              </div>
+              <div class="figma-tb-right">
+                <div class="fig-share-btn">Share</div>
+                <div
+                  style="
+                    width: 28px;
+                    height: 28px;
+                    border-radius: 50%;
+                    background: var(--fig-purple);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 12px;
+                    color: white;
+                    font-weight: 700;
+                  "
+                >
+                  TS
+                </div>
+              </div>
+            </div>
+
+            <!-- Body -->
+            <div class="figma-body">
+              <!-- Left Panel -->
+              <div class="fig-left">
+                <div class="fig-panel-tabs">
+                  <div class="fig-panel-tab active">Layers</div>
+                  <div class="fig-panel-tab">Assets</div>
+                </div>
+                <div class="fig-panel-content">
+                  <div class="fig-layer">
+                    <span class="fig-layer-icon">▸</span>
+                    <span class="fig-layer-icon">📱</span>
+                    <span class="fig-layer-name">Login Screen</span>
+                  </div>
+                  <div class="fig-layer indent-1 selected">
+                    <span class="fig-layer-icon">▾</span>
+                    <span class="fig-layer-icon">⬜</span>
+                    <span class="fig-layer-name">Login Card</span>
+                  </div>
+                  <div class="fig-layer indent-2">
+                    <span class="fig-layer-icon"> </span>
+                    <span class="fig-layer-icon">T</span>
+                    <span class="fig-layer-name">Sharp Bean</span>
+                  </div>
+                  <div class="fig-layer indent-2">
+                    <span class="fig-layer-icon"> </span>
+                    <span class="fig-layer-icon">⬜</span>
+                    <span class="fig-layer-name">Input/Username</span>
+                  </div>
+                  <div class="fig-layer indent-2">
+                    <span class="fig-layer-icon"> </span>
+                    <span class="fig-layer-icon">⬜</span>
+                    <span class="fig-layer-name">Input/Password</span>
+                  </div>
+                  <div class="fig-layer indent-2">
+                    <span class="fig-layer-icon"> </span>
+                    <span class="fig-layer-icon">⬜</span>
+                    <span class="fig-layer-name">Btn/Login</span>
+                  </div>
+                  <div class="fig-layer">
+                    <span class="fig-layer-icon">▸</span>
+                    <span class="fig-layer-icon">📱</span>
+                    <span class="fig-layer-name">POS Screen</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Canvas -->
+              <div class="fig-canvas">
+                <div class="fig-canvas-bg"></div>
+                <!-- Frame -->
+                <div
+                  class="fig-frame"
+                  style="
+                    width: 220px;
+                    height: 300px;
+                    padding: 20px;
+                    position: relative;
+                  "
+                >
+                  <div class="fig-frame-label">Login Screen · 375×812</div>
+                  <div class="fig-sel-border"></div>
+                  <!-- Handles -->
+                  <div
+                    class="fig-sel-handle"
+                    style="top: -5px; left: -5px"
+                  ></div>
+                  <div
+                    class="fig-sel-handle"
+                    style="top: -5px; right: -5px"
+                  ></div>
+                  <div
+                    class="fig-sel-handle"
+                    style="bottom: -5px; left: -5px"
+                  ></div>
+                  <div
+                    class="fig-sel-handle"
+                    style="bottom: -5px; right: -5px"
+                  ></div>
+                  <!-- Content inside frame -->
+                  <div style="text-align: center; margin-bottom: 16px">
+                    <div
+                      style="
+                        width: 40px;
+                        height: 40px;
+                        background: var(--fig-dark);
+                        border-radius: 50%;
+                        margin: 0 auto 8px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 16px;
+                      "
+                    >
+                      ☕
+                    </div>
+                    <div
+                      style="
+                        height: 8px;
+                        background: var(--fig-dark);
+                        border-radius: 3px;
+                        width: 60%;
+                        margin: 0 auto 4px;
+                      "
+                    ></div>
+                    <div
+                      style="
+                        height: 6px;
+                        background: var(--milk);
+                        border-radius: 3px;
+                        width: 40%;
+                        margin: 0 auto;
+                      "
+                    ></div>
+                  </div>
+                  <div style="display: flex; gap: 6px; margin-bottom: 12px">
+                    <div
+                      style="
+                        flex: 1;
+                        height: 28px;
+                        background: var(--fig-dark);
+                        border-radius: 4px;
+                      "
+                    ></div>
+                    <div
+                      style="
+                        flex: 1;
+                        height: 28px;
+                        background: var(--milk);
+                        border-radius: 4px;
+                      "
+                    ></div>
+                  </div>
+                  <div
+                    style="
+                      height: 1px;
+                      background: var(--milk);
+                      margin-bottom: 10px;
+                    "
+                  ></div>
+                  <div style="margin-bottom: 8px">
+                    <div
+                      style="
+                        height: 6px;
+                        background: var(--milk);
+                        border-radius: 2px;
+                        width: 30%;
+                        margin-bottom: 5px;
+                      "
+                    ></div>
+                    <div
+                      style="
+                        height: 28px;
+                        background: var(--chalk);
+                        border: 1px solid var(--milk);
+                        border-radius: 4px;
+                      "
+                    ></div>
+                  </div>
+                  <div style="margin-bottom: 12px">
+                    <div
+                      style="
+                        height: 6px;
+                        background: var(--milk);
+                        border-radius: 2px;
+                        width: 28%;
+                        margin-bottom: 5px;
+                      "
+                    ></div>
+                    <div
+                      style="
+                        height: 28px;
+                        background: var(--chalk);
+                        border: 1px solid var(--milk);
+                        border-radius: 4px;
+                      "
+                    ></div>
+                  </div>
+                  <div
+                    style="
+                      height: 32px;
+                      background: var(--roast);
+                      border-radius: 5px;
+                    "
+                  ></div>
+                </div>
+              </div>
+
+              <!-- Right Panel -->
+              <div class="fig-right">
+                <div class="fig-prop-section">
+                  <div class="fig-prop-title">Frame</div>
+                  <div class="fig-prop-row">
+                    <span class="fig-prop-label">W</span>
+                    <div class="fig-prop-input">375</div>
+                  </div>
+                  <div class="fig-prop-row">
+                    <span class="fig-prop-label">H</span>
+                    <div class="fig-prop-input">812</div>
+                  </div>
+                  <div class="fig-prop-row">
+                    <span class="fig-prop-label">X</span>
+                    <div class="fig-prop-input">0</div>
+                  </div>
+                  <div class="fig-prop-row">
+                    <span class="fig-prop-label">Y</span>
+                    <div class="fig-prop-input">0</div>
+                  </div>
+                  <div class="fig-prop-row">
+                    <span class="fig-prop-label">R°</span>
+                    <div class="fig-prop-input">0°</div>
+                  </div>
+                </div>
+                <div class="fig-prop-section">
+                  <div class="fig-prop-title">Fill</div>
+                  <div class="fig-color-row">
+                    <div
+                      class="fig-color-swatch"
+                      style="background: #ffffff"
+                    ></div>
+                    <div class="fig-prop-input" style="width: auto; flex: 1">
+                      FFFFFF
+                    </div>
+                    <span
+                      style="
+                        font-family: var(--mono);
+                        font-size: 11px;
+                        color: rgba(255, 255, 255, 0.4);
+                        margin-left: 6px;
+                      "
+                      >100%</span
+                    >
+                  </div>
+                </div>
+                <div class="fig-prop-section">
+                  <div class="fig-prop-title">Stroke</div>
+                  <div class="fig-color-row">
+                    <div
+                      class="fig-color-swatch"
+                      style="
+                        background: transparent;
+                        border: 1.5px dashed rgba(255, 255, 255, 0.2);
+                      "
+                    ></div>
+                    <span
+                      style="
+                        font-size: 11px;
+                        color: rgba(255, 255, 255, 0.3);
+                        font-family: var(--mono);
+                      "
+                      >+ Add stroke</span
+                    >
+                  </div>
+                </div>
+                <div class="fig-prop-section">
+                  <div class="fig-prop-title">Corner Radius</div>
+                  <div class="fig-prop-row">
+                    <span class="fig-prop-label">Radius</span>
+                    <div class="fig-prop-input">8</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h3>Zone ទាំង 5 របស់ Figma Interface</h3>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 12px;
+              margin: 14px 0;
+            "
+          >
+            <div
+              style="
+                background: white;
+                border: 1px solid var(--milk);
+                border-radius: 10px;
+                padding: 16px;
+                border-left: 4px solid var(--fig-purple);
+              "
+            >
+              <div
+                style="
+                  font-weight: 700;
+                  font-size: 13.5px;
+                  color: var(--roast);
+                  margin-bottom: 6px;
+                "
+              >
+                ① Title Bar — ខាងលើ
+              </div>
+              <div
+                style="font-size: 12.5px; color: var(--latte); line-height: 1.7"
+              >
+                Figma Menu (File, Edit, View) · Tools Toolbar · Share Button ·
+                ប្ដូរ Tool ដោយ Shortcut ។
+              </div>
+            </div>
+            <div
+              style="
+                background: white;
+                border: 1px solid var(--milk);
+                border-radius: 10px;
+                padding: 16px;
+                border-left: 4px solid var(--fig-green);
+              "
+            >
+              <div
+                style="
+                  font-weight: 700;
+                  font-size: 13.5px;
+                  color: var(--roast);
+                  margin-bottom: 6px;
+                "
+              >
+                ② Left Panel — Layers & Assets
+              </div>
+              <div
+                style="font-size: 12.5px; color: var(--latte); line-height: 1.7"
+              >
+                <strong>Layers Tab:</strong> List of all Elements ជា Tree ។
+                <strong>Assets Tab:</strong> Components, Icons, Colors saved ។
+              </div>
+            </div>
+            <div
+              style="
+                background: white;
+                border: 1px solid var(--milk);
+                border-radius: 10px;
+                padding: 16px;
+                border-left: 4px solid var(--fig-teal);
+              "
+            >
+              <div
+                style="
+                  font-weight: 700;
+                  font-size: 13.5px;
+                  color: var(--roast);
+                  margin-bottom: 6px;
+                "
+              >
+                ③ Canvas — ផ្ទៃ Design
+              </div>
+              <div
+                style="font-size: 12.5px; color: var(--latte); line-height: 1.7"
+              >
+                ផ្ទៃ Infinite ដែល Designer Drag, Drop, Draw Elements ។ Zoom:
+                <span class="kp">Ctrl +/−</span>, Fit:
+                <span class="kp">Shift+1</span> ។
+              </div>
+            </div>
+            <div
+              style="
+                background: white;
+                border: 1px solid var(--milk);
+                border-radius: 10px;
+                padding: 16px;
+                border-left: 4px solid var(--fig-red);
+              "
+            >
+              <div
+                style="
+                  font-weight: 700;
+                  font-size: 13.5px;
+                  color: var(--roast);
+                  margin-bottom: 6px;
+                "
+              >
+                ④ Right Panel — Properties
+              </div>
+              <div
+                style="font-size: 12.5px; color: var(--latte); line-height: 1.7"
+              >
+                Width, Height, X, Y, Rotation, Fill Color, Stroke, Corner Radius
+                ។ Properties ប្ដូរ ស្របតាម Element ដែល Selected ។
+              </div>
+            </div>
+            <div
+              style="
+                background: white;
+                border: 1px solid var(--milk);
+                border-radius: 10px;
+                padding: 16px;
+                border-left: 4px solid #f5a623;
+                grid-column: span 2;
+              "
+            >
+              <div
+                style="
+                  font-weight: 700;
+                  font-size: 13.5px;
+                  color: var(--roast);
+                  margin-bottom: 6px;
+                "
+              >
+                ⑤ Pages — ផ្ទាំង (Bottom of Left Panel)
+              </div>
+              <div
+                style="font-size: 12.5px; color: var(--latte); line-height: 1.7"
+              >
+                File ១ អាចមាន Pages ច្រើន ។ SBCMS: Page 1 = Login, Page 2 = POS,
+                Page 3 = Inventory ។ ចុចបន្ថែម Page:
+                <span class="kp">+</span> Button ។
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════
+         S3 — FRAMES & PAGES
+    ═══════════════════════════════ -->
+        <div class="ls" id="s3">
+          <span class="sec-num">Section 03</span>
+          <h2>Frames & Pages — ស្គាល់ Frame</h2>
+
+          <p>
+            <span class="kp">Frame</span> ជា Container ដំបូងដែល Designer បង្កើត
+            ។ Frame = ប្រភេទ Screen ១ (ឧ. Login Screen, POS Screen) ។ Elements
+            ទាំងអស់ Nested ក្នុង Frame ។
+          </p>
+
+          <div class="box teal">
+            <div class="box-i">📱</div>
+            <div class="box-b">
+              <div class="box-t">Frame vs Rectangle</div>
+              <div class="box-x">
+                <strong>Frame</strong> ជា Container ដែល Clip Children, Auto
+                Layout Support ។ <strong>Rectangle</strong> ជា Shape ធម្មតា —
+                Background, Card, Button ។ ប្រើ Frame សម្រាប់ Screen/Section,
+                Rectangle សម្រាប់ UI Shape ។
+              </div>
+            </div>
+          </div>
+
+          <h3>Frame Presets — ទំហំ Screen Standard</h3>
+          <div class="frame-types">
+            <div class="frame-type-card">
+              <div
+                class="ft-preview"
+                style="width: 50px; height: 70px; margin: 0 auto 10px"
+              ></div>
+              <div class="ft-label">iPhone 14</div>
+              <div class="ft-size">390 × 844</div>
+            </div>
+            <div class="frame-type-card">
+              <div
+                class="ft-preview"
+                style="width: 60px; height: 50px; margin: 0 auto 10px"
+              ></div>
+              <div class="ft-label">Desktop</div>
+              <div class="ft-size">1440 × 1024</div>
+            </div>
+            <div class="frame-type-card">
+              <div
+                class="ft-preview"
+                style="width: 55px; height: 64px; margin: 0 auto 10px"
+              ></div>
+              <div class="ft-label">iPad</div>
+              <div class="ft-size">768 × 1024</div>
+            </div>
+            <div class="frame-type-card">
+              <div
+                class="ft-preview"
+                style="width: 70px; height: 44px; margin: 0 auto 10px"
+              ></div>
+              <div class="ft-label">Web Browser</div>
+              <div class="ft-size">1280 × 800</div>
+            </div>
+          </div>
+
+          <p>
+            SBCMS Desktop App (WinForms) → ប្រើ Frame ទំហំ
+            <span class="kp">1024 × 600</span> ឬ
+            <span class="kp">1280 × 720</span> ។ Web App → ប្រើ
+            <span class="kp">1440 × 900</span> (Desktop) +
+            <span class="kp">390 × 844</span> (Mobile) ។
+          </p>
+
+          <h3>របៀបបង្កើត Frame</h3>
+          <div class="steps">
+            <div class="step">
+              <div class="step-n">1</div>
+              <div class="step-b">
+                <div class="step-title">
+                  ចុច F (Shortcut) ឬ ជ្រើស Frame Tool
+                </div>
+                <div class="step-desc">
+                  ចុច <span class="kp">F</span> លើ Keyboard → Cursor ប្ដូរជា
+                  Cross → Drag លើ Canvas ។
+                </div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-n">2</div>
+              <div class="step-b">
+                <div class="step-title">ឬ ជ្រើស Preset ពី Right Panel</div>
+                <div class="step-desc">
+                  ចុច Frame Tool → Right Panel បង្ហាញ Presets: Phone, Tablet,
+                  Desktop → Click ១ ដង → Frame លេចភ្លាម ។
+                </div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-n">3</div>
+              <div class="step-b">
+                <div class="step-title">ដំឡើង Fill Color</div>
+                <div class="step-desc">
+                  Click Frame → Right Panel → Fill → ចុច Color Box → ដំឡើង Hex
+                  Code (ឧ. <span class="kp">#FDF6EC</span> Cream) ។
+                </div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-n">4</div>
+              <div class="step-b">
+                <div class="step-title">Rename Frame</div>
+                <div class="step-desc">
+                  Double-click Frame Name ក្នុង Layers Panel → វាយ ឧ. "Login
+                  Screen" → Enter ។ Name ល្អ = Layers Panel ច្បាស់ ។
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════
+         S4 — BASIC TOOLS
+    ═══════════════════════════════ -->
+        <div class="ls" id="s4">
+          <span class="sec-num">Section 04</span>
+          <h2>Basic Tools — ឧបករណ៍ជាមូលដ្ឋាន</h2>
+
+          <p>
+            Figma Toolbar (ខាងលើ Canvas) មាន Tools សំខាន់ ។ ឧបករណ៍ Figma
+            ភាគច្រើន <mark>Shortcut ១ Key</mark> — ងាយ លឿន ។
+          </p>
+
+          <div class="tool-grid">
+            <div class="tool-card">
+              <div class="tc-key">V</div>
+              <div class="tc-name">Move Tool</div>
+              <div class="tc-desc">
+                Select, Move, Resize Elements ។ Tool Default ។ ចុច
+                <strong>V</strong> ត្រឡប់មកវិញបានជានិច្ច ។
+              </div>
+              <div class="tc-tip">Shortcut: V</div>
+            </div>
+            <div class="tool-card">
+              <div class="tc-key">K</div>
+              <div class="tc-name">Scale Tool</div>
+              <div class="tc-desc">
+                Scale Element ដោយ Proportional ។ ផ្ទុយ Resize ដែល Stretch, Scale
+                ធ្វើ Proportional ។
+              </div>
+              <div class="tc-tip">Shortcut: K</div>
+            </div>
+            <div class="tool-card">
+              <div class="tc-key">F</div>
+              <div class="tc-name">Frame Tool</div>
+              <div class="tc-desc">
+                បង្កើត Frame (Screen Container) ។ ជ្រើស Preset ឬ Drag Custom
+                Size ។
+              </div>
+              <div class="tc-tip">Shortcut: F</div>
+            </div>
+            <div class="tool-card">
+              <div class="tc-key">R</div>
+              <div class="tc-name">Rectangle Tool</div>
+              <div class="tc-desc">
+                Draw Rectangle/Square ។ Hold <strong>Shift</strong> ពេល Drag =
+                Square ។ ប្រើ Button, Card, Background ។
+              </div>
+              <div class="tc-tip">Shortcut: R</div>
+            </div>
+            <div class="tool-card">
+              <div class="tc-key">O</div>
+              <div class="tc-name">Ellipse Tool</div>
+              <div class="tc-desc">
+                Draw Circle/Oval ។ Hold <strong>Shift</strong> = Perfect Circle
+                ។ ប្រើ Avatar, Icon Background ។
+              </div>
+              <div class="tc-tip">Shortcut: O</div>
+            </div>
+            <div class="tool-card">
+              <div class="tc-key">T</div>
+              <div class="tc-name">Text Tool</div>
+              <div class="tc-desc">
+                Add Text ។ Click once = Auto-width text ។ Drag = Fixed-width
+                Text Box ។ Double-click Text = Edit ។
+              </div>
+              <div class="tc-tip">Shortcut: T</div>
+            </div>
+            <div class="tool-card">
+              <div class="tc-key">P</div>
+              <div class="tc-name">Pen Tool</div>
+              <div class="tc-desc">
+                Draw Custom Vector Path ។ ប្រើ Icon, Custom Shape ។ Advanced
+                Tool — Practice Part 4 ។
+              </div>
+              <div class="tc-tip">Shortcut: P</div>
+            </div>
+            <div class="tool-card">
+              <div class="tc-key">H</div>
+              <div class="tc-name">Hand Tool</div>
+              <div class="tc-desc">
+                Pan/Move Canvas ដោយ Drag ។ Hold <strong>Space</strong> ពី Tool
+                ណាក៏ Pan បាន — ត្រឡប់ Tool ដោយ Release Space ។
+              </div>
+              <div class="tc-tip">Shortcut: H / Space</div>
+            </div>
+          </div>
+
+          <div class="box coffee">
+            <div class="box-i">⚡</div>
+            <div class="box-b">
+              <div class="box-t">Pro Tips — ចំណេញពេល</div>
+              <div class="box-x">
+                <strong>Ctrl+D</strong> = Duplicate Element ។
+                <strong>Ctrl+G</strong> = Group Selection ។
+                <strong>Ctrl+Z</strong> = Undo ។
+                <strong>Ctrl+Shift+H / V</strong> = Align
+                Horizontally/Vertically ។ <strong>Alt+Drag</strong> = Duplicate
+                + Move ។ <strong>Shift+Click</strong> = Multi-Select ។
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════
+         S5 — SHAPES & VECTOR
+    ═══════════════════════════════ -->
+        <div class="ls" id="s5">
+          <span class="sec-num">Section 05</span>
+          <h2>Shapes & Vector — រូបរាងជាមូលដ្ឋាន</h2>
+
+          <p>
+            UI Design ភាគច្រើន ប្រើ <mark>Rectangles + Circles + Lines</mark> ។
+            Shapes ទាំងនេះ ក្លាយជា Buttons, Cards, Inputs, Avatars ក្នុង App ។
+          </p>
+
+          <h3>Shape Properties សំខាន់</h3>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 12px;
+              margin: 14px 0;
+            "
+          >
+            <div
+              style="
+                background: white;
+                border: 1px solid var(--milk);
+                border-radius: 10px;
+                padding: 18px;
+              "
+            >
+              <div class="ls" style="margin-bottom: 0">
+                <h4>Corner Radius</h4>
+              </div>
+              <div
+                style="
+                  font-size: 13px;
+                  color: var(--latte);
+                  line-height: 1.8;
+                  margin-bottom: 10px;
+                "
+              >
+                ធ្វើ Rectangle Corner ដូចជា
+                <span class="kp">border-radius</span> CSS ។
+              </div>
+              <div style="display: flex; gap: 10px; align-items: center">
+                <div
+                  style="
+                    width: 50px;
+                    height: 50px;
+                    background: var(--roast);
+                    border-radius: 0;
+                  "
+                ></div>
+                <div
+                  style="
+                    font-size: 11px;
+                    color: var(--latte);
+                    text-align: center;
+                  "
+                >
+                  0px<br />(Sharp)
+                </div>
+                <div
+                  style="
+                    width: 50px;
+                    height: 50px;
+                    background: var(--roast);
+                    border-radius: 8px;
+                  "
+                ></div>
+                <div
+                  style="
+                    font-size: 11px;
+                    color: var(--latte);
+                    text-align: center;
+                  "
+                >
+                  8px<br />(Soft)
+                </div>
+                <div
+                  style="
+                    width: 50px;
+                    height: 50px;
+                    background: var(--roast);
+                    border-radius: 25px;
+                  "
+                ></div>
+                <div
+                  style="
+                    font-size: 11px;
+                    color: var(--latte);
+                    text-align: center;
+                  "
+                >
+                  25px<br />(Pill)
+                </div>
+              </div>
+            </div>
+
+            <div
+              style="
+                background: white;
+                border: 1px solid var(--milk);
+                border-radius: 10px;
+                padding: 18px;
+              "
+            >
+              <div class="ls" style="margin-bottom: 0">
+                <h4>Stroke (Border)</h4>
+              </div>
+              <div
+                style="
+                  font-size: 13px;
+                  color: var(--latte);
+                  line-height: 1.8;
+                  margin-bottom: 10px;
+                "
+              >
+                Stroke = Border ។ ដំឡើង Color + Weight (px) ។
+              </div>
+              <div style="display: flex; gap: 10px; align-items: center">
+                <div
+                  style="
+                    width: 50px;
+                    height: 50px;
+                    background: transparent;
+                    border: 2px solid var(--roast);
+                    border-radius: 6px;
+                  "
+                ></div>
+                <div
+                  style="
+                    font-size: 11px;
+                    color: var(--latte);
+                    text-align: center;
+                  "
+                >
+                  Outline<br />Button
+                </div>
+                <div
+                  style="
+                    width: 50px;
+                    height: 50px;
+                    background: transparent;
+                    border: 1.5px solid var(--milk);
+                    border-radius: 6px;
+                  "
+                ></div>
+                <div
+                  style="
+                    font-size: 11px;
+                    color: var(--latte);
+                    text-align: center;
+                  "
+                >
+                  Input<br />Border
+                </div>
+                <div
+                  style="
+                    width: 50px;
+                    height: 50px;
+                    background: transparent;
+                    border: 3px dashed var(--caramel);
+                    border-radius: 6px;
+                  "
+                ></div>
+                <div
+                  style="
+                    font-size: 11px;
+                    color: var(--latte);
+                    text-align: center;
+                  "
+                >
+                  Dashed<br />Frame
+                </div>
+              </div>
+            </div>
+
+            <div
+              style="
+                background: white;
+                border: 1px solid var(--milk);
+                border-radius: 10px;
+                padding: 18px;
+              "
+            >
+              <div class="ls" style="margin-bottom: 0"><h4>Opacity</h4></div>
+              <div
+                style="
+                  font-size: 13px;
+                  color: var(--latte);
+                  line-height: 1.8;
+                  margin-bottom: 10px;
+                "
+              >
+                Opacity = តម្លាភាព (0–100%) ។ ប្រើ Overlay, Disabled State ។
+              </div>
+              <div style="display: flex; gap: 8px; align-items: center">
+                <div
+                  style="
+                    width: 44px;
+                    height: 44px;
+                    background: var(--fig-purple);
+                    border-radius: 6px;
+                    opacity: 1;
+                  "
+                ></div>
+                <div
+                  style="
+                    width: 44px;
+                    height: 44px;
+                    background: var(--fig-purple);
+                    border-radius: 6px;
+                    opacity: 0.5;
+                  "
+                ></div>
+                <div
+                  style="
+                    width: 44px;
+                    height: 44px;
+                    background: var(--fig-purple);
+                    border-radius: 6px;
+                    opacity: 0.2;
+                  "
+                ></div>
+                <div style="font-size: 11px; color: var(--latte)">
+                  100% → 50% → 20%
+                </div>
+              </div>
+            </div>
+
+            <div
+              style="
+                background: white;
+                border: 1px solid var(--milk);
+                border-radius: 10px;
+                padding: 18px;
+              "
+            >
+              <div class="ls" style="margin-bottom: 0">
+                <h4>Shadows & Effects</h4>
+              </div>
+              <div
+                style="
+                  font-size: 13px;
+                  color: var(--latte);
+                  line-height: 1.8;
+                  margin-bottom: 10px;
+                "
+              >
+                Drop Shadow, Inner Shadow ។ Effects Panel ។
+              </div>
+              <div style="display: flex; gap: 10px; align-items: center">
+                <div
+                  style="
+                    width: 50px;
+                    height: 50px;
+                    background: white;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+                  "
+                ></div>
+                <div
+                  style="
+                    font-size: 11px;
+                    color: var(--latte);
+                    text-align: center;
+                  "
+                >
+                  Drop<br />Shadow
+                </div>
+                <div
+                  style="
+                    width: 50px;
+                    height: 50px;
+                    background: white;
+                    border-radius: 8px;
+                    box-shadow: 0 8px 24px rgba(162, 89, 255, 0.3);
+                  "
+                ></div>
+                <div
+                  style="
+                    font-size: 11px;
+                    color: var(--latte);
+                    text-align: center;
+                  "
+                >
+                  Purple<br />Glow
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="code">
+            <span class="code-lbl">Figma → CSS Translation</span>
+            <pre><span class="cc">/* Figma Properties → CSS Equivalent */</span>
+
+<span class="cc">/* Figma: Corner Radius = 8 */</span>
+<span class="ck">border-radius</span>: <span class="cv">8px</span>;
+
+<span class="cc">/* Figma: Stroke = #EEE0CC, Weight = 1.5 */</span>
+<span class="ck">border</span>: <span class="cv">1.5px solid #EEE0CC</span>;
+
+<span class="cc">/* Figma: Drop Shadow X=0, Y=4, Blur=20, #3B2007 20% */</span>
+<span class="ck">box-shadow</span>: <span class="cv">0 4px 20px rgba(59,32,7,0.2)</span>;
+
+<span class="cc">/* Figma: Opacity = 60% */</span>
+<span class="ck">opacity</span>: <span class="cv">0.6</span>;
+
+<span class="cc">/* Figma: Fill = #4A2C0A (Roast) */</span>
+<span class="ck">background-color</span>: <span class="cv">#4A2C0A</span>;</pre>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════
+         S6 — TEXT IN FIGMA
+    ═══════════════════════════════ -->
+        <div class="ls" id="s6">
+          <span class="sec-num">Section 06</span>
+          <h2>Text in Figma — ការ Design Text</h2>
+
+          <p>
+            Text ក្នុង Figma ត្រូវ Setup ត្រឹមត្រូវ ។ Designer ត្រូវ Set
+            <span class="kp">Font Family</span>,
+            <span class="kp">Font Size</span>,
+            <span class="kp">Font Weight</span>,
+            <span class="kp">Line Height</span>,
+            <span class="kp">Letter Spacing</span> ។
+          </p>
+
+          <h3>Text Properties ក្នុង Right Panel</h3>
+          <div
+            style="
+              background: var(--fig-dark);
+              border-radius: 12px;
+              padding: 20px;
+              margin: 14px 0;
+              border: 1px solid var(--fig-border);
+            "
+          >
+            <div
+              style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px"
+            >
+              <div>
+                <div
+                  class="fig-prop-title"
+                  style="
+                    font-family: var(--mono);
+                    font-size: 10px;
+                    letter-spacing: 1.5px;
+                    text-transform: uppercase;
+                    color: rgba(162, 89, 255, 0.6);
+                    margin-bottom: 10px;
+                  "
+                >
+                  Text Properties
+                </div>
+                <div
+                  class="fig-prop-row"
+                  style="
+                    margin-bottom: 8px;
+                    display: flex;
+                    justify-content: space-between;
+                  "
+                >
+                  <span
+                    style="
+                      font-size: 11px;
+                      color: rgba(255, 255, 255, 0.4);
+                      font-family: var(--mono);
+                    "
+                    >Font Family</span
+                  >
+                  <div
+                    class="fig-prop-input"
+                    style="
+                      background: rgba(255, 255, 255, 0.06);
+                      border: 1px solid rgba(255, 255, 255, 0.1);
+                      border-radius: 4px;
+                      padding: 4px 8px;
+                      font-family: var(--mono);
+                      font-size: 11px;
+                      color: rgba(255, 255, 255, 0.8);
+                      text-align: left;
+                    "
+                  >
+                    Kantumruy Pro
+                  </div>
+                </div>
+                <div style="display: flex; gap: 8px; margin-bottom: 8px">
+                  <div
+                    style="
+                      flex: 1;
+                      background: rgba(255, 255, 255, 0.06);
+                      border: 1px solid rgba(255, 255, 255, 0.1);
+                      border-radius: 4px;
+                      padding: 4px 8px;
+                      font-family: var(--mono);
+                      font-size: 11px;
+                      color: rgba(255, 255, 255, 0.8);
+                      text-align: center;
+                    "
+                  >
+                    700 Bold
+                  </div>
+                  <div
+                    style="
+                      width: 60px;
+                      background: rgba(255, 255, 255, 0.06);
+                      border: 1px solid rgba(255, 255, 255, 0.1);
+                      border-radius: 4px;
+                      padding: 4px 8px;
+                      font-family: var(--mono);
+                      font-size: 11px;
+                      color: rgba(255, 255, 255, 0.8);
+                      text-align: center;
+                    "
+                  >
+                    24
+                  </div>
+                </div>
+                <div style="display: flex; gap: 8px">
+                  <div
+                    style="
+                      flex: 1;
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                    "
+                  >
+                    <span
+                      style="
+                        font-size: 10px;
+                        color: rgba(255, 255, 255, 0.4);
+                        font-family: var(--mono);
+                      "
+                      >Line H</span
+                    >
+                    <div
+                      style="
+                        background: rgba(255, 255, 255, 0.06);
+                        border: 1px solid rgba(255, 255, 255, 0.1);
+                        border-radius: 4px;
+                        padding: 3px 8px;
+                        font-family: var(--mono);
+                        font-size: 11px;
+                        color: rgba(255, 255, 255, 0.8);
+                      "
+                    >
+                      180%
+                    </div>
+                  </div>
+                  <div
+                    style="
+                      flex: 1;
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                    "
+                  >
+                    <span
+                      style="
+                        font-size: 10px;
+                        color: rgba(255, 255, 255, 0.4);
+                        font-family: var(--mono);
+                      "
+                      >Spacing</span
+                    >
+                    <div
+                      style="
+                        background: rgba(255, 255, 255, 0.06);
+                        border: 1px solid rgba(255, 255, 255, 0.1);
+                        border-radius: 4px;
+                        padding: 3px 8px;
+                        font-family: var(--mono);
+                        font-size: 11px;
+                        color: rgba(255, 255, 255, 0.8);
+                      "
+                    >
+                      0
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                style="
+                  padding: 14px;
+                  background: rgba(255, 255, 255, 0.04);
+                  border-radius: 8px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <div>
+                  <div
+                    style="
+                      font-family: &quot;Kantumruy Pro&quot;, sans-serif;
+                      font-size: 22px;
+                      font-weight: 700;
+                      color: #f5f5f5;
+                      margin-bottom: 6px;
+                    "
+                  >
+                    Sharp Bean Café
+                  </div>
+                  <div
+                    style="
+                      font-family: &quot;Kantumruy Pro&quot;, sans-serif;
+                      font-size: 14px;
+                      color: rgba(245, 245, 245, 0.5);
+                    "
+                  >
+                    Management System
+                  </div>
+                  <div
+                    style="
+                      font-family: var(--mono);
+                      font-size: 11px;
+                      color: rgba(162, 89, 255, 0.7);
+                      margin-top: 8px;
+                    "
+                  >
+                    Preview Text
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h3>Text Style ក្នុង SBCMS</h3>
+          <div
+            style="
+              background: white;
+              border: 1px solid var(--milk);
+              border-radius: 12px;
+              overflow: hidden;
+              margin: 14px 0;
+            "
+          >
+            <table
+              style="width: 100%; border-collapse: collapse; font-size: 12.5px"
+            >
+              <thead>
+                <tr style="background: var(--chalk)">
+                  <th
+                    style="
+                      padding: 10px 16px;
+                      text-align: left;
+                      font-size: 10px;
+                      letter-spacing: 1px;
+                      text-transform: uppercase;
+                      color: var(--latte);
+                      font-weight: 700;
+                    "
+                  >
+                    Style Name
+                  </th>
+                  <th
+                    style="
+                      padding: 10px 16px;
+                      text-align: left;
+                      font-size: 10px;
+                      letter-spacing: 1px;
+                      text-transform: uppercase;
+                      color: var(--latte);
+                      font-weight: 700;
+                    "
+                  >
+                    Font / Size / Weight
+                  </th>
+                  <th
+                    style="
+                      padding: 10px 16px;
+                      text-align: left;
+                      font-size: 10px;
+                      letter-spacing: 1px;
+                      text-transform: uppercase;
+                      color: var(--latte);
+                      font-weight: 700;
+                    "
+                  >
+                    Preview
+                  </th>
+                  <th
+                    style="
+                      padding: 10px 16px;
+                      text-align: left;
+                      font-size: 10px;
+                      letter-spacing: 1px;
+                      text-transform: uppercase;
+                      color: var(--latte);
+                      font-weight: 700;
+                    "
+                  >
+                    ប្រើ
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom: 1px solid var(--milk)">
+                  <td
+                    style="
+                      padding: 10px 16px;
+                      font-family: var(--mono);
+                      font-size: 11px;
+                      color: var(--fig-purple);
+                    "
+                  >
+                    Heading/H1
+                  </td>
+                  <td
+                    style="
+                      padding: 10px 16px;
+                      font-family: var(--mono);
+                      font-size: 11px;
+                      color: var(--latte);
+                    "
+                  >
+                    Kantumruy Pro · 32px · 700
+                  </td>
+                  <td
+                    style="
+                      padding: 10px 16px;
+                      font-size: 28px;
+                      font-weight: 700;
+                      color: var(--espresso);
+                      line-height: 1;
+                    "
+                  >
+                    Aa
+                  </td>
+                  <td
+                    style="
+                      padding: 10px 16px;
+                      font-size: 12px;
+                      color: var(--latte);
+                    "
+                  >
+                    Page Title
+                  </td>
+                </tr>
+                <tr
+                  style="
+                    border-bottom: 1px solid var(--milk);
+                    background: var(--foam);
+                  "
+                >
+                  <td
+                    style="
+                      padding: 10px 16px;
+                      font-family: var(--mono);
+                      font-size: 11px;
+                      color: var(--fig-purple);
+                    "
+                  >
+                    Heading/H2
+                  </td>
+                  <td
+                    style="
+                      padding: 10px 16px;
+                      font-family: var(--mono);
+                      font-size: 11px;
+                      color: var(--latte);
+                    "
+                  >
+                    Kantumruy Pro · 22px · 600
+                  </td>
+                  <td
+                    style="
+                      padding: 10px 16px;
+                      font-size: 22px;
+                      font-weight: 600;
+                      color: var(--espresso);
+                      line-height: 1;
+                    "
+                  >
+                    Aa
+                  </td>
+                  <td
+                    style="
+                      padding: 10px 16px;
+                      font-size: 12px;
+                      color: var(--latte);
+                    "
+                  >
+                    Section Title
+                  </td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--milk)">
+                  <td
+                    style="
+                      padding: 10px 16px;
+                      font-family: var(--mono);
+                      font-size: 11px;
+                      color: var(--fig-purple);
+                    "
+                  >
+                    Body/Regular
+                  </td>
+                  <td
+                    style="
+                      padding: 10px 16px;
+                      font-family: var(--mono);
+                      font-size: 11px;
+                      color: var(--latte);
+                    "
+                  >
+                    Kantumruy Pro · 14px · 400
+                  </td>
+                  <td
+                    style="
+                      padding: 10px 16px;
+                      font-size: 14px;
+                      color: var(--espresso);
+                    "
+                  >
+                    Content text
+                  </td>
+                  <td
+                    style="
+                      padding: 10px 16px;
+                      font-size: 12px;
+                      color: var(--latte);
+                    "
+                  >
+                    Body Text
+                  </td>
+                </tr>
+                <tr
+                  style="
+                    border-bottom: 1px solid var(--milk);
+                    background: var(--foam);
+                  "
+                >
+                  <td
+                    style="
+                      padding: 10px 16px;
+                      font-family: var(--mono);
+                      font-size: 11px;
+                      color: var(--fig-purple);
+                    "
+                  >
+                    Label/Small
+                  </td>
+                  <td
+                    style="
+                      padding: 10px 16px;
+                      font-family: var(--mono);
+                      font-size: 11px;
+                      color: var(--latte);
+                    "
+                  >
+                    Kantumruy Pro · 11px · 600
+                  </td>
+                  <td
+                    style="
+                      padding: 10px 16px;
+                      font-size: 11px;
+                      font-weight: 600;
+                      color: var(--latte);
+                      text-transform: uppercase;
+                      letter-spacing: 1px;
+                    "
+                  >
+                    LABEL
+                  </td>
+                  <td
+                    style="
+                      padding: 10px 16px;
+                      font-size: 12px;
+                      color: var(--latte);
+                    "
+                  >
+                    Form Labels
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    style="
+                      padding: 10px 16px;
+                      font-family: var(--mono);
+                      font-size: 11px;
+                      color: var(--fig-purple);
+                    "
+                  >
+                    Mono/Code
+                  </td>
+                  <td
+                    style="
+                      padding: 10px 16px;
+                      font-family: var(--mono);
+                      font-size: 11px;
+                      color: var(--latte);
+                    "
+                  >
+                    Consolas · 12px · 400
+                  </td>
+                  <td
+                    style="
+                      padding: 10px 16px;
+                      font-family: var(--mono);
+                      font-size: 12px;
+                      color: var(--roast);
+                    "
+                  >
+                    #0042 · $14.85
+                  </td>
+                  <td
+                    style="
+                      padding: 10px 16px;
+                      font-size: 12px;
+                      color: var(--latte);
+                    "
+                  >
+                    Order IDs, Values
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════
+         S7 — COLORS & FILLS
+    ═══════════════════════════════ -->
+        <div class="ls" id="s7">
+          <span class="sec-num">Section 07</span>
+          <h2>Colors & Fills — ពណ៌ & ការ Fill</h2>
+
+          <p>
+            Figma ចេញ Color ជា <span class="kp">Fills</span> ។ Element ១ អាច
+            Fill <mark>ច្រើន Types: Solid, Gradient, Image</mark> ។
+          </p>
+
+          <h3>Fill Types</h3>
+          <div class="fill-demo">
+            <div class="la-title">Fill Types — Figma Right Panel</div>
+            <div class="fill-row">
+              <div class="fill-swatch" style="background: #4a2c0a"></div>
+              <div class="fill-info">
+                <div class="fill-name">Solid Fill</div>
+                <div class="fill-hex">#4A2C0A · Roast Brown · 100% Opacity</div>
+              </div>
+            </div>
+            <div class="fill-row">
+              <div
+                class="fill-swatch"
+                style="background: linear-gradient(135deg, #4a2c0a, #c89b3c)"
+              ></div>
+              <div class="fill-info">
+                <div class="fill-name">Linear Gradient</div>
+                <div class="fill-hex">Roast → Caramel · 135° Angle</div>
+              </div>
+            </div>
+            <div class="fill-row">
+              <div
+                class="fill-swatch"
+                style="background: radial-gradient(circle, #c89b3c, #4a2c0a)"
+              ></div>
+              <div class="fill-info">
+                <div class="fill-name">Radial Gradient</div>
+                <div class="fill-hex">Caramel Center → Roast Edge</div>
+              </div>
+            </div>
+            <div class="fill-row">
+              <div
+                class="fill-swatch"
+                style="
+                  background: repeating-linear-gradient(
+                    45deg,
+                    #eee0cc 0px,
+                    #eee0cc 2px,
+                    #fdf6ec 2px,
+                    #fdf6ec 10px
+                  );
+                "
+              ></div>
+              <div class="fill-info">
+                <div class="fill-name">Image / Pattern Fill</div>
+                <div class="fill-hex">ដំឡើង Image ជា Background Fill</div>
+              </div>
+            </div>
+          </div>
+
+          <h3>Local Color Styles — SBCMS</h3>
+          <p>
+            ក្នុង Figma យើងអាច Save Colors ជា
+            <span class="kp">Local Styles</span>
+            → Reuse ពេញ File ។ ប្ដូរ Style ១ → ប្ដូរ ទូទាំង File ។
+          </p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-n">1</div>
+              <div class="step-b">
+                <div class="step-title">
+                  Select Rectangle → Fill → Click Style Icon (⊞)
+                </div>
+                <div class="step-desc">
+                  ចុច Icon <strong>⊞</strong> នៅក្បែរ Fill → "+" → វាយ Name
+                  "Brand/Roast" → Save ។
+                </div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-n">2</div>
+              <div class="step-b">
+                <div class="step-title">Apply Color Style</div>
+                <div class="step-desc">
+                  Select Element → Fill → ⊞ → Choose Style ដែល Saved ។ Style
+                  ត្រូវបានដំណើរការ ។
+                </div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-n">3</div>
+              <div class="step-b">
+                <div class="step-title">Edit Style — ប្ដូរ Global</div>
+                <div class="step-desc">
+                  Right Click Style → Edit → ប្ដូរ Hex Code → Elements
+                  ទាំងអស់ប្ដូរ Auto ។
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="code">
+            <span class="code-lbl">SBCMS Color Styles — Save in Figma</span>
+            <pre><span class="cc">/* Local Color Styles ដំឡើង */</span>
+
+<span class="ck">Brand/Espresso</span>   → <span class="cv">#1C0F07</span>  <span class="cc">/* Headers, Text */</span>
+<span class="ck">Brand/Roast</span>      → <span class="cv">#3B2007</span>  <span class="cc">/* Primary Buttons, Nav */</span>
+<span class="ck">Brand/Caramel</span>    → <span class="cv">#C89B3C</span>  <span class="cc">/* Accent CTA ✦ */</span>
+<span class="ck">Brand/Cream</span>      → <span class="cv">#FDF6EC</span>  <span class="cc">/* Backgrounds */</span>
+<span class="ck">Brand/Milk</span>       → <span class="cv">#EEE0CC</span>  <span class="cc">/* Borders, Dividers */</span>
+
+<span class="ck">Status/Success</span>   → <span class="cv">#15803D</span>
+<span class="ck">Status/Warning</span>   → <span class="cv">#B45309</span>
+<span class="ck">Status/Danger</span>    → <span class="cv">#B91C1C</span>
+<span class="ck">Status/Info</span>      → <span class="cv">#1D4ED8</span></pre>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════
+         S8 — LAYERS & GROUPS
+    ═══════════════════════════════ -->
+        <div class="ls" id="s8">
+          <span class="sec-num">Section 08</span>
+          <h2>Layers & Groups — ការរៀបចំ Elements</h2>
+
+          <p>
+            Layers Panel (ខាងឆ្វេង) ជា
+            <mark>Hierarchy នៃ Elements ទាំងអស់</mark>
+            ក្នុង File ។ Layers ល្អ = File ងាយ Navigate ។ Layers ច្របូកច្របល់ =
+            Nightmare ។
+          </p>
+
+          <h3>Layers Anatomy — SBCMS Login Screen</h3>
+          <div class="layer-anatomy">
+            <div class="la-title">Layers Panel · Login Screen</div>
+            <!-- Page -->
+            <div class="la-item">
+              <span class="la-expand">▾</span>
+              <span class="la-ico">📄</span>
+              <span class="la-name">Page 1 — Login</span>
+              <span class="la-type">PAGE</span>
+            </div>
+            <!-- Frame -->
+            <div class="la-item la-indent">
+              <span class="la-expand">▾</span>
+              <span class="la-ico">📱</span>
+              <span class="la-name">Login Screen</span>
+              <span class="la-type">FRAME</span>
+            </div>
+            <!-- Background -->
+            <div class="la-item la-indent2">
+              <span class="la-expand"> </span>
+              <span class="la-ico">⬜</span>
+              <span class="la-name">Background</span>
+              <span class="la-type">RECT</span>
+              <span class="la-vis">👁</span>
+            </div>
+            <!-- Card Group — selected -->
+            <div class="la-item la-indent2 selected">
+              <span class="la-expand">▾</span>
+              <span class="la-ico">⬜</span>
+              <span class="la-name">Login Card</span>
+              <span class="la-type">FRAME</span>
+            </div>
+            <!-- Logo Group -->
+            <div class="la-item" style="padding-left: 56px">
+              <span class="la-expand">▾</span>
+              <span class="la-ico">📁</span>
+              <span class="la-name">Logo Group</span>
+              <span class="la-type">GROUP</span>
+            </div>
+            <div class="la-item" style="padding-left: 68px">
+              <span class="la-expand"> </span>
+              <span class="la-ico">○</span>
+              <span class="la-name">Logo Circle</span>
+              <span class="la-type">ELLIPSE</span>
+            </div>
+            <div class="la-item" style="padding-left: 68px">
+              <span class="la-expand"> </span>
+              <span class="la-ico">T</span>
+              <span class="la-name">App Name</span>
+              <span class="la-type">TEXT</span>
+            </div>
+            <!-- Input Fields -->
+            <div class="la-item" style="padding-left: 56px">
+              <span class="la-expand">▸</span>
+              <span class="la-ico">⬜</span>
+              <span class="la-name">Input/Username</span>
+              <span class="la-type">COMP</span>
+            </div>
+            <div class="la-item" style="padding-left: 56px">
+              <span class="la-expand">▸</span>
+              <span class="la-ico">⬜</span>
+              <span class="la-name">Input/Password</span>
+              <span class="la-type">COMP</span>
+            </div>
+            <!-- Button -->
+            <div class="la-item" style="padding-left: 56px">
+              <span class="la-expand">▸</span>
+              <span class="la-ico">⬜</span>
+              <span class="la-name">Btn/Login Primary</span>
+              <span class="la-type">COMP</span>
+            </div>
+          </div>
+
+          <h3>Naming Convention — ច្បាប់ដាក់ Name</h3>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 12px;
+              margin: 14px 0;
+            "
+          >
+            <div
+              style="
+                background: #fee2e2;
+                border: 1px solid #fca5a5;
+                border-radius: 10px;
+                padding: 14px;
+              "
+            >
+              <div
+                style="
+                  font-weight: 700;
+                  color: var(--danger);
+                  font-size: 12px;
+                  margin-bottom: 8px;
+                  font-family: var(--mono);
+                "
+              >
+                ❌ Bad Names
+              </div>
+              <div
+                style="
+                  font-family: var(--mono);
+                  font-size: 12px;
+                  color: var(--espresso);
+                  line-height: 2;
+                "
+              >
+                Rectangle 1<br />Rectangle 2<br />Group 47<br />Frame 3<br />Text
+                12
+              </div>
+            </div>
+            <div
+              style="
+                background: #dcfce7;
+                border: 1px solid #86efac;
+                border-radius: 10px;
+                padding: 14px;
+              "
+            >
+              <div
+                style="
+                  font-weight: 700;
+                  color: var(--success);
+                  font-size: 12px;
+                  margin-bottom: 8px;
+                  font-family: var(--mono);
+                "
+              >
+                ✅ Good Names
+              </div>
+              <div
+                style="
+                  font-family: var(--mono);
+                  font-size: 12px;
+                  color: var(--espresso);
+                  line-height: 2;
+                "
+              >
+                Background/Dark<br />Card/Login<br />Input/Username<br />Btn/Confirm<br />Label/Title
+              </div>
+            </div>
+          </div>
+
+          <h3>Keyboard Shortcuts — Layers</h3>
+          <div class="shortcut-grid">
+            <div class="shortcut-group">
+              <div class="shortcut-head">Group & Arrange</div>
+              <div class="shortcut-row">
+                <span class="shortcut-action">Group Selection</span>
+                <div class="shortcut-keys">
+                  <span class="key-badge">Ctrl</span>
+                  <span class="key-sep">+</span>
+                  <span class="key-badge">G</span>
+                </div>
+              </div>
+              <div class="shortcut-row">
+                <span class="shortcut-action">Ungroup</span>
+                <div class="shortcut-keys">
+                  <span class="key-badge">Ctrl</span>
+                  <span class="key-sep">+</span>
+                  <span class="key-badge">Shift</span>
+                  <span class="key-sep">+</span>
+                  <span class="key-badge">G</span>
+                </div>
+              </div>
+              <div class="shortcut-row">
+                <span class="shortcut-action">Bring to Front</span>
+                <div class="shortcut-keys">
+                  <span class="key-badge">]</span>
+                </div>
+              </div>
+              <div class="shortcut-row">
+                <span class="shortcut-action">Send to Back</span>
+                <div class="shortcut-keys">
+                  <span class="key-badge">[</span>
+                </div>
+              </div>
+            </div>
+            <div class="shortcut-group">
+              <div class="shortcut-head">Select & Edit</div>
+              <div class="shortcut-row">
+                <span class="shortcut-action">Select All</span>
+                <div class="shortcut-keys">
+                  <span class="key-badge">Ctrl</span>
+                  <span class="key-sep">+</span>
+                  <span class="key-badge">A</span>
+                </div>
+              </div>
+              <div class="shortcut-row">
+                <span class="shortcut-action">Duplicate</span>
+                <div class="shortcut-keys">
+                  <span class="key-badge">Ctrl</span>
+                  <span class="key-sep">+</span>
+                  <span class="key-badge">D</span>
+                </div>
+              </div>
+              <div class="shortcut-row">
+                <span class="shortcut-action">Hide / Show Layer</span>
+                <div class="shortcut-keys">
+                  <span class="key-badge">Ctrl</span>
+                  <span class="key-sep">+</span>
+                  <span class="key-badge">Shift</span>
+                  <span class="key-sep">+</span>
+                  <span class="key-badge">H</span>
+                </div>
+              </div>
+              <div class="shortcut-row">
+                <span class="shortcut-action">Lock / Unlock</span>
+                <div class="shortcut-keys">
+                  <span class="key-badge">Ctrl</span>
+                  <span class="key-sep">+</span>
+                  <span class="key-badge">Shift</span>
+                  <span class="key-sep">+</span>
+                  <span class="key-badge">L</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════
+         S9 — PRACTICE
+    ═══════════════════════════════ -->
+        <div class="ls" id="s9">
+          <span class="sec-num">Section 09</span>
+          <h2>Practice — SBCMS Login Frame</h2>
+
+          <p>
+            ការ Practice ល្អបំផុតគឺ <mark>ធ្វើ ។ ។ ។ មិនមែនតែអាន</mark> ។
+            ខាងក្រោម ជា Exercise ដំបូង — Recreate SBCMS Login Screen ក្នុង Figma
+            ។
+          </p>
+
+          <div class="practice-box">
+            <span class="pb-label">Exercise 01 — Basic Login Frame</span>
+            <h4>Task: Create SBCMS Login Screen Wireframe</h4>
+
+            <div style="margin-top: 14px">
+              <div class="pb-step">
+                <span class="pb-num">01</span>
+                <span class="pb-text"
+                  >បង្កើត New Figma File → ដំឡើង Page Name "Login Screen"</span
+                >
+              </div>
+              <div class="pb-step">
+                <span class="pb-num">02</span>
+                <span class="pb-text"
+                  >ចុច <strong>F</strong> → ជ្រើស Desktop Preset (1440×1024) →
+                  Rename Frame "Login Screen"</span
+                >
+              </div>
+              <div class="pb-step">
+                <span class="pb-num">03</span>
+                <span class="pb-text"
+                  >Fill Frame Background → Color:
+                  <strong>#1C0F07</strong> (Espresso Dark)</span
+                >
+              </div>
+              <div class="pb-step">
+                <span class="pb-num">04</span>
+                <span class="pb-text"
+                  >ចុច <strong>R</strong> → Draw Rectangle 400×500 (Login Card)
+                  → Fill: <strong>#FFF9F2</strong> → Corner Radius: 16 → Center
+                  ក្នុង Frame</span
+                >
+              </div>
+              <div class="pb-step">
+                <span class="pb-num">05</span>
+                <span class="pb-text"
+                  >ចុច <strong>O</strong> + Shift → Draw Circle 60×60 → Fill:
+                  <strong>#3B2007</strong> → ដំឡើង Center Top of Card</span
+                >
+              </div>
+              <div class="pb-step">
+                <span class="pb-num">06</span>
+                <span class="pb-text"
+                  >ចុច <strong>T</strong> → វាយ "Sharp Bean Café" → Font:
+                  Kantumruy Pro · 24px · Bold · Color: #3B2007</span
+                >
+              </div>
+              <div class="pb-step">
+                <span class="pb-num">07</span>
+                <span class="pb-text"
+                  >Draw Input Fields (R) → 2 Rectangles: W=340, H=44 → Fill:
+                  White → Stroke: #EEE0CC · 1.5px → Corner: 8</span
+                >
+              </div>
+              <div class="pb-step">
+                <span class="pb-num">08</span>
+                <span class="pb-text"
+                  >Draw Login Button → W=340, H=48 → Fill:
+                  <strong>#3B2007</strong> → Corner: 8 → Add Text "Login to
+                  System →" White Bold</span
+                >
+              </div>
+              <div class="pb-step">
+                <span class="pb-num">09</span>
+                <span class="pb-text"
+                  >Group (Ctrl+G) Login Card Elements → Rename Groups: "Logo
+                  Group", "Input/Username", "Input/Password", "Btn/Login"</span
+                >
+              </div>
+              <div class="pb-step" style="border-bottom: none">
+                <span class="pb-num">10</span>
+                <span class="pb-text"
+                  >Save (Ctrl+S) → បង្ហាញ Teacher → ✅ Exercise 01 Done!</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="box success">
+            <div class="box-i">✅</div>
+            <div class="box-b">
+              <div class="box-t">Goal នៃ Exercise</div>
+              <div class="box-x">
+                ក្រោយ Exercise នេះ អ្នកនឹងស្គាល់: Frame Tool, Rectangle, Circle,
+                Text Tool, Fill Color, Stroke, Corner Radius, Layers Panel,
+                Group ។ ទាំងនេះ ជា <strong>Foundation</strong> ក្នុង Part 4 —
+                Components & Auto Layout ។
+              </div>
+            </div>
+          </div>
+
+          <div class="tags">
+            <span class="tag tp">Frame Tool (F)</span>
+            <span class="tag tp">Rectangle (R)</span>
+            <span class="tag tp">Ellipse (O)</span>
+            <span class="tag tp">Text (T)</span>
+            <span class="tag tt">Fill & Stroke</span>
+            <span class="tag tt">Corner Radius</span>
+            <span class="tag tt">Layers Panel</span>
+            <span class="tag tc">Group (Ctrl+G)</span>
+            <span class="tag tc">Naming Convention</span>
+            <span class="tag tr">Local Color Styles</span>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════
+         QUIZ
+    ═══════════════════════════════ -->
+        <div class="ls" id="quiz">
+          <span class="sec-num">Quiz — Part 3</span>
+          <h2>ពិនិត្យចំណេះដឹង</h2>
+
+          <!-- Q1 -->
+          <div class="quiz" style="margin-bottom: 14px">
+            <span class="quiz-lbl">Question 01 / 05</span>
+            <div class="quiz-q">
+              Shortcut Key ណាប្រើ Draw Rectangle ក្នុង Figma?
+            </div>
+            <div class="quiz-opts">
+              <div class="qo" onclick="chk(this, 'wrong', 'q1')">F</div>
+              <div class="qo" onclick="chk(this, 'correct', 'q1')">R</div>
+              <div class="qo" onclick="chk(this, 'wrong', 'q1')">O</div>
+              <div class="qo" onclick="chk(this, 'wrong', 'q1')">T</div>
+            </div>
+            <div class="quiz-fb" id="q1-fb"></div>
+          </div>
+
+          <!-- Q2 -->
+          <div class="quiz" style="margin-bottom: 14px">
+            <span class="quiz-lbl">Question 02 / 05</span>
+            <div class="quiz-q">
+              Figma Interface Zone ណា ដែល Properties (Width, Height, Color) នៅ?
+            </div>
+            <div class="quiz-opts">
+              <div class="qo" onclick="chk(this, 'wrong', 'q2')">
+                Left Panel — Layers
+              </div>
+              <div class="qo" onclick="chk(this, 'wrong', 'q2')">Title Bar</div>
+              <div class="qo" onclick="chk(this, 'correct', 'q2')">
+                Right Panel — Properties
+              </div>
+              <div class="qo" onclick="chk(this, 'wrong', 'q2')">Canvas</div>
+            </div>
+            <div class="quiz-fb" id="q2-fb"></div>
+          </div>
+
+          <!-- Q3 -->
+          <div class="quiz" style="margin-bottom: 14px">
+            <span class="quiz-lbl">Question 03 / 05</span>
+            <div class="quiz-q">Frame ខុស Rectangle ដោយរបៀបណា?</div>
+            <div class="quiz-opts">
+              <div class="qo" onclick="chk(this, 'wrong', 'q3')">
+                Frame មាន Color, Rectangle គ្មាន
+              </div>
+              <div class="qo" onclick="chk(this, 'correct', 'q3')">
+                Frame ជា Container ដែល Clip Children, Rectangle ជា Shape ធម្មតា
+              </div>
+              <div class="qo" onclick="chk(this, 'wrong', 'q3')">
+                ទាំងពីរ ដូចគ្នា
+              </div>
+              <div class="qo" onclick="chk(this, 'wrong', 'q3')">
+                Rectangle ជា Screen, Frame ជា Shape
+              </div>
+            </div>
+            <div class="quiz-fb" id="q3-fb"></div>
+          </div>
+
+          <!-- Q4 -->
+          <div class="quiz" style="margin-bottom: 14px">
+            <span class="quiz-lbl">Question 04 / 05</span>
+            <div class="quiz-q">
+              Shortcut
+              <span style="font-family: var(--mono)">Ctrl + D</span> ធ្វើអ្វី?
+            </div>
+            <div class="quiz-opts">
+              <div class="qo" onclick="chk(this, 'wrong', 'q4')">
+                Delete Element
+              </div>
+              <div class="qo" onclick="chk(this, 'wrong', 'q4')">
+                Group Selection
+              </div>
+              <div class="qo" onclick="chk(this, 'correct', 'q4')">
+                Duplicate Element
+              </div>
+              <div class="qo" onclick="chk(this, 'wrong', 'q4')">
+                Draw New Shape
+              </div>
+            </div>
+            <div class="quiz-fb" id="q4-fb"></div>
+          </div>
+
+          <!-- Q5 -->
+          <div class="quiz" style="margin-bottom: 14px">
+            <span class="quiz-lbl">Question 05 / 05</span>
+            <div class="quiz-q">
+              SBCMS ប្រើ Hex Color ណា ជា Brand Primary (Roast)?
+            </div>
+            <div class="quiz-opts">
+              <div class="qo" onclick="chk(this, 'wrong', 'q5')">
+                #C89B3C (Caramel)
+              </div>
+              <div class="qo" onclick="chk(this, 'correct', 'q5')">
+                #3B2007 (Roast)
+              </div>
+              <div class="qo" onclick="chk(this, 'wrong', 'q5')">
+                #FDF6EC (Cream)
+              </div>
+              <div class="qo" onclick="chk(this, 'wrong', 'q5')">
+                #A259FF (Purple)
+              </div>
+            </div>
+            <div class="quiz-fb" id="q5-fb"></div>
+          </div>
+        </div>
+
+        <!-- WRAP-UP -->
+        <div class="box teal" style="margin-bottom: 32px">
+          <div class="box-i">🎓</div>
+          <div class="box-b">
+            <div class="box-t">Part 3 Complete — Next: Part 4</div>
+            <div class="box-x">
+              Part 3 បានរៀន:
+              <strong
+                >Figma Setup · Interface Tour (5 Zones) · Frames & Pages · Basic
+                Tools (V R O T F P H) · Shapes Properties (Corner, Stroke,
+                Opacity, Shadow) · Text Styles · Color Fills & Local Styles ·
+                Layers Naming Convention</strong
+              >
+              ។ Part 4 → <strong>Components, Variants & Auto Layout</strong>
+              — ការ Design ឱ្យ Efficient ។
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div>
+        SBCMS Lesson Series — <span>Part 3</span> · Getting Started with Figma
+      </div>
+      <div class="plinks">
+        <a href="SBCMS_Lesson_UIUX_Part1.html">← Part 1: UI/UX Intro</a>
+        <a href="SBCMS_Lesson_UIUX_Part2.html"
+          >← Part 2: Wireframes · Grid · A11y</a
+        >
+        <span class="cur">Part 3: Figma Basics ✦</span>
+        <a href="SBCMS_Lesson_Figma_Part4.html">Part 4: Components →</a>
+      </div>
+      <div style="margin-top: 10px">
+        <span>TUN Sopheak</span> · <span>TIT Sokhom</span> ·
+        <span>TEP Makhon</span>
+        &nbsp;|&nbsp; Sharp Bean Café Management System © 2026
+      </div>
+    </div>
+
+    <script>
+      /* TOC ACTIVE */
+      const links = document.querySelectorAll('.toc a[href^="#"]');
+      const secs = [...document.querySelectorAll(".ls[id]")];
+      window.addEventListener(
+        "scroll",
+        () => {
+          let cur = "";
+          secs.forEach((s) => {
+            if (window.scrollY >= s.offsetTop - 110) cur = s.id;
+          });
+          links.forEach((a) =>
+            a.classList.toggle("active", a.getAttribute("href") === "#" + cur),
+          );
+        },
+        { passive: true },
+      );
+
+      /* QUIZ */
+      const qm = {
+        correct: {
+          q1: "✅ ត្រូវ! R = Rectangle Tool ។ F = Frame, O = Ellipse, T = Text ។",
+          q2: "✅ ត្រូវ! Right Panel = Properties — Width, Height, X, Y, Fill, Stroke ។",
+          q3: "✅ ត្រូវ! Frame = Container + Clip + Auto Layout ។ Rectangle = Shape ។",
+          q4: "✅ ត្រូវ! Ctrl+D = Duplicate ។ Ctrl+G = Group, Ctrl+Z = Undo ។",
+          q5: "✅ ត្រូវ! #3B2007 Roast = Primary Brand Color ក្នុង SBCMS ។",
+        },
+        wrong: {
+          q1: "❌ ខុស! Rectangle Shortcut = R ។ F = Frame, O = Ellipse, T = Text Tool ។",
+          q2: "❌ ខុស! Properties (W, H, Fill, Stroke) = Right Panel ។ Left Panel = Layers ។",
+          q3: "❌ ខុស! Frame ≠ Rectangle ។ Frame = Container + Clip Children + Auto Layout ។",
+          q4: "❌ ខុស! Ctrl+D = Duplicate ។ Delete = Delete Key, Group = Ctrl+G ។",
+          q5: "❌ ខុស! Brand Primary = #3B2007 Roast ។ Caramel = Accent ។ Cream = Background ។",
+        },
+      };
+      function chk(el, type, qId) {
+        const box = el.closest(".quiz");
+        if (box.dataset.done) return;
+        box.dataset.done = "1";
+        box
+          .querySelectorAll(".qo")
+          .forEach((o) => (o.style.pointerEvents = "none"));
+        el.classList.add(type);
+        const fb = document.getElementById(qId + "-fb");
+        fb.textContent = qm[type][qId];
+        fb.className = "quiz-fb show " + (type === "correct" ? "ok" : "no");
+      }
+    </script>
+
+    <div class="sbcms-read-progress" id="readProgress"></div>
+    <nav class="sbcms-nav-bar">
+      <div class="snb-left">
+        <a class="snb-btn snb-prev" href="SBCMS_Lesson_UIUX_Part2.html"
+          >&#8592; <span class="snb-label">Part 2: Wireframes</span></a
+        >
+      </div>
+      <div class="snb-center">
+        <a class="snb-btn snb-home" href="index.html" title="Home">&#127968;</a>
+        <div class="snb-dots">
+          <a
+            class="snb-dot"
+            href="SBCMS_Lesson_UIUX_Part1.html"
+            data-title="Part 1: UI/UX"
+          ></a>
+          <a
+            class="snb-dot"
+            href="SBCMS_Lesson_UIUX_Part2.html"
+            data-title="Part 2: Wireframes"
+          ></a>
+          <a
+            class="snb-dot snb-active"
+            href="SBCMS_Lesson_Figma_Part3.html"
+            data-title="Part 3: Figma"
+          ></a>
+          <a
+            class="snb-dot"
+            href="SBCMS_Lesson_Figma_Part4.html"
+            data-title="Part 4: Components"
+          ></a>
+          <a
+            class="snb-dot"
+            href="SBCMS_Lesson_Figma_Part5.html"
+            data-title="Part 5: Wireframes"
+          ></a>
+        </div>
+        <span
+          class="snb-part-tag"
+          style="
+            color: #a259ff;
+            background: rgba(162, 89, 255, 0.15);
+            border-color: #a259ff40;
+          "
+          >Part 3</span
+        >
+      </div>
+      <div class="snb-right">
+        <a class="snb-btn snb-next" href="SBCMS_Lesson_Figma_Part4.html"
+          ><span class="snb-label">Part 4: Components</span> &#8594;</a
+        >
+      </div>
+    </nav>
+    <button
+      class="sbcms-top-btn"
+      id="topBtn"
+      onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+    >
+      &#8593;
+    </button>
+    <div class="sbcms-toast" id="kbToast"></div>
+    <script>
+      (function () {
+        var rp = document.getElementById("readProgress");
+        var topBtn = document.getElementById("topBtn");
+        window.addEventListener(
+          "scroll",
+          function () {
+            var h = document.documentElement;
+            var pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+            if (rp) rp.style.width = Math.min(pct, 100) + "%";
+            if (topBtn)
+              topBtn.classList.toggle("visible", window.scrollY > 380);
+          },
+          { passive: true },
+        );
+        var PREV = "SBCMS_Lesson_UIUX_Part2.html";
+        var NEXT = "SBCMS_Lesson_Figma_Part4.html";
+        var toast = document.getElementById("kbToast");
+        var toastT;
+        function showToast(msg) {
+          toast.innerHTML = msg;
+          toast.classList.add("show");
+          clearTimeout(toastT);
+          toastT = setTimeout(function () {
+            toast.classList.remove("show");
+          }, 2000);
+        }
+        document.addEventListener("keydown", function (e) {
+          if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")
+            return;
+          if (e.key === "ArrowRight" && NEXT) {
+            showToast("&#8594; Next part...");
+            setTimeout(function () {
+              location.href = NEXT;
+            }, 300);
+          } else if (e.key === "ArrowLeft" && PREV) {
+            showToast("&#8592; Previous part...");
+            setTimeout(function () {
+              location.href = PREV;
+            }, 300);
+          } else if (e.key.toLowerCase() === "h") {
+            showToast("&#127968; Home...");
+            setTimeout(function () {
+              location.href = "index.html";
+            }, 300);
+          } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            showToast("&#8593; Top...");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
+        });
+      })();
+    </script>
+    <script src="lang-system-ai.js"></script>
+  </body>
+</html>
